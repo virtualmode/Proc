@@ -1,0 +1,35 @@
+# Regular development files:
+*.d
+*.gch
+*.i
+*.iobj
+*.ipdb
+*.log
+*.o
+*.obj
+*.pch
+*.stackdump
+
+# Windows:
+desktop.ini
+
+# Visual Studio temporary files and folders:
+.git/
+.vs/
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+packages/
+*.aps
+*.cache
+*.ipch
+*.opensdf
+*.sdf
+*.suo
+*.user
+*.VC.db
+*.VC.opendb
+
+# Exclusions:
+!bin/README
