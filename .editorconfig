@@ -1,0 +1,13 @@
+# .editorconfig helps developers define and maintain consistent coding styles between different editors.
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+[*.{h,c,cpp,cs}]
+charset = utf-8
+indent_style = tab
+indent_size = 4
+trim_trailing_whitespace = true

@@ -1,0 +1,36 @@
+Names in Base Number systems:
+https://www.kaagaard.dk/service/convert.htm
+
+1 - unary
+2 - binary
+3 - ternary / trinary
+4 - quaternary
+5 - quinary / quinternary
+6 - senary / heximal / hexary
+7 - septenary / septuary
+8 - octal / octonary / octonal / octimal
+9 - nonary / novary / noval
+10 - decimal / denary
+11 - undecimal / undenary / unodecimal
+12 - dozenal / duodecimal / duodenary
+13 - tridecimal / tredecimal / triodecimal
+14 - tetradecimal / quadrodecimal / quattuordecimal
+15 - pentadecimal / quindecimal
+16 - hexadecimal / sexadecimal / sedecimal
+17 - septendecimal / heptadecimal
+18 - octodecimal / decennoctal
+19 - nonadecimal / novodecimal / decennoval
+20 - vigesimal / bigesimal / bidecimal
+21 - unovigesimal / unobigesimal
+22 - duovigesimal
+23 - triovigesimal
+24 - quadrovigesimal / quadriovigesimal
+26 - hexavigesimal / sexavigesimal
+27 - heptovigesimal
+28 - octovigesimal
+29 - novovigesimal
+30 - trigesimal / triogesimal
+31 - unotrigesimal
+	(...repeat naming pattern...)
+36 - hexatridecimal / sexatrigesimal
+	(...repeat naming pattern...)

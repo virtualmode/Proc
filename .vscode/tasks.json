@@ -1,0 +1,103 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Proc",
+            "type": "shell",
+            "command": "echo Implement cross-platform build.",
+            "windows": {
+                "command": "${workspaceFolder}\\proc\\Temp\\build.bat ${input:vsversion} ${input:configuration} ${input:platform}"
+            },
+            "group":
+            {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Write Preloader",
+            "type": "shell",
+            "command": "bin/disk.exe write_bios_mbr ../.vm/amd64/amd64.vhd bin/preloader.com",
+            "windows": {},
+            "group": "build",
+            "dependsOn": [
+                "Preloader"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Preloader",
+            "type": "shell",
+            "command": "make ${input:target} CONFIGURATION=${input:configuration} PLATFORM=${input:platform} -C ${workspaceFolder}/utils/preloader --no-print-directory",
+            "windows": {},
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "LC-3",
+            "type": "shell",
+            "command": "make lc CONFIGURATION=${input:configuration} PLATFORM=${input:platform} -C ${workspaceFolder}/temp/lc3 --no-print-directory",
+            "windows": {},
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Tests",
+            "type": "shell",
+            "command": "echo 'Tests not implemented.'",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "target",
+            "type": "pickString",
+            "description": "What target do you want to use?",
+            "options": [
+                "all",
+                "rebuild",
+                "clean"
+            ],
+            "default": "all"
+        },
+        {
+            "id": "configuration",
+            "type": "pickString",
+            "description": "What configuration do you want to use?",
+            "options": [
+                "debug",
+                "release"
+            ],
+            "default": "debug"
+        },
+        {
+            "id": "platform",
+            "type": "pickString",
+            "description": "What platform do you want to use?",
+            "options": [
+                "x86",
+                "amd64"
+            ],
+            "default": "amd64"
+        },
+        {
+            "id": "vsversion",
+            "type": "pickString",
+            "description": "What version of Visual Studio do you want to use?",
+            "options": [
+                "2019\\Enterprise",
+                "2017\\Enterprise",
+                "2019\\Professional",
+                "2017\\Professional"
+            ],
+            "default": "2019\\Enterprise"
+        }
+    ]
+}
