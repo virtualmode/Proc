@@ -23,10 +23,10 @@ set um=%WindowsSdkDir%lib\%UCRTVersion%\um\%VSCMD_ARG_TGT_ARCH%
 set ucrt=%WindowsSdkDir%lib\%UCRTVersion%\ucrt\%VSCMD_ARG_TGT_ARCH%
 
 rem Clean project:
-echo Cleaning Proc intermediate files...
-cd /d %currentDir%\Proc\
-make clean CONFIGURATION=%2 PLATFORM=%3
-echo.
+rem echo Cleaning Proc intermediate files...
+rem cd /d %currentDir%\Proc\
+rem make clean CONFIGURATION=%2 PLATFORM=%3
+rem echo.
 
 rem Assembling Proc:
 echo Building...

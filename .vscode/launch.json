@@ -8,36 +8,32 @@
             "name": "Proc (cppvsdbg)",
             "type": "cppvsdbg",
             "request": "launch",
+            "preLaunchTask": "Proc",
+            "cwd": "${workspaceFolder}/bin",
             "program": "${workspaceFolder}/bin/proc",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/bin",
             "environment": [],
-            "externalConsole": false
+            "externalConsole": false,
+            "windows": {
+                "program": "${workspaceFolder}/bin/proc.exe"
+            }
         },
         {
-            "name": "Preloader (cppvsdbg)",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "preLaunchTask": "Preloader",
-            "program": "${workspaceFolder}/bin/preloader",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false
-        },
-        {
-            "name": "Preloader (gdb)",
+            "name": "Proc (gdb)",
             "type": "cppdbg",
             "request": "launch",
-            "preLaunchTask": "Preloader",
-            "program": "${workspaceFolder}/bin/preloader",
+            "preLaunchTask": "Proc",
+            "cwd": "${workspaceFolder}/bin",
+            "program": "${workspaceFolder}/bin/proc",
+            "args": [],
             "stopAtEntry": false,
+            "environment": [],
+            "externalConsole": false,
+            "launchCompleteCommand": "exec-run",
             "customLaunchSetupCommands": [
                 { "text": "target-run", "description": "run target", "ignoreFailures": false }
             ],
-            "launchCompleteCommand": "exec-run",
             "linux": {
                 "MIMode": "gdb",
                 "miDebuggerPath": "/usr/bin/gdb"
@@ -46,7 +42,7 @@
                 "MIMode": "lldb"
             },
             "windows": {
-                "program": "${workspaceFolder}/bin/preloader",
+                "program": "${workspaceFolder}/bin/proc.exe",
                 "MIMode": "gdb",
                 "miDebuggerPath": "C:\\MinGw\\bin\\gdb.exe"
             }

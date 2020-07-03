@@ -3,4 +3,4 @@
 * Repo struct
 ** TODO You can write ideas to readme file.
 * Improvements
-** TODO Write project manifest file.
+** TODO Write project manifest, code of conduct and contributing files.

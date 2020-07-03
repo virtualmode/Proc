@@ -1,6 +1,0 @@
-# Task list
-# Shift+Tab - toggle list.
-* Repo struct
-** TODO You can write ideas to readme file.
-* Improvements
-** TODO Write project manifest file.

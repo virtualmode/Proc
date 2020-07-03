@@ -8,40 +8,13 @@
             "type": "shell",
             "command": "echo Implement cross-platform build.",
             "windows": {
-                "command": "${workspaceFolder}\\proc\\Temp\\build.bat ${input:vsversion} ${input:configuration} ${input:platform}"
+                "command": "${workspaceFolder}\\Temp\\windows.bat ${input:vsversion} ${input:configuration} ${input:platform}"
             },
             "group":
             {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": []
-        },
-        {
-            "label": "Write Preloader",
-            "type": "shell",
-            "command": "bin/disk.exe write_bios_mbr ../.vm/amd64/amd64.vhd bin/preloader.com",
-            "windows": {},
-            "group": "build",
-            "dependsOn": [
-                "Preloader"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Preloader",
-            "type": "shell",
-            "command": "make ${input:target} CONFIGURATION=${input:configuration} PLATFORM=${input:platform} -C ${workspaceFolder}/utils/preloader --no-print-directory",
-            "windows": {},
-            "group": "build",
-            "problemMatcher": []
-        },
-        {
-            "label": "LC-3",
-            "type": "shell",
-            "command": "make lc CONFIGURATION=${input:configuration} PLATFORM=${input:platform} -C ${workspaceFolder}/temp/lc3 --no-print-directory",
-            "windows": {},
-            "group": "build",
             "problemMatcher": []
         },
         {
@@ -52,7 +25,10 @@
                 "kind": "test",
                 "isDefault": true
             },
-            "problemMatcher": []
+            "problemMatcher": [],
+            "dependsOn": [
+                "Proc"
+            ],
         }
     ],
     "inputs": [
