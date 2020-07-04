@@ -8,7 +8,7 @@
             "type": "shell",
             "command": "echo Implement cross-platform build.",
             "windows": {
-                "command": "${workspaceFolder}\\Temp\\windows.bat ${input:vsversion} ${input:configuration} ${input:platform}"
+                "command": "${workspaceFolder}\\Temp\\windows.bat ${input:target} ${input:configuration} ${input:platform}"
             },
             "group":
             {
@@ -64,16 +64,15 @@
             "default": "amd64"
         },
         {
-            "id": "vsversion",
+            "id": "target",
             "type": "pickString",
-            "description": "What version of Visual Studio do you want to use?",
+            "description": "What target do you want to use?",
             "options": [
-                "2019\\Enterprise",
-                "2017\\Enterprise",
-                "2019\\Professional",
-                "2017\\Professional"
+                "all",
+                "rebuild",
+                "clean"
             ],
-            "default": "2019\\Enterprise"
+            "default": "all"
         }
     ]
 }

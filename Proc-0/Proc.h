@@ -5,9 +5,9 @@
 #include <string.h> // memset.
 
 // Внутренние заголовочные файлы:
-#include "Raw/Type.h"
-#include "Raw/Stream.h"
-#include "Raw/LexicalAnalyzer.h"
+#include "Type.h"
+#include "Stream.h"
+#include "LexicalAnalyzer.h"
 
 // Используемые прототипы Оберон-0:
 void OssInit(const char *fileName, long pos); // Файл с исходным кодом и его начальная позиция.

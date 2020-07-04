@@ -1,5 +1,5 @@
 
-#include "proc.h"
+#include "Proc.h"
 
 Stream::Stream(const char *fileName) {
 	
