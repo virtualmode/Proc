@@ -10,6 +10,9 @@
             "windows": {
                 "command": "${workspaceFolder}\\Temp\\windows.bat ${input:target} ${input:configuration} ${input:platform}"
             },
+            "linux": {
+                "command": "make ${input:target} CONFIGURATION=${input:configuration} PLATFORM=${input:platform} --no-print-directory"
+            },
             "group":
             {
                 "kind": "build",

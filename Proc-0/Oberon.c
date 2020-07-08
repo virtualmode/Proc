@@ -108,12 +108,12 @@ Identf comname[NOFCOM]; // Команды.
 char mnemo[64][5]; // Для декодера.
 
 // Заглушки для обероновских процедур и функций.
-inline char ORD(char character) {
+extern inline char ORD(char character) {
 	return character;
 }
 
 // Проверка принадлежности множеству регистров.
-inline bool IN(char *regs, char reg) {
+extern inline bool IN(char *regs, char reg) {
 	if (regs[reg] == 0)
 		return FALSE;
 	else
@@ -121,12 +121,12 @@ inline bool IN(char *regs, char reg) {
 }
 
 // Добавить значение во множество.
-inline void INCL(char *regs, char reg) {
+extern inline void INCL(char *regs, char reg) {
 	regs[reg] = 1;
 }
 
 // Исключить значение из множества.
-inline void EXCL(char *regs, char reg) {
+extern inline void EXCL(char *regs, char reg) {
 	regs[reg] = 0;
 }
 
@@ -141,12 +141,12 @@ long ASH(long x, long n) {
 }
 
 // Проверка на нечётность.
-inline bool ODD(long x) {
+extern inline bool ODD(long x) {
 	return x % 2 == 1;
 }
 
 // Считывает очередной символ из файла.
-inline void chRead() {
+extern inline void chRead() {
 	fread(&ch, sizeof(char), 1, readerOss);
 }
 
@@ -387,7 +387,7 @@ struct ObjDesc *objNew() {
 }
 
 // Сравнение объектов.
-inline bool objEql(struct ObjDesc *a, struct ObjDesc *b) {
+extern inline bool objEql(struct ObjDesc *a, struct ObjDesc *b) {
 	if (memcmp(a, b, sizeof(struct ObjDesc)) == 0)
 		return TRUE;
 	else
@@ -395,12 +395,12 @@ inline bool objEql(struct ObjDesc *a, struct ObjDesc *b) {
 }
 
 // Копирование объектов.
-inline void objCpy(struct ObjDesc *a, struct ObjDesc *b) {
+extern inline void objCpy(struct ObjDesc *a, struct ObjDesc *b) {
 	memcpy(a, b, sizeof(struct ObjDesc));
 }
 
 // Копирование идентификатора, которые уже являются указателями.
-inline void idCpy(Identf a, Identf b) {
+extern inline void idCpy(Identf a, Identf b) {
 	memcpy(a, b, sizeof(char) * IDLEN);
 }
 
@@ -526,7 +526,7 @@ void Selector(struct Item *x) {
 }
 
 struct Item *MakeItem(struct ObjDesc *obj);
-struct Item *MakeConstItem(struct ObjDesc *typ, long val);
+struct Item *MakeConstItem(struct TypeDesc *typ, long val);
 void Op1(int op, struct Item *x);
 void Op2(int op, struct Item *x, struct Item *y);
 
@@ -1717,7 +1717,7 @@ void Decode() {
 	fprintf(writerOsg, "\n");
 }
 
-inline void SetMnemo(char op, const char *name) {
+extern inline void SetMnemo(char op, const char *name) {
 	memcpy(mnemo[op], name, strlen(name));
 }
 
