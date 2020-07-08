@@ -13,6 +13,9 @@
             "linux": {
                 "command": "make ${input:target} CONFIGURATION=${input:configuration} PLATFORM=${input:platform} --no-print-directory"
             },
+            "osx": {
+                "command": "make ${input:target} CONFIGURATION=${input:configuration} PLATFORM=${input:platform} --no-print-directory"
+            },
             "group":
             {
                 "kind": "build",

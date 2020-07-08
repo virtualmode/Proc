@@ -13,6 +13,9 @@
 # Windows:
 desktop.ini
 
+# OSX:
+.DS_Store
+
 # Visual Studio temporary files and folders:
 .git/
 .vs/

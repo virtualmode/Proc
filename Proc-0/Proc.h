@@ -1,7 +1,7 @@
 // Внешние заголовочные файлы:
 #include <stdio.h>
+#include <stdlib.h> // malloc.
 #include <limits.h>
-#include <malloc.h> // malloc.
 #include <string.h> // memset.
 
 // Внутренние заголовочные файлы:

@@ -1,7 +1,6 @@
 # Proc-0 makefile.
 
-#DEBUG := 1
-TARGET_ENTRY := main
+DEBUG := 1
 
 include ../Temp/target.makefile
 
