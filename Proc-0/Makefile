@@ -14,8 +14,9 @@ rebuild: clean
 
 .PHONY: clean
 clean:
-	@cd $(OUTPUT_PATH) && $(RM) * || true
-	@cd $(INTERMEDIATE_PATH) && $(RM) * || true
+	@cd $(OUTPUT_PATH).. && $(RM) * || true
+	@cd $(INTERMEDIATE_PATH).. && $(RM) * || true
+	@echo "Proc-0 clean succeeded." >&2
 
 # End of makefile.
 # Конец файла сборки.

@@ -17,22 +17,24 @@ usage:
 	@echo "	make uninstall # Uninstallation stub." >&2
 	@echo " " >&2
 
+# Project macroses:
+BUILD_PROC-0 := @cd Proc-0 && $(MAKE) all && $(CP) $(OUTPUT_PATH)proc$(EXE) ../bin/
+CLEAN_PROC-0 := @cd Proc-0 && $(MAKE) clean
+
 # Solution projects:
 .PHONY: all
 all:
-	@cd Proc-0 && $(MAKE) all && $(CP) $(OUTPUT_PATH)proc$(EXE) ../bin/
-	@echo && echo "Ready." >&2
+	$(BUILD_PROC-0)
 
 # Rebuild all targets:
 .PHONY: rebuild
 rebuild: clean
-	$(MAKE) all
+	$(BUILD_PROC-0)
 
 # Clean solution:
 .PHONY: clean
 clean:
-	@cd $(OUTPUT_PATH) && $(RM) * || true
-	@cd $(INTERMEDIATE_PATH) && $(RM) * || true
+	$(CLEAN_PROC-0)
 
 # Installation target stub:
 .PHONY: install

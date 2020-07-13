@@ -6,15 +6,19 @@
         {
             "label": "Proc",
             "type": "shell",
-            "command": "echo Implement cross-platform build.",
+            "command": "make ${input:target} CONFIGURATION=${input:configuration} PLATFORM=${input:platform} --no-print-directory",
             "windows": {
-                "command": "${workspaceFolder}\\Temp\\windows.bat ${input:target} ${input:configuration} ${input:platform}"
+                "command": "${workspaceFolder}\\Temp\\make.bat ${input:platform} ${input:target} CONFIGURATION=${input:configuration} PLATFORM=${input:platform} -C ${workspaceFolder} --no-print-directory"
             },
-            "linux": {
-                "command": "make ${input:target} CONFIGURATION=${input:configuration} PLATFORM=${input:platform} --no-print-directory"
-            },
-            "osx": {
-                "command": "make ${input:target} CONFIGURATION=${input:configuration} PLATFORM=${input:platform} --no-print-directory"
+            "group":"build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "make all CONFIGURATION=debug PLATFORM=amd64 --no-print-directory",
+            "windows": {
+                "command": "${workspaceFolder}\\Temp\\make.bat amd64 all CONFIGURATION=debug PLATFORM=amd64 -C ${workspaceFolder} --no-print-directory"
             },
             "group":
             {
@@ -24,16 +28,37 @@
             "problemMatcher": []
         },
         {
+            "label": "Rebuild",
+            "type": "shell",
+            "command": "make rebuild CONFIGURATION=debug PLATFORM=amd64 --no-print-directory",
+            "windows": {
+                "command": "${workspaceFolder}\\Temp\\make.bat amd64 rebuild CONFIGURATION=debug PLATFORM=amd64 -C ${workspaceFolder} --no-print-directory"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "make clean DEBUG= --no-print-directory",
+            "windows": {
+                "command": "${workspaceFolder}\\Temp\\make.bat amd64 clean DEBUG= -C ${workspaceFolder} --no-print-directory"
+            },
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
             "label": "Tests",
             "type": "shell",
-            "command": "echo 'Tests not implemented.'",
+            
+            "command": "echo Tests not implemented.",
             "group": {
                 "kind": "test",
                 "isDefault": true
             },
             "problemMatcher": [],
             "dependsOn": [
-                "Proc"
+                "Build"
             ],
         }
     ],
