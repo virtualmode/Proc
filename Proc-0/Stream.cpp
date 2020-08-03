@@ -1,6 +1,6 @@
 
 #include "Proc.h"
 
-Stream::Stream(const char *fileName) {
+FileStream::FileStream(const char *fileName) {
 	
 }

@@ -7,6 +7,7 @@
 // Внутренние заголовочные файлы:
 #include "Type.h"
 #include "Stream.h"
+#include "Utf8.h"
 #include "LexicalAnalyzer.h"
 
 // Используемые прототипы Оберон-0:

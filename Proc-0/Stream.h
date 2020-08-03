@@ -23,23 +23,39 @@
 		Сами процессы похожи. Их можно назвать фильтрами, лексическими анализаторами или даже анализатор можно
 		представить как аудио процессор или как обычный поток, который считывает другой поток (текстовый например)
 		и меняет свое состояние, ищет лексемы.
+
+		Можно придумать что-то типа локального namespace'а для наследуемых типов:
+		Stream - интерфейс (без I, как в других языках).
+		Stream.File - файловый поток (если использовать 'use', то без 'Stream.' можно определять File).
+		А если есть некий абстрактный класс (интерфейс), то введя точку, можно посмотреть дочерние классы.
+		Кажется достаточно удобным, учтывая что мы еще в IntelliSense увидим родительские и дочерние классы
+		в алфавитном порядке и порядке зависимости плюс минус.
 */
 
-/*
-	Базовый класс для работы с потоками в Proc.
-*/
 class Stream {
 
 public:
 
-	Stream(const char *fileName);
+	virtual void Read(object destination, object base) = 0;
+
+	virtual void Write(object source, object base) = 0;
+};
+
+/*
+	Базовый класс для работы с потоками в Proc.
+*/
+class FileStream: public Stream {
+
+public:
+
+	FileStream(const char *fileName);
 
 	// base - основание, количество состояний.
 	// Пока что тип данных будет выглядеть как base[exponent][exponent][..].
 	// destination должен содержать указатель на место, в которое будет записано states состояний.
 	void Read(object destination, object base);
 
-	void Write(object destination, object base);
+	void Write(object source, object base);
 };
 
 #endif
