@@ -1,2 +1,45 @@
 // Stream
 // Класс для работы с потоками.
+
+type
+class
+struct
+interface
+
+// 1-ый вариант:
+
+type Stream
+	virtual void Read(object destination, object base)
+		return null
+
+	virtual void Write(object source, object base)
+		return null
+
+
+// 2-ой вариант:
+
+// TODO Необходимо придумать синтаксис комментариев.
+// Описание метода
+// Продолжение комментария
+void Stream.Read(object destination, object base)
+	return null // Пример.
+
+void Stream.Write(object source, object base)
+	return null
+
+
+
+type StreamSeeker
+	void Seek(StreamReader reader, object base, int count)
+	void Seek(StreamWriter writer, object base, int count)
+
+type CharReader
+	void ReadChar(StreamReader reader, object destination)
+
+type Utf8Stream: CharReader, CharWriter
+
+	void ReadChar(StreamReader reader, object destination)
+		return null // Пример.
+
+	void WriteChar(StreamWriter writer, object source)
+		return null

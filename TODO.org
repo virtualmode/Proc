@@ -4,3 +4,7 @@
 ** TODO You can write ideas to readme file.
 * Improvements
 ** TODO Write project manifest, code of conduct and contributing files.
+* Ideas
+** TODO Типы языка должны расширяться, например можно добавить метод для уже существующего класса.
+** TODO Методы лучше сделать без вложенности, чтобы не множить отступы.
+** TODO Обратить внимание на GNU Make = и := присваивания.

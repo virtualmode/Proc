@@ -32,20 +32,67 @@
 		в алфавитном порядке и порядке зависимости плюс минус.
 */
 
-class Stream {
+/*
+	Интерфейс потока состояний.
+*/
+/*class Stream {
 
 public:
 
 	virtual void Read(object destination, object base) = 0;
 
 	virtual void Write(object source, object base) = 0;
+};*/
+
+class Reader {
+public:
+	virtual void Read(object destination, object base) = 0;
+};
+
+class Writer {
+public:
+	virtual void Write(object source, object base) = 0;
+};
+
+class Seeker {
+public:
+	// offset - количество состояний относительно начала потока.
+	// Но есть проблема. Из-за использования логарифма, по сути мы можем перемещаться недалеко внутри одного машинного слова.
+	// Надо придумать возможность длинного прыжка.
+	virtual void Seek(object offset) = 0;
+};
+
+// Если использовать interface segregation, то может и не будет смысла в объединённом интерфейсе.
+// Также есть идея объединений для безымянных композиций интерфейсов и др. типов.
+class Stream: public Reader, public Writer, public Seeker {
 };
 
 /*
-	Базовый класс для работы с потоками в Proc.
+	Интерфейс потока символов.
 */
-class FileStream: public Stream {
+class CharReader {
+public:
+	virtual void ReadChar(Writer *destination) = 0;
+};
 
+class CharWriter {
+public:
+	virtual void WriteChar(Reader *source) = 0;
+};
+
+class CharSeeker {
+public:
+	// offset - это количество символов относительно начала потока.
+	virtual void Seek(object offset) = 0;
+};
+
+class CharStream: public CharReader, public CharWriter, public CharSeeker {
+};
+
+/*
+	Файловый поток.
+*/
+class FileStream: public Reader, public Writer {
 public:
 
 	FileStream(const char *fileName);
@@ -54,7 +101,15 @@ public:
 	// Пока что тип данных будет выглядеть как base[exponent][exponent][..].
 	// destination должен содержать указатель на место, в которое будет записано states состояний.
 	void Read(object destination, object base);
+	void Write(object source, object base);
+};
 
+class MemoryStream: public Reader, public Writer {
+	public:
+
+	MemoryStream(object pointer);
+
+	void Read(object destination, object base);
 	void Write(object source, object base);
 };
 
