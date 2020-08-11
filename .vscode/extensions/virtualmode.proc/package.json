@@ -1,0 +1,59 @@
+{
+	"name": "proc",
+	"displayName": "Proc",
+	"description": "Syntax highlighter for Proc",
+	"publisher": "virtualmode",
+	"icon": "icon.png",
+	"readme": "README.md",
+	"author": {
+		"name": "virtualmode"
+	},
+	"license": "GPL-2.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/virtualmode/Proc"
+	},
+	"bugs": {
+		"url": "https://github.com/virtualmode/Proc/issues"
+	},
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.42.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"galleryBanner": {
+		"color": "#242424",
+		"theme": "dark"
+	},
+	"keywords": [
+		"proc",
+		"vscode",
+		"syntax",
+		"highlighter",
+		"syntax-highlighter"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "proc",
+				"aliases": [
+					"Proc",
+					"proc"
+				],
+				"extensions": [
+					".proc"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "proc",
+				"scopeName": "source.proc",
+				"path": "./syntaxes/proc.tmLanguage.json"
+			}
+		]
+	}
+}

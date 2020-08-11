@@ -1,0 +1,27 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Proc",
+	"scopeName": "source.proc",
+	"patterns": [
+		{
+		"match":"\\[|\\]",
+		"name":"keyword.control.proc"
+		},
+		{
+			"match":"<|>",
+			"name":"storage.type.proc"
+		},
+		{
+			"match":"\\+|-",
+			"name":"keyword.operator.proc"
+		},
+		{
+			"match":"\\.|,",
+			"name":"entity.name.io.function.proc"
+		},
+        {
+            "match": "[^+<>\\-\\[\\].,]+",
+            "name": "comment.proc"
+        }
+	]
+}
