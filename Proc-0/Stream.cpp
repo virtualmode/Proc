@@ -1,5 +1,6 @@
 
-#include "Proc.h"
+#include "Global.h"
+#include "Stream.h"
 
 FileStream::FileStream(const char *fileName) {
 	

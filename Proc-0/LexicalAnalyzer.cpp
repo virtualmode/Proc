@@ -1,7 +1,8 @@
 // Lexical analyzer, lexer, tokenizer.
 
-#include "Proc.h"
+#include "Global.h"
+#include "LexicalAnalyzer.h"
 
-LexicalAnalyzer::LexicalAnalyzer(Stream *stream) {
+/*LexicalAnalyzer::LexicalAnalyzer(Stream *stream) {
 	_stream = stream;
-}
+}*/

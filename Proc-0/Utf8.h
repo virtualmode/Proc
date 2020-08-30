@@ -3,7 +3,7 @@
 #ifndef UTF8_H
 #define UTF8_H
 
-class Utf8Stream: public CharReader, public CharWriter {
+/*class Utf8Stream: public CharReader, public CharWriter {
 public:
 	class Utf8CharReader: public CharReader {
 	};
@@ -27,6 +27,6 @@ public:
 	virtual void ReadChar(Writer *destination);
 	virtual void WriteChar(Reader *source);
 
-};
+};*/
 
 #endif

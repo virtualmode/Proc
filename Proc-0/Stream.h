@@ -3,6 +3,8 @@
 #ifndef STREAM_H
 #define STREAM_H
 
+#include "Type.h"
+
 /*
 	Все данные представлены в виде ленты, каждая клетка которой может содержать несколько различных значений, как в машине
 	Тьюринга. На разных архитектурах такие клетки могут быть основаны на разных физических принципах и могут кодировать
@@ -32,26 +34,29 @@
 		в алфавитном порядке и порядке зависимости плюс минус.
 */
 
+class Writer;
+
 /*
 	Интерфейс потока состояний.
+	Под потоком будет пониматься лента, которая также будет являться базовым типом данных.
+	Например char 1 байт - это поток из одного элемента из 256 состояний (но может быть представлен и в другом виде).
+	Содержимое, например IEEE 754 или целочисленное представление будет вынесено на другой уровень.
 */
-/*class Stream {
-
-public:
-
-	virtual void Read(object destination, object base) = 0;
-
-	virtual void Write(object source, object base) = 0;
-};*/
-
 class Reader {
 public:
-	virtual void Read(object destination, object base) = 0;
+	// Считывание единицы информации из текущего потока в другой поток.
+	virtual void Read(Writer *destination) = 0;
+
+	virtual void Read(object destination, object base) = 0; // TODO Временная заглушка для старых языков.
 };
 
 class Writer {
 public:
-	virtual void Write(object source, object base) = 0;
+	// Запись единицы информации из другого потока в текущий поток.
+	// Предположительно любая область памяти в Proc будет потоком-лентой.
+	virtual void Write(Reader *source) = 0;
+
+	virtual void Write(object source, object base) = 0; // TODO Временная заглушка для старых языков.
 };
 
 class Seeker {
@@ -64,13 +69,13 @@ public:
 
 // Если использовать interface segregation, то может и не будет смысла в объединённом интерфейсе.
 // Также есть идея объединений для безымянных композиций интерфейсов и др. типов.
-class Stream: public Reader, public Writer, public Seeker {
-};
+//class Stream: public Reader, public Writer, public Seeker {
+//};
 
 /*
 	Интерфейс потока символов.
 */
-class CharReader {
+/*class CharReader {
 public:
 	virtual void ReadChar(Writer *destination) = 0;
 };
@@ -84,15 +89,15 @@ class CharSeeker {
 public:
 	// offset - это количество символов относительно начала потока.
 	virtual void Seek(object offset) = 0;
-};
+};*/
 
-class CharStream: public CharReader, public CharWriter, public CharSeeker {
-};
+//class CharStream: public CharReader, public CharWriter, public CharSeeker {
+//};
 
 /*
 	Файловый поток.
 */
-class FileStream: public Reader, public Writer {
+class FileStream: public Reader, public Writer, public Seeker {
 public:
 
 	FileStream(const char *fileName);

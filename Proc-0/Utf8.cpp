@@ -1,8 +1,9 @@
 // UTF-8 prelexical analyzer.
 
-#include "Proc.h"
+#include "Global.h"
+#include "Utf8.h"
 
-Utf8Stream::Utf8Stream(Stream *stream) {
+/*Utf8Stream::Utf8Stream(Stream *stream) {
 	_stream = stream;
 }
 
@@ -20,4 +21,4 @@ void Utf8Stream::ReadChar(Writer *destination) {
 
 void Utf8Stream::WriteChar(Reader *source) {
 	//_writer->WriteChar(source);
-}
+}*/
