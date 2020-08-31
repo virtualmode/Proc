@@ -9,17 +9,11 @@
 #ifndef PROC_H
 #define PROC_H
 
-// Внешние заголовочные файлы:
-//#include <stdio.h>
-//#include <stdlib.h> // malloc.
-//#include <limits.h>
-//#include <string.h> // memset.
-
 // Файл предварительно скомпилированных заголовков:
-#include "Global.h"
+#include "Temp/Global.h"
 
 // Часто изменяемые внутренние заголовочные файлы:
-#include "Type.h"
+#include "Temp/Type.h"
 #include "Stream.h"
 #include "Utf8.h"
 #include "LexicalAnalyzer.h"

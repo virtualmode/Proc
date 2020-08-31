@@ -1,5 +1,5 @@
 
-#include "Global.h"
+#include "Temp/Global.h"
 #include "Stream.h"
 
 FileStream::FileStream(const char *fileName) {

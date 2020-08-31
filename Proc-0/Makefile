@@ -2,6 +2,9 @@
 
 DEBUG := 1
 
+TARGET_PCH_CPP_HEADER := Temp/Global.h
+TARGET_PCH_CPP_SOURCE := Temp/Global.cpp
+
 include ../Temp/target.makefile
 
 .PHONY: all

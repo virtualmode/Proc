@@ -1,6 +1,6 @@
 // UTF-8 prelexical analyzer.
 
-#include "Global.h"
+#include "Temp/Global.h"
 #include "Utf8.h"
 
 /*Utf8Stream::Utf8Stream(Stream *stream) {

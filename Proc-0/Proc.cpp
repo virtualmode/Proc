@@ -4,7 +4,7 @@
 	Версия не является окончательной и необходима в учебных целях.
 */
 
-#include "Global.h"
+#include "Temp/Global.h"
 #include "Proc.h"
 
 int main(int argc, char **argv)
