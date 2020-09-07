@@ -21,14 +21,14 @@ int main(int argc, char **argv)
 		printf("There are common Proc commands:\n\n");
 		printf("-l FILE\t\t\tuse lexical analysis on FILE\n");
 
-	} else if (argv[1] == "-l") { // Лексический анализ файла.
-		/*int i = 0;
-		Stream source(argv[0]);
+	} else if (strcmp(argv[1], "-l") == 0) { // Лексический анализ файла.
+		int i = 0;
+		FileStream source(argv[2]);
 		LexicalAnalyzer lexer(&source);
 		while (lexer.Get()) {
 			i++;
 		}
-		printf("Proc lexer ready with %u states.\n", i);*/
+		printf("Proc lexer ready with %u states.\n", i);
 	}
 
 	return 0;

@@ -16,7 +16,13 @@
 // Счёт - количество состояний (если база), степень (если индекс), короче просто число.
 // С указателем сложнее, тоже число, но придется его скрыть от программиста. А операции
 // производить через cast степенями базы.
-#define object char*
+// Тоже самое, что и ptrdiff_t.
+//#define object char*
+#define object ptrdiff_t
+
+#define bool int
+#define false 0
+#define true 1
 
 
 // Under C convention (such as in the C standard library), types declared with typedef end with '_t' (e.g., size_t, time_t). But we use without '_t'.

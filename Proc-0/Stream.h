@@ -44,19 +44,19 @@ class Writer;
 */
 class Reader {
 public:
-	// Считывание единицы информации из текущего потока в другой поток.
-	virtual void Read(Writer *destination) = 0;
+	// Считывание ЕДИНИЦЫ информации из текущего потока в другой поток?
+	virtual object Read(Writer *destination) = 0;
 
-	virtual void Read(object destination, object base) = 0; // TODO Временная заглушка для старых языков.
+	virtual object Read(object destination, object base) = 0; // TODO Временная заглушка для старых языков.
 };
 
 class Writer {
 public:
-	// Запись единицы информации из другого потока в текущий поток.
+	// Запись ЕДИНИЦЫ информации из другого потока в текущий поток?
 	// Предположительно любая область памяти в Proc будет потоком-лентой.
-	virtual void Write(Reader *source) = 0;
+	virtual object Write(Reader *source) = 0;
 
-	virtual void Write(object source, object base) = 0; // TODO Временная заглушка для старых языков.
+	virtual object Write(object source, object base) = 0; // TODO Временная заглушка для старых языков.
 };
 
 class Seeker {
@@ -64,7 +64,7 @@ public:
 	// offset - количество состояний относительно начала потока.
 	// Но есть проблема. Из-за использования логарифма, по сути мы можем перемещаться недалеко внутри одного машинного слова.
 	// Надо придумать возможность длинного прыжка.
-	virtual void Seek(object offset) = 0;
+	virtual object Seek(object offset) = 0;
 };
 
 // Если использовать interface segregation, то может и не будет смысла в объединённом интерфейсе.
@@ -97,25 +97,41 @@ public:
 /*
 	Файловый поток.
 */
-class FileStream: public Reader, public Writer, public Seeker {
+class FileStream: public Reader, public Writer {
+private:
+
+	int _handle; //!< Low-Level I/O file handle.
+
+#ifdef PROC_OS_WIN
+#else
+#endif
+
 public:
 
-	FileStream(const char *fileName);
+	bool Open(const char *fileName, int flags = O_BINARY | O_RDONLY, int mode = _S_IREAD);
+	bool Close();
 
-	// base - основание, количество состояний.
+	FileStream(const char *fileName, int flags = O_BINARY | O_RDONLY, int mode = _S_IREAD);
+	virtual ~FileStream();
+
+	// base - основание, количество состояний. В оригинале - количество байт.
 	// Пока что тип данных будет выглядеть как base[exponent][exponent][..].
 	// destination должен содержать указатель на место, в которое будет записано states состояний.
-	void Read(object destination, object base);
-	void Write(object source, object base);
+	virtual object Read(object destination, object base);
+	virtual object Write(object source, object base);
+
+	virtual object Read(Writer *destination);
+	virtual object Write(Reader *source);
 };
 
 class MemoryStream: public Reader, public Writer {
 	public:
 
 	MemoryStream(object pointer);
+	virtual ~MemoryStream();
 
-	void Read(object destination, object base);
-	void Write(object source, object base);
+	virtual object Read(object destination, object base);
+	virtual object Write(object source, object base);
 };
 
 #endif

@@ -9,11 +9,12 @@ class LexicalAnalyzer {
 
 private:
 
-	//Stream *_stream;
+	Reader *_reader;
+	char _symbol;
 
 public:
 
-	//LexicalAnalyzer(Stream *stream);
+	LexicalAnalyzer(Reader *reader);
 
 	bool Get();
 
