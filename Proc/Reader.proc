@@ -1,0 +1,5 @@
+
+type Reader
+	virtual object Read(Writer *destination)
+
+virtual object Reader.Read(object destination, object base)

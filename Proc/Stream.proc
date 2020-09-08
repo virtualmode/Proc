@@ -29,6 +29,7 @@ void Stream.Write(object source, object base)
 
 
 
+
 type StreamSeeker
 	void Seek(StreamReader reader, object base, int count)
 	void Seek(StreamWriter writer, object base, int count)
