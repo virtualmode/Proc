@@ -39,8 +39,95 @@ type CharReader
 
 type Utf8Stream: CharReader, CharWriter
 
-	void ReadChar(StreamReader reader, object destination)
+	object ReadChar(StreamReader reader, object destination)
 		return null // Пример.
 
-	void WriteChar(StreamWriter writer, object source)
+	object WriteChar(StreamWriter writer, object source)
 		return null
+
+// Обычный метод.
+void Test(object a)
+	return
+
+// Такой метод легко интегрировать в текущий язык, но теряется возможности.
+// Т.е. лучше делать не методом скорее всего, а регионом.
+// Взаимодействие межязыковое сделать через AST.
+void CharReader.amd64.Test(...) // ???
+void 586.Test(object b)
+	mov as, dx
+	int 21h
+
+void Test(...) .586
+	mov as, dx
+	int 21h
+
+#586
+
+mov as, dx
+int 21h
+
+#csharp
+#line csharp
+#pragma csharp
+#proc csharp
+
+using System;
+
+namespace Test
+{
+}
+
+// Синтаксический анализатор Proc будет встречать директивы и передавать
+// их обработку для синтаксического анализатора другого языка, причем
+// если предыдущее состояние позволяет такую вложенную конструкцию, то ок.
+// Если в методе csharp или Proc будет использована конструкция Assembler
+// с указанием размера стека, то будет выведена ошибка. Это даёт не только
+// сомнительную xD возможность делать вставки из других языков, но и
+// создавать целые листинги на разных языках в одном файле без лишних нагромождений.
+// Но совместимость языков должна поддерживаться на уровне AST.
+void Test(object arg)
+	//#proc 586 // = #586
+	mov as, dx
+	int 21h
+	//#proc
+	return
+
+#cuda // = #proc cuda
+#arm
+
+// С другой стороны, если разбор любого языка даст синтаксическое дерево,
+// элементы которого пересекаются с другими, то можно писать код в отдельных файлах и
+// разных языках, при этом компилятор даст возможность обращаться из одного кода в другой.
+
+            int i = 0, j = 0;
+0160570C  xor         edx,edx
+0160570E  mov         dword ptr [ebp-40h],edx
+01605711  xor         edx,edx
+01605713  mov         dword ptr [ebp-44h],edx
+            for (i = 0; i < 10; i++)
+01605716  xor         edx,edx
+01605718  mov         dword ptr [ebp-40h],edx
+0160571B  nop
+0160571C  jmp         01605726
+            {
+0160571E  nop
+                j++;
+0160571F  inc         dword ptr [ebp-44h]
+            }
+01605722  nop
+            for (i = 0; i < 10; i++)
+01605723  inc         dword ptr [ebp-40h]
+01605726  cmp         dword ptr [ebp-40h],0Ah
+0160572A  setl        al
+0160572D  movzx       eax,al
+01605730  mov         dword ptr [ebp-48h],eax
+01605733  cmp         dword ptr [ebp-48h],0
+01605737  jne         0160571E
+        }
+01605739  nop
+0160573A  lea         esp,[ebp-0Ch]
+0160573D  pop         ebx
+0160573E  pop         esi
+0160573F  pop         edi
+01605740  pop         ebp
+01605741  ret
