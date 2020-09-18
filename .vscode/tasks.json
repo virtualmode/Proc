@@ -93,17 +93,6 @@
                 "amd64"
             ],
             "default": "amd64"
-        },
-        {
-            "id": "target",
-            "type": "pickString",
-            "description": "What target do you want to use?",
-            "options": [
-                "all",
-                "rebuild",
-                "clean"
-            ],
-            "default": "all"
         }
     ]
 }

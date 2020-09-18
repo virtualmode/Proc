@@ -131,3 +131,5 @@ void Test(object arg)
 0160573F  pop         edi
 01605740  pop         ebp
 01605741  ret
+
+// Try to implement asm.

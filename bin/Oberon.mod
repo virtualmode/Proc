@@ -1,6 +1,6 @@
 MODULE Debug;
 
-(* IMPORT Out; *)
+(* IMPORT Out; Пример. *)
 
 VAR
     matrix  : ARRAY 3 OF ARRAY 3 OF INTEGER;

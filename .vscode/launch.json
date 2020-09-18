@@ -11,7 +11,7 @@
             "preLaunchTask": "Build",
             "cwd": "${workspaceFolder}/bin",
             "program": "${workspaceFolder}/bin/proc",
-            "args": ["-l", "Oberon.mod"],
+            "args": ["-l", "README.md"],
             "stopAtEntry": false,
             "environment": [],
             "externalConsole": false,

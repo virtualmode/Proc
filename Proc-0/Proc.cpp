@@ -24,7 +24,8 @@ int main(int argc, char **argv)
 	} else if (strcmp(argv[1], "-l") == 0) { // Лексический анализ файла.
 		int i = 0;
 		FileStream source(argv[2]);
-		LexicalAnalyzer lexer(&source);
+		Utf8 utf8((Reader*)&source);
+		LexicalAnalyzer lexer(&utf8);
 		while (lexer.Get()) {
 			i++;
 		}

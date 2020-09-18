@@ -324,6 +324,7 @@
 ********************************/
 
 #include <stddef.h> // size_t, ptrdiff_t.
+#include <stdint.h>
 #include <iostream> // iostream.
 #include <fstream> // iostream.
 #include <sstream>
@@ -423,7 +424,7 @@
 
 ********************************/
 
-//#include "tinyxml2/tinyxml2.h" // Simple xml parser.
+//#include "utf8_decode.h" // Simple UTF-8 parser.
 
 
 #endif // PROC_CC_NVCC

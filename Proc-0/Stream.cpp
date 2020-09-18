@@ -7,6 +7,10 @@ int BaseToBytes(object base) {
 	return (int)log2(base) / 8;
 }
 
+/*
+	Запись: O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE
+	Чтение: O_BINARY | O_RDONLY, _S_IREAD
+*/
 bool FileStream::Open(const char *fileName, int flags, int mode) {
 #ifdef PROC_OS_WIN
 	if ((_handle = _open(fileName, flags, mode)) <= 0) { // Открытие файла с использованием ANSI пути не удалось:
