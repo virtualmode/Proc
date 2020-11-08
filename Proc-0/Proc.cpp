@@ -3,29 +3,29 @@
 
 	Версия не является окончательной и необходима в учебных целях.
 
-	0. Виртуальный процессор создаётся с целью изучения теории автоматов и вычислимости.
-	На момент начала работы предполагалось создать простую универсальную машину, способную
-	интерпретировать и компилировать код без использования сторонних разработок.
-	Базовые термины и принципы, используемые здесь, рекомендуется изучить в книгах:
-		Charles Petzold - The Annotated Turing: A Guided Tour Through Alan Turing's Historic Paper on Computability and the Turing Machine
+	0. Виртуальный процессор создаётся с целью изучения теории автоматов и вычислимости. На момент начала работы
+	предполагалось создать простую универсальную машину, способную интерпретировать и компилировать код без
+	использования сторонних разработок. Принципы и термины, используемые здесь, описаны в книгах:
+		Charles Petzold - The Annotated Turing:
+			A Guided Tour Through Alan Turing's Historic Paper on Computability and the Turing Machine
 		Niklaus Wirth - Compiler Construction
 
-	1. Автомату нужен базовый язык или набор языков, которые он будет понимать, и которых будет достаточно для расширения самого себя.
-	Чтобы написать его, потребуется существующий компилятор, например для C/C++. Поэтому Proc-0 является временной версией процессора с
-	минимальным набором возможностей, необходимых только для его запуска и сборки первой версии самого себя без зависимостей.
-	Также решено писать процессор одним листингом, упростив переносимость и подчеркнув необходимость использовать только минимум кода,
-	абстрагироваться от файловой системы и прочих сервисов. Машина может только выполняться и выполнять другие машины, а код для работы
-	операционной системы, оборудованием и прочее должны быть вынесены за пределы компилируемого ядра вычислителя.
+	1. Автомату нужен базовый язык или набор языков, которые он будет понимать, и которых будет достаточно для
+	расширения самого себя. Чтобы написать его, потребуется существующий компилятор, например для C/C++. Поэтому Proc-0
+	является временной версией процессора с минимальным набором возможностей, необходимых только для его запуска и
+	сборки первой версии самого себя без зависимостей. Также решено писать процессор одним листингом, упростив
+	переносимость и подчеркнув необходимость использовать только минимум кода, абстрагироваться от файловой системы и
+	прочих сервисов. Машина может только выполняться и выполнять другие машины, а код для работы операционной системы,
+	оборудованием и прочее должны быть вынесены за пределы компилируемого ядра вычислителя.
 */
 
 
 //######################################################################################################################
-//#                                                     Зависимости                                                    #
+//#                                                    Зависимости                                                     #
 //######################################################################################################################
 
 // Файл предварительно скомпилированных заголовков:
 #include "Temp/Global.h"
-
 
 // Переменная, указывающая на объект и основание должны быть размерности указателя для архитектуры,
 // или безразмерного (целого). Указатель очень для этого подходит. IntPtr, IntObj, pointer, object, base.
@@ -77,21 +77,25 @@ union type {
 
 
 //######################################################################################################################
-//#                                                     Streams                                                        #
-//#   2. Универсальная машина не может работать без входных и выходных данных. Мне еще не известно, как эти данные     #
-//#   должны выглядеть и передаваться. Поэтому необходимо ввести некоторую абстракцию, класс или набор классов для     #
-//#   работы с потоками, известными как ленты. Каждая клетка ленты может содержать несколько различных значений, как   #
-//#   в машине Тьюринга. На разных архитектурах такие клетки могут быть основаны на разных физических принципах и      #
-//#   могут кодировать различное количество состояний - оснований, а объём данных можно выразить через логарифм        #
-//#   общего количества состояний по основанию архитектуры. Такое представление объёма, к сожалению, возрастает        #
-//#   экспоненциально, но полностью отвязывает код от оборудования.                                                    #
-//#                                                                                                                    #
+//#                                                       Потоки                                                       #
 //######################################################################################################################
+
+/*
+	2. Универсальная машина не может работать без входных и выходных данных. Мне еще не известно, как эти данные должны
+	выглядеть и передаваться. Поэтому необходимо ввести некоторую абстракцию для работы с потоками, известными как
+	ленты. Каждая клетка ленты может содержать несколько различных значений, как в машине Тьюринга. На отдельных
+	архитектурах такие клетки могут быть основаны на разных физических принципах и могут кодировать количество
+	состояний - оснований, а объём данных можно выразить через логарифм общего количества состояний по основанию
+	архитектуры. Такое представление объёма, к сожалению, возрастает экспоненциально, но полностью отвязывает код от
+	оборудования.
+*/
 
 /*
 	TODO Подумать о бесконечном рекурсивном представлении состояний.
 	TODO Подумать о варианте того, что Stream - это поток не клеток, а состояний в чистом виде.
 	TODO Есть рабочий вариант клеток с переменным количеством состояний.
+	TODO Можно попробовать сделать платформозависимые ByteReader, ByteWriter или ByteSeeker и использовать временно,
+	TODO как заглушка, которая может работать с блоками только по 256 состояний.
 
 	IStream - общий поток с возможностью чтения/записи сырых данных.
 		ITextStream - поток для работы именно с символами. Лексический анализатор по сути работает с текстом.
@@ -113,12 +117,10 @@ union type {
 
 class Writer;
 
-/*
-	Интерфейс потока состояний.
-	Под потоком будет пониматься лента, которая также будет являться базовым типом данных.
-	Например char 1 байт - это поток из одного элемента из 256 состояний (но может быть представлен и в другом виде).
-	Содержимое, например IEEE 754 или целочисленное представление будет вынесено на другой уровень.
-*/
+// Интерфейс потока состояний.
+// Под потоком будет пониматься лента, которая также будет являться базовым типом данных.
+// Например char 1 байт - это поток из одного элемента из 256 состояний (но может быть представлен и в другом виде).
+// Содержимое, например IEEE 754 или целочисленное представление будет вынесено на другой уровень.
 class Reader {
 public:
 	// Считывание ЕДИНИЦЫ информации из текущего потока в другой поток?
@@ -149,36 +151,12 @@ public:
 //class Stream: public Reader, public Writer, public Seeker {
 //};
 
-/*
-	Интерфейс потока символов.
-*/
-/*class CharReader {
-public:
-	virtual void ReadChar(Writer *destination) = 0;
-};
-
-class CharWriter {
-public:
-	virtual void WriteChar(Reader *source) = 0;
-};
-
-class CharSeeker {
-public:
-	// offset - это количество символов относительно начала потока.
-	virtual void Seek(object offset) = 0;
-};*/
-
-//class CharStream: public CharReader, public CharWriter, public CharSeeker {
-//};
-
 // Compiler is not support state logic.
 int BaseToBytes(object base) {
 	return (int)log2(base) / 8;
 }
 
-/*
-	Файловый поток.
-*/
+// Файловый поток.
 class FileStream: public Reader, public Writer {
 private:
 
@@ -190,10 +168,8 @@ private:
 
 public:
 
-	/*
-		Запись: O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE
-		Чтение: O_BINARY | O_RDONLY, _S_IREAD
-	*/
+	// Запись: O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE
+	// Чтение: O_BINARY | O_RDONLY, _S_IREAD
 	bool Open(const char *fileName, int flags = O_BINARY | O_RDONLY | O_BINARY, int mode = _S_IREAD) {
 #ifdef PROC_OS_WIN
 		if ((_handle = _open(fileName, flags, mode)) <= 0) { // Открытие файла с использованием ANSI пути не удалось:
@@ -276,57 +252,79 @@ class MemoryStream: public Reader, public Writer {
 
 
 //######################################################################################################################
-//#                                                       Utf8                                                         #
-//#   3. Исходные коды программ представлены в текстовом виде. Наиболее распространенным сейчас является формат        #
-//#   UTF-8. Компилятор должен как минимум его поддерживать, чтобы обеспечивать чтение и запись текстовых данных.      #
-//#                                                                                                                    #
+//#                                                 Символьные потоки                                                  #
 //######################################################################################################################
 
 /*
-    Very Strict UTF-8 Decoder
+	?. Потоки могут кодировать разнообразную информацию. Текст является основной её формой, с которой будут работать
+	лексические анализаторы и генераторы, описанные интерфейсами ниже. На данный момент именование интерфейсов не
+	подразумевает использование префиксов.
+*/
 
-    UTF-8 is a multibyte character encoding of Unicode. A character can be
-    represented by 1-4 bytes. The bit pattern of the first byte indicates the
-    number of continuation bytes.
+// Интерфейс символьного анализатора.
+class CharReader {
+public:
+	virtual int ReadChar() = 0;
+};
 
-    Most UTF-8 decoders tend to be lenient, attempting to recover as much
-    information as possible, even from badly encoded input. This UTF-8
-    decoder is not lenient. It will reject input which does not include
-    proper continuation bytes. It will reject aliases (or suboptimal
-    codings). It will reject surrogates. (Surrogate encoding should only be
-    used with UTF-16.)
+// Интерфейс символьного генератора.
+class CharWriter {
+public:
+	virtual void WriteChar(int character) = 0;
+};
 
-    Code     Contination Minimum Maximum
-    0xxxxxxx           0       0     127
-    10xxxxxx       error
-    110xxxxx           1     128    2047
-    1110xxxx           2    2048   65535 excluding 55296 - 57343
-    11110xxx           3   65536 1114111
-    11111xxx       error
+// Интерфейс поиска в символьном потоке.
+class CharSeeker {
+public:
+	virtual int SeekChar(object offset) = 0;
+};
+
+/*
+	3. Исходные коды программ представлены в текстовом виде. Наиболее распространенным сейчас является формат UTF-8.
+	Компилятор должен как минимум его поддерживать, чтобы обеспечивать чтение и запись текстовых данных.
+*/
+
+/*
+	Very Strict UTF-8 Decoder
+
+	UTF-8 is a multibyte character encoding of Unicode. A character can be
+	represented by 1-4 bytes. The bit pattern of the first byte indicates the
+	number of continuation bytes.
+
+	Most UTF-8 decoders tend to be lenient, attempting to recover as much
+	information as possible, even from badly encoded input. This UTF-8
+	decoder is not lenient. It will reject input which does not include
+	proper continuation bytes. It will reject aliases (or suboptimal
+	codings). It will reject surrogates. (Surrogate encoding should only be
+	used with UTF-16.)
+
+	Code     Contination Minimum Maximum
+	0xxxxxxx           0       0     127
+	10xxxxxx       error
+	110xxxxx           1     128    2047
+	1110xxxx           2    2048   65535 excluding 55296 - 57343
+	11110xxx           3   65536 1114111
+	11111xxx       error
 */
 
 #define UTF8_END   -1
 #define UTF8_ERROR -2
 
-class Utf8: public Reader, public Writer {
+class Utf8: public CharReader, public CharWriter {
 private:
 
 	char _symbol;
 	Reader *_reader;
 	Writer *_writer;
 
-	/*
-		Set the next continuation byte.
-		Необходимо учесть, что запись и чтение необходимо выполнять в двоичном режиме,
-		чтобы операционная система не меняла EOL.
-	*/
+	// Set the next continuation byte.
+	// Необходимо учесть, что запись и чтение необходимо выполнять в двоичном режиме,
+	// чтобы операционная система не меняла EOL.
 	void set(char cb) {
 		_writer->Write((ptrdiff_t)(&cb), 256);
 	}
 
-	/*
-		Get the next byte. It returns UTF8_END if there are no more bytes.
-	*/
+	// Get the next byte. It returns UTF8_END if there are no more bytes.
 	int get() {
 		if (_reader->Read((object)&_symbol, 256) <= 0)
 			return UTF8_END;
@@ -334,19 +332,15 @@ private:
 		return _symbol & 0xFF;
 	}
 
-	/*
-		Get the 6-bit payload of the next continuation byte.
-		Return UTF8_ERROR if it is not a contination byte.
-	*/
+	// Get the 6-bit payload of the next continuation byte.
+	// @return UTF8_ERROR if it is not a contination byte.
 	int cont() {
 		int c = get();
 		return ((c & 0xC0) == 0x80) ? (c & 0x3F) : UTF8_ERROR;
 	}
 
-	/*
-		Целое заранее содержит 4 байта (октета) для кодирования Unicode-символа.
-		В зависимости от значения необходимо понять каким количеством байт кодируется этот символ в UTF-8.
-	*/
+	// Целое заранее содержит 4 байта (октета) для кодирования Unicode-символа.
+	// В зависимости от значения необходимо понять каким количеством байт кодируется этот символ в UTF-8.
 	void utf8_encode_next(int symbol) {
 		int i, offset, count, temp;
 
@@ -383,33 +377,27 @@ private:
 		}
 	}
 
-	/*
-		Extract the next character.
-		Returns: the character (between 0 and 1114111)
-				or  UTF8_END   (the end)
-				or  UTF8_ERROR (error)
-	*/
+	// Extract the next character.
+	// @return The character (between 0 and 1114111) or UTF8_END or UTF8_ERROR.
 	int utf8_decode_next() {
-		int c;  /* the first byte of the character */
-		int c1; /* the first continuation character */
-		int c2; /* the second continuation character */
-		int c3; /* the third continuation character */
-		int r;  /* the result */
+		int c;  // The first byte of the character.
+		int c1; // The first continuation character.
+		int c2; // The second continuation character.
+		int c3; // The third continuation character.
+		int r;  // The result.
 
 		c = get();
-		/*
-			Zero continuation (0 to 127)
-			Считывается первый байт. Если первый бит == 0, то значение байта <= 127.
-			Это значит, что символ относится к модифицированной ASCII-таблице и является
-			латинским символом. Если значение байта > 127, то символ не ASCII.
-		*/
+
+		// Zero continuation (0 to 127).
+		// Считывается первый байт. Если первый бит == 0, то значение байта <= 127.
+		// Это значит, что символ относится к модифицированной ASCII-таблице и является
+		// латинским символом. Если значение байта > 127, то символ не ASCII.
 		if ((c & 0x80) == 0) {
 			return c;
 		}
-		/*
-			One continuation (128 to 2047)
-			Символ относится к двубайтовым, если первые 3 бита 0xE0 == 110 (0xC0).
-		*/
+
+		// One continuation (128 to 2047).
+		// Символ относится к двубайтовым, если первые 3 бита 0xE0 == 110 (0xC0).
 		if ((c & 0xE0) == 0xC0) {
 			c1 = cont();
 			if (c1 >= 0) {
@@ -419,9 +407,7 @@ private:
 				}
 			}
 
-		/*
-			Two continuations (2048 to 55295 and 57344 to 65535)
-		*/
+		// Two continuations (2048 to 55295 and 57344 to 65535).
 		} else if ((c & 0xF0) == 0xE0) {
 			c1 = cont();
 			c2 = cont();
@@ -432,9 +418,7 @@ private:
 				}
 			}
 
-		/*
-			Three continuations (65536 to 1114111)
-		*/
+		// Three continuations (65536 to 1114111).
 		} else if ((c & 0xF8) == 0xF0) {
 			c1 = cont();
 			c2 = cont();
@@ -452,118 +436,113 @@ private:
 public:
 
 	// Здесь еще возможны варианты с Seeker'ом, но очень затратно это описывать вручную и несколькими классами.
-	// Теоретически компилятор может создавать реализацию любого интерфейса отдельно от всех реализаций.
+	// Теоретически компилятор может создавать реализацию любого интерфейса отдельно от общей реализации.
 	// Необходимо дописать новый синтаксис для конструктора, который явно указывает используемый интерфейс(ы).
 	Utf8(Reader *reader) {
 		_reader = reader;
 	}
 
-	/*
-		Initialize the UTF-8 encoder.
-	*/
+	// Initialize the UTF-8 encoder.
 	Utf8(Writer *writer) {
 		_writer = writer;
 	}
 
-	virtual object Read(Writer *destination) {
+	virtual int ReadChar() {
 		return utf8_decode_next();
 	}
 
-	virtual object Read(object destination, object base) { // TODO Временная заглушка для старых языков.
-		return utf8_decode_next();
-	}
-
-	virtual object Write(Reader *source) {
-		utf8_encode_next((*((int *)source)));
-		return NULL;
-	}
-
-	virtual object Write(object source, object base) { // TODO Временная заглушка для старых языков.
-		utf8_encode_next((*((int *)source)));
-		return NULL;
+	virtual void WriteChar(int character) {
+		utf8_encode_next(character);
 	}
 };
 
 
 //######################################################################################################################
-//#                                              Лексический анализатор                                                #
-//#   4. Основной лексический анализатор Proc.                                                                         #
-//#   Первичная обработка исходного кода для компилятора или интерпретатора начинается с лексического анализа. Есть    #
-//#   несколько способов реализации: обычная реализация, интерпретатор БНФ или регулярных выражений, или компилятор    #
-//#   анализаторов типа Lex. Для базовых языков подойдёт первый вариант, как самый простой и производительный.         #
-//#                                                                                                                    #
+//#                                                 Лексический анализ                                                 #
 //######################################################################################################################
 
 /*
-	LexicalAnalyzer
-	TODO Варианты для переименования: lexical analyzer, lexer, tokenizer, scanner, ProcScanner.
+	4. Первичная обработка исходного кода для компилятора или интерпретатора начинается с лексического анализа. Есть
+	несколько способов реализации: обычная реализация, интерпретатор БНФ или регулярных выражений, компилятор
+	анализаторов типа Lex. Для базовых языков подойдёт первый вариант, как самый простой и производительный.
+	Если рассмотреть вообще любые данные, то при их первичной обработке происходит лексический анализ по сути, но место
+	лексем могут занимать специфические конструкции: состояния, символы, цвета, заголовки, звуковые сэмплы и прочее.
+	Чтение этих конструкций из потоков, запись и другие операции можно представить как часть одного и того же процесса.
+	Такие классы задач можно выделить суффиксами в соответствии от их назначения, например Reader, Writer или Seeker.
 */
-class LexicalAnalyzer {
+
+// Интерфейс лексического анализатора.
+// В других источниках можно встретить варианты: lexical analyzer, lexer, tokenizer, scanner.
+class LexemeReader {
+public:
+
+	// Чтение очередной лексемы.
+	// @return Количество успешно прочтённых лексем.
+	virtual int ReadLexeme() = 0;
+};
+
+// Лексический анализатор процессора.
+class ProcReader: public LexemeReader {
 
 private:
 
-	Reader *_reader;
+	CharReader *_reader;
 
-	FileStream *_writer;
-	Utf8 *_utf8;
+	// Текущий символ.
+	int _symbol;
 
 public:
 
-	LexicalAnalyzer(Reader *reader) {
+	// Основной конструктор.
+	// @param reader Входящий поток символов.
+	ProcReader(CharReader *reader) {
 		_reader = reader;
-
-		_writer = new FileStream("debug.txt", O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
-		_utf8 = new Utf8((Writer*)_writer);
 	}
 
-	~LexicalAnalyzer() {
-		delete _utf8;
-		_writer->Close();
-		delete _writer;
+	~ProcReader() {
 	}
 
-	bool Get() {
-		int symbol = _reader->Read(NULL); // TODO Temporary crutches.
+	virtual int ReadLexeme() {
+		int symbol = _reader->ReadChar();
 		if (symbol > 0) {
 			// Вывод UTF-8:
 			if (symbol < 256)
 				printf_s("%c", symbol);
 			else
 				printf_s("[%u]", symbol);
-			// Запись UTF-8:
-			_utf8->Write((Reader *)&symbol);
 
-			return true;
+			return 1;
 		}
 		
-		return false;
+		return 0;
 	}
 };
 
 
 //######################################################################################################################
 //#                                                 AssemblerScanner                                                   #
-//#   5. Здесь будет что-то типа читабельного представления машинного языка, а может сразу нескольких. Как вариант     #
-//#   стоит подумать в принципе о наследовании анализаторов от LexicalScanner.                                         #
-//#                                                                                                                    #
 //######################################################################################################################
 
 /*
-	AssemblerScanner
-	TODO Варианты для переименования: Amd64AssemblerScanner, т.к. хрен его знает можно ли другие ассемблеры представить одинаково.
+	5. Здесь будет что-то типа читабельного представления машинного языка, а может сразу нескольких. Как вариант
+	стоит подумать в принципе о наследовании анализаторов от LexicalScanner.
 */
-class AssemblerScanner {
+
+// AssemblerScanner
+// TODO Варианты для переименования: Amd64AssemblerScanner,
+// TODO т.к. хрен его знает можно ли другие ассемблеры представить одинаково.
+class AssemblerScanner: public LexemeReader {
 
 private:
 
-	Reader *_reader;
+	CharReader *_reader;
 
 	FileStream *_writer;
 	Utf8 *_utf8;
 
 public:
 
-	AssemblerScanner(Reader *reader) {
+	AssemblerScanner(CharReader *reader) {
 		_reader = reader;
 
 		_writer = new FileStream("debug.txt", O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
@@ -577,7 +556,7 @@ public:
 	}
 
 	bool Get() {
-		int symbol = _reader->Read(NULL); // TODO Temporary crutches.
+		int symbol = _reader->ReadChar();
 		if (symbol > 0) {
 			// Вывод UTF-8:
 			if (symbol < 256)
@@ -585,7 +564,7 @@ public:
 			else
 				printf_s("[%u]", symbol);
 			// Запись UTF-8:
-			_utf8->Write((Reader *)&symbol);
+			_utf8->WriteChar(symbol);
 
 			return true;
 		}
@@ -597,22 +576,21 @@ public:
 
 //######################################################################################################################
 //#                                                   Amd64Scanner                                                     #
-//#   6. Это лексический анализатор двоичного кода архитектуры AMD64.                                                  #
-//#                                                                                                                    #
 //######################################################################################################################
 
-class Amd64Scanner {
+// Лексический анализатор двоичного кода архитектуры AMD64.
+class Amd64Scanner: public LexemeReader {
 
 private:
 
-	Reader *_reader;
+	CharReader *_reader;
 
 	FileStream *_writer;
 	Utf8 *_utf8;
 
 public:
 
-	Amd64Scanner(Reader *reader) {
+	Amd64Scanner(CharReader *reader) {
 		_reader = reader;
 
 		_writer = new FileStream("debug.txt", O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
@@ -626,7 +604,7 @@ public:
 	}
 
 	bool Get() {
-		int symbol = _reader->Read(NULL); // TODO Temporary crutches.
+		int symbol = _reader->ReadChar();
 		if (symbol > 0) {
 			// Вывод UTF-8:
 			if (symbol < 256)
@@ -634,7 +612,7 @@ public:
 			else
 				printf_s("[%u]", symbol);
 			// Запись UTF-8:
-			_utf8->Write((Reader *)&symbol);
+			_utf8->WriteChar(symbol);
 
 			return true;
 		}
@@ -645,12 +623,12 @@ public:
 
 
 //######################################################################################################################
-//#                                        Кодогенератор и виртуальная машина                                          #
+//#                                         Кодогенератор и виртуальная машина                                         #
 //######################################################################################################################
 
 
 //######################################################################################################################
-//#                                                   Точка входа                                                      #
+//#                                                    Точка входа                                                     #
 //######################################################################################################################
 
 // Используемые прототипы Оберон-0:
@@ -678,8 +656,8 @@ int main(int argc, char **argv)
 		int i = 0;
 		FileStream source(argv[2]);
 		Utf8 utf8((Reader*)&source);
-		LexicalAnalyzer lexer(&utf8);
-		while (lexer.Get()) {
+		ProcReader lexer(&utf8);
+		while (lexer.ReadLexeme() > 0) {
 			i++;
 		}
 		printf("Proc lexer ready with %u states.\n", i);
