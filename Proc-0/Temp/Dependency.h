@@ -1,7 +1,10 @@
+// В этом файле содержатся зависимости и объявления, которые должны поддерживаться Proc по умолчанию.
+// После сборки первой версии данный файл должен быть исключён из исходных кодов компилятора.
+
 #pragma once
 
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#ifndef DEPENDENCY_H
+#define DEPENDENCY_H
 
 /*
 	The operating system, must be one of: (PROC_OS_...)
@@ -426,7 +429,55 @@
 
 //#include "utf8_decode.h" // Simple UTF-8 parser.
 
-
 #endif // PROC_CC_NVCC
 
-#endif // GLOBAL_H
+
+// Переменная, указывающая на объект и основание должны быть размерности указателя для архитектуры,
+// или безразмерного (целого). Указатель очень для этого подходит. IntPtr, IntObj, pointer, object, base.
+// Базовый "безразмерный" тип для всех объектов, чисел, структур, enum'ов и прочей фигни.
+// Этот тип будет реализовывать простейшие операции над любым объектом, скорее всего
+// просто адресация и счёт. В данном языке это может быть основание - количество состояний информации.
+//#define object char*
+#define object ptrdiff_t
+
+#define bool int
+#define false 0
+#define true 1
+
+// Unsigned integer types:
+typedef unsigned char u8; //!< 1 byte from 0 to 255 (char, bool).
+typedef unsigned short u16; //!< 2 bytes from 0 to 65,535 (short).
+typedef unsigned int u32; //!< 4 bytes from 0 to 4,294,967,295 (int, long).
+typedef unsigned long long u64; //!< 8 bytes from 0 to 18,446,744,073,709,551,615 (long long).
+//typedef u64 ul; //!< Largest supported unsigned type.
+
+// Signed integer types:
+typedef signed char s8; //!< 1 bytes from –128 to 127.
+typedef signed short s16; //!< 2 bytes from –32,768 to 32,767.
+typedef signed int s32; //!< 4 bytes from –2,147,483,648 to 2,147,483,647.
+typedef signed long long s64; //!< 8 bytes from –9,223,372,036,854,775,808 to 9,223,372,036,854,775,807.
+//typedef s64 sl; //!< Largest supported signed type.
+
+// Floating point types:
+typedef float f32;
+typedef double f64;
+typedef long double f80; // Rare.
+
+union type {
+	bool type::bool_t;
+	u8 type::u8;
+	u16 type::u16;
+	u32 type::u32;
+	u64 type::u64;
+	s8 type::s8;
+	s16 type::s16;
+	s32 type::s32;
+	s64 type::s64;
+	f32 type::f32;
+	f64 type::f64;
+	f80 type::f80;
+	::size_t type::size_t;
+	::ptrdiff_t type::ptrdiff_t;
+};
+
+#endif // DEPENDENCY_H

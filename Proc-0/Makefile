@@ -4,8 +4,8 @@
 
 DEBUG := 1
 
-TARGET_PCH_CPP_HEADER := Temp/Global.h
-TARGET_PCH_CPP_SOURCE := Temp/Global.cpp
+TARGET_PCH_CPP_HEADER := Temp/Dependency.h
+TARGET_PCH_CPP_SOURCE := Temp/Dependency.cpp
 
 include ../Temp/target.makefile
 

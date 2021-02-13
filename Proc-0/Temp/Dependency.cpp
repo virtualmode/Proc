@@ -1,5 +1,5 @@
 
-#include "Global.h"
+#include "Dependency.h"
 
 #ifdef __cplusplus
 extern "C" {

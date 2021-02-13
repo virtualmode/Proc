@@ -1,0 +1,199 @@
+https://docs.microsoft.com/en-us/dotnet/api/?view=netcore-3.1
+
+Accessibility										Represents a managed wrapper for the Component Object Model (COM) accessibility interface.
+Microsoft.CSharp									Contains classes that support compilation and code generation using the C# language.
+Microsoft.CSharp.RuntimeBinder						Provides classes and interfaces that support interoperation between Dynamic Language Runtime and C#.
+Microsoft.VisualBasic								Contains types that support the Visual Basic Runtime in Visual Basic.
+Microsoft.VisualBasic.CompilerServices				Contains internal-use only types that support the Visual Basic compiler.
+Microsoft.VisualBasic.FileIO						Contains types that support the My file system object in Visual Basic.
+Microsoft.Win32										Provides two types of classes: those that handle events raised by the operating system and those that manipulate the system registry.
+Microsoft.Win32.SafeHandles							Contains classes that are abstract derivations of safe handle classes that provide common functionality supporting file and operating system handles.
+Microsoft.Windows.Input								Contains interfaces for preview commands in a Microsoft Ribbon for WPF control.
+Microsoft.Windows.Themes							Provides exposure to the set of themes defined by Windows Presentation Foundation.
+System												Contains fundamental classes and base classes that define commonly-used value and reference data types, events and event handlers, interfaces, attributes, and processing exceptions.
+System.Buffers										Contains types used in creating and managing memory buffers, such as those represented by Span<T> and Memory<T>.
+System.Buffers.Binary								Provides static methods for reading and writing the binary representations of primitive types from and to spans of bytes, respectively.
+System.Buffers.Text									This namespace contains types that can be used to parse and format common data types to and from UTF-8 text representations.
+System.CodeDom										Contains classes that can be used to represent the elements and structure of a source code document. The classes in this namespace can be used to model the structure of a source code document that can be output as source code in a supported language using the functionality provided by the System.CodeDom.Compiler namespace.
+System.CodeDom.Compiler								Contains types for managing the generation and compilation of source code in supported programming languages. Code generators can each produce source code in a particular programming language based on the structure of Code Document Object Model (CodeDOM) source code models consisting of elements provided by the System.CodeDom namespace.
+System.Collections									Contains interfaces and classes that define various collections of objects, such as lists, queues, bit arrays, hash tables and dictionaries.
+System.Collections.Concurrent						Provides several thread-safe collection classes that should be used in place of the corresponding types in the System.Collections and System.Collections.Generic namespaces whenever multiple threads are accessing the collection concurrently. However, access to elements of a collection object through extension methods or through explicit interface implementations are not guaranteed to be thread-safe and may need to be synchronized by the caller.
+System.Collections.Generic							Contains interfaces and classes that define generic collections, which allow users to create strongly typed collections that provide better type safety and performance than non-generic strongly typed collections.
+System.Collections.Immutable						Contains interfaces and classes that define immutable collections.
+System.Collections.ObjectModel						Contains classes that can be used as collections in the object model of a reusable library. Use these classes when properties or methods return collections.
+System.Collections.Specialized						Contains specialized and strongly-typed collections; for example, a linked list dictionary, a bit vector, and collections that contain only strings.
+System.ComponentModel								Provides classes that are used to implement the run-time and design-time behavior of components and controls. This namespace includes the base classes and interfaces for implementing attributes and type converters, binding to data sources, and licensing components.
+System.ComponentModel.DataAnnotations				Provides attribute classes that are used to define metadata for ASP.NET MVC and ASP.NET data controls.
+System.ComponentModel.DataAnnotations.Schema		Provides support for attribute classes that are used to define metadata for ASP.NET MVC and ASP.NET data controls.
+System.ComponentModel.Design						Contains classes that developers can use to build custom design-time behavior for components and user interfaces for configuring components at design time. The design time environment provides systems that enable developers to arrange components and configure their properties.
+System.ComponentModel.Design.Serialization			Provides types that support customization and control of serialization at design time.
+System.Configuration								Contains the types that provide the programming model for handling configuration data.
+System.Configuration.Assemblies						Contains classes that are used to configure an assembly.
+System.Configuration.Internal						Contains configuration types that are intended for internal use only.
+System.Configuration.Provider						Contains the base classes shared by both server and client applications to support a pluggable model to easily add or remove functionality.
+System.Data											Provides access to classes that represent the ADO.NET architecture. ADO.NET lets you build components that efficiently manage data from multiple data sources.
+System.Data.Common									Contains classes shared by .NET data providers.
+System.Data.Odbc									The System.Data.Odbc namespace is the .NET Framework Data Provider for ODBC.
+System.Data.OleDb									The System.Data.OleDb namespace is the.NET Framework Data Provider for OLE DB.
+System.Data.OracleClient							The System.Data.OracleClient namespace is the .NET Framework Data Provider for Oracle.
+System.Data.SqlClient								The System.Data.SqlClient namespace is the .NET Data Provider for SQL Server.
+System.Data.SqlTypes								Provides classes for native data types in SQL Server. These classes provide a safer, faster alternative to the data types provided by the .NET Framework common language runtime (CLR). Using the classes in this namespace helps prevent type conversion errors caused by loss of precision. Because other data types are converted to and from SqlTypes behind the scenes, explicitly creating and using objects within this namespace also yields faster code.
+System.Diagnostics									Provides classes that allow you to interact with system processes, event logs, and performance counters.
+System.Diagnostics.CodeAnalysis						Contains classes for interaction with code analysis tools. These tools are used to analyze code for conformance to coding conventions such as naming or security rules.
+System.Diagnostics.Contracts						Contains static classes for representing program contracts such as preconditions, postconditions, and invariants.
+System.Diagnostics.Eventing.Reader					Using the System.Diagnostics.Eventing.Reader namespace, you can develop applications that read and manage event logs. An event in an event log contains information, a warning, or an error that has been published by a specific application, service, or operating system component. These events are read by applications that monitor a computer's health and applications that take action when specific events occur. For more information, see Technology Summary for Reading and Managing Event Logs and Event Log Scenarios.
+System.Diagnostics.PerformanceData					Use the classes in this namespace to provide counter data. The counters are used to expose performance metrics to consumers such as the Performance Monitor. The namespace does not contain classes for consuming the counter data. For a complete description of the performance counters architecture, see Performance Counters.
+System.Diagnostics.SymbolStore						Provides classes that allow you to read and write debug symbol information, such as source line to Microsoft intermediate language (MSIL) maps. Compilers that target .NET can store the debug symbol information into programmer's database (PDB) files. Debuggers and code profiler tools can read the debug symbol information at run time.
+System.Diagnostics.Tracing							Provides types and members that enable you to create strongly typed events to be captured by event tracing for Windows (ETW).
+System.DirectoryServices							Provides easy access to Active Directory Domain Services from managed code. The namespace contains two component classes, DirectoryEntry and DirectorySearcher, which use the Active Directory Services Interfaces (ADSI) technology. ADSI is the set of interfaces that Microsoft provides as a flexible tool for working with a variety of network providers. ADSI gives the administrator the ability to locate and manage resources on a network with relative ease, regardless of the size of the network.
+System.DirectoryServices.ActiveDirectory			Provides a high level abstraction object model that builds around Microsoft Active Directory services tasks. The Active Directory service concepts such as forest, domain, site, subnet, partition, and schema are part of the object model.
+System.Drawing										Provides access to GDI+ basic graphics functionality. The System.Drawing.Drawing2D, System.Drawing.Imaging, and System.Drawing.Text namespaces provide more advanced functionality. For limitations, see the Remarks section.
+System.Drawing.Configuration						Contains a class that supports configuration for classes in the System.Drawing namespace.
+System.Drawing.Design								Contains classes that extend design-time user interface (UI) logic and drawing.
+System.Drawing.Drawing2D							Provides advanced two-dimensional and vector graphics functionality.
+System.Drawing.Imaging								Provides advanced GDI+ imaging functionality. Basic graphics functionality is provided by the System.Drawing namespace.
+System.Drawing.Printing								Provides print-related services for Windows Forms applications.
+System.Drawing.Text									Provides advanced GDI+ typography functionality.
+System.Dynamic										Provides classes and interfaces that support Dynamic Language Runtime.
+System.Globalization								Contains classes that define culture-related information, including language, country/region, calendars in use, format patterns for dates, currency, and numbers, and sort order for strings. These classes are useful for writing globalized (internationalized) applications. Classes such as StringInfo and TextInfo provide advanced globalization functionalities, including surrogate support and text element processing.
+System.IO											Contains types that allow reading and writing to files and data streams, and types that provide basic file and directory support.
+System.IO.Compression								Contains classes that provide basic compression and decompression services for streams.
+System.IO.Enumeration								Provides classes, structs, and delegates to search and enumerate file system elements.
+System.IO.IsolatedStorage							Contains types that allow the creation and use of isolated stores. With these stores, you can read and write data that less trusted code cannot access and prevent the exposure of sensitive information that can be saved elsewhere on the file system. Data is stored in compartments that are isolated by the current user and by the assembly in which the code exists. Additionally, data can be isolated by domain. Roaming profiles can be used in conjunction with isolated storage so isolated stores will travel with the user's profile. The IsolatedStorageScope enumeration indicates different types of isolation. For more information about when to use isolated storage, see Isolated Storage.
+System.IO.MemoryMappedFiles							Provides classes for using a memory-mapped file, which maps the contents of a file to an application's logical address space.
+System.IO.Packaging									Provides classes that support storage of multiple data objects in a single container.
+System.IO.Pipes										Contains types that provide a means for interprocess communication through anonymous and/or named pipes.
+System.Linq											Provides classes and interfaces that support queries that use Language-Integrated Query (LINQ).
+System.Linq.Expressions								Contains classes, interfaces and enumerations that enable language-level code expressions to be represented as objects in the form of expression trees.
+System.Media										Contains classes for playing sound files and accessing sounds provided by the system.
+System.Net											Provides a simple programming interface for many of the protocols used on networks today. The WebRequest and WebResponse classes form the basis of what are called pluggable protocols, an implementation of network services that enables you to develop applications that use Internet resources without worrying about the specific details of the individual protocols. Classes in the System.Net namespace can be used to develop Windows Store apps or desktop apps. When used in a Windows Store app, classes in the System.Net namespace are affected by network isolation feature, part of the application security model used by the Windows Developer Preview. The appropriate network capabilities must be enabled in the app manifest for a Windows Store app for the system to allow network access by a Windows Store app. For more information, see the Network Isolation for Windows Store Apps.
+System.Net.Cache									Defines the types and enumerations used to define cache policies for resources obtained using the WebRequest and HttpWebRequest classes.
+System.Net.Http										Provides a programming interface for modern HTTP applications.
+System.Net.Http.Headers								Provides support for collections of HTTP headers used by the System.Net.Http namespace.
+System.Net.Http.Json
+System.Net.Mail										Contains classes used to send electronic mail to a Simple Mail Transfer Protocol (SMTP) server for delivery.
+System.Net.Mime										Contains types that are used to represent Multipurpose Internet Mail Exchange (MIME) headers. These types are used with the types in the System.Net.Mail namespace to specify Content-Type, Content-Disposition, and Content-transfer-Encoding headers when using the SmtpClient class to send email.
+System.Net.NetworkInformation						Provides access to network traffic data, network address information, and notification of address changes for the local computer. The namespace also contains classes that implement the Ping utility. You can use Ping and related classes to check whether a computer is reachable across the network.
+System.Net.PeerToPeer								Provides access to peer networking functionality.
+System.Net.PeerToPeer.Collaboration					Enhances System.Net.PeerToPeer networking functionality and provides capabilities for serverless managed collaboration sessions.
+System.Net.Security									Provides network streams for secure communications between hosts.
+System.Net.Sockets									Provides a managed implementation of the Windows Sockets (Winsock) interface for developers who need to tightly control access to the network.
+System.Net.WebSockets								Provides a managed implementation of the WebSocket interface for developers.
+System.Numerics										Contains numeric types that complement the numeric primitives, such as Byte, Double, and Int32, that are defined by .NET.
+System.Printing										Provides classes that enable you to automate the management of print servers, print queues, and print jobs.
+System.Printing.IndexedProperties					Provides classes that enable rapidly copying the property settings of a print system object to another object of the same type. Also, enables iteration through the properties of print system objects and the discovery of their types at run time, without using reflection.
+System.Printing.Interop								Provides interconversion of managed PrintTicket objects and unmanaged Graphics Device Interface (GDI) DEVMODE structures.
+System.Reflection									Contains types that retrieve information about assemblies, modules, members, parameters, and other entities in managed code by examining their metadata. These types also can be used to manipulate instances of loaded types, for example to hook up events or to invoke methods. To dynamically create types, use the System.Reflection.Emit namespace.
+System.Reflection.Emit								Contains classes that allow a compiler or tool to emit metadata and Microsoft intermediate language (MSIL) and optionally generate a PE file on disk. The primary clients of these classes are script engines and compilers.
+System.Reflection.Metadata							Contains types that represent metadata information about assemblies, modules, members, parameters, and other entities in managed code.
+System.Reflection.Metadata.Ecma335
+System.Reflection.PortableExecutable
+System.Resources									Provides classes and interfaces that allow developers to create, store, and manage various culture-specific resources used in an application. One of the most important classes of the System.Resources namespace is the ResourceManager class.
+System.Resources.Extensions							Provides classes that can read and write resources in a format that supports non-primitive objects.
+System.Runtime										Contains advanced types that support diverse namespaces such as the System, Runtime, and the Security namespaces.
+System.Runtime.CompilerServices						Provides functionality for compiler writers who use managed code to specify attributes in metadata that affect the run-time behavior of the common language runtime.
+System.Runtime.ConstrainedExecution					Defines a set of types that enumerate and define a contract for reliability between the author of some code, and the developers who take a dependency on that code. The types in the System.Runtime.ConstrainedExecution namespace are intended for use in constrained execution regions (CERs).
+System.Runtime.ExceptionServices					Provides classes for advanced exception handling.
+System.Runtime.InteropServices						Provides a wide variety of members that support COM interop and platform invoke services. If you are unfamiliar with these services, see Interoperating with Unmanaged Code.
+System.Runtime.InteropServices.ComTypes				Contains managed types that correspond to types used by COM interop.
+System.Runtime.InteropServices.WindowsRuntime		Contains classes that support interoperation between managed code and the Windows Runtime, and that enable the creation of Windows Runtime types with managed code.
+System.Runtime.Intrinsics							Contains types used to create and convey register states in various sizes and formats for use with instruction-set extensions. For the instructions to manipulate these registers, see System.Runtime.Intrinsics.X86 and System.Runtime.Intrinsics.Arm.
+System.Runtime.Intrinsics.X86						Exposes select instruction-set extensions for x86 and x64 systems. These instruction sets are expressed as separate classes for each extension. Support for any extension within the current environment can be determined by querying the IsSupported property on the respective type.
+System.Runtime.Loader								Provides interfaces and classes to allow developers the opportunity to influence runtime loading behavior.
+System.Runtime.Remoting								Provides classes and interfaces that allow developers to create and configure distributed applications. Some of the more important classes of the System.Runtime.Remoting namespace are the RemotingConfiguration class, the RemotingServices class, and the ObjRef class.
+System.Runtime.Serialization						Contains classes that can be used for serializing and deserializing objects. Serialization is the process of converting an object or a graph of objects into a linear sequence of bytes for either storage or transmission to another location. Deserialization is the process of taking in stored information and recreating objects from it.
+System.Runtime.Serialization.Formatters				Provides common enumerations, interfaces, and classes that are used by serialization formatters.
+System.Runtime.Serialization.Formatters.Binary		Contains the BinaryFormatter class, which can be used to serialize and deserialize objects in binary format.
+System.Runtime.Serialization.Json					Provides classes related to Json serialization.
+System.Runtime.Versioning							Contains advanced types that support versioning in side by side implementations of .NET.
+System.Security										Provides the underlying structure of the common language runtime security system, including base classes for permissions.
+System.Security.AccessControl						Provides programming elements that control access to and audit security-related actions on securable objects.
+System.Security.Authentication						Provides a set of enumerations that describe the security of a connection. These enumerations include CipherAlgorithmType, ExchangeAlgorithmType, HashAlgorithmType, and SslProtocols.
+System.Security.Authentication.ExtendedProtection	Provides support for authentication using extended protection for applications.
+System.Security.Claims								Contains classes that implement claims-based identity in .NET, including classes that represent claims, claims-based identities, and claims-based principals.
+System.Security.Cryptography						Provides cryptographic services, including secure encoding and decoding of data, as well as many other operations, such as hashing, random number generation, and message authentication. For more information, see Cryptographic Services.
+System.Security.Cryptography.Pkcs					Provides programming elements for Public Key Cryptography Standards (PKCS), including methods for signing data, exchanging keys, requesting certificates, public key encryption and decryption, and other security functions.
+System.Security.Cryptography.X509Certificates		Contains the common language runtime implementation of the Authenticode X.509 v.3 certificate. This certificate is signed with a private key that uniquely and positively identifies the holder of the certificate.
+System.Security.Cryptography.Xml					Contains classes to support the creation and validation of XML digital signatures. The classes in this namespace implement the World Wide Web Consortium Recommendation, XML-Signature Syntax and Processing.
+System.Security.Permissions							Defines classes that control access to operations and resources based on policy.
+System.Security.Policy								Contains code groups, membership conditions, and evidence. These three types of classes are used to create the rules applied by the common language runtime security policy system. Evidence classes are the input to security policy and membership conditions are the switches; together these create policy statements and determine the granted permission set. Policy levels and code groups are the structure of the policy hierarchy. Code groups are the encapsulation of a rule and are arranged hierarchically in a policy level.
+System.Security.Principal							Defines a principal object that represents the security context under which code is running. For more information, see Role-Based Security.
+System.Security.RightsManagement					Provides types to support rights management of application-created content such as that stored in a Package or XpsDocument.
+System.ServiceProcess								Provides classes that allow you to implement, install, and control Windows service applications. Services are long-running executables that run without a user interface. Implementing a service involves inheriting from the ServiceBase class and defining specific behavior to process when start, stop, pause, and continue commands are passed in, as well as custom behavior and actions to take when the system shuts down.
+System.Text											Contains classes that represent ASCII and Unicode character encodings; abstract base classes for converting blocks of characters to and from blocks of bytes; and a helper class that manipulates and formats String objects without creating intermediate instances of String.
+System.Text.Encodings.Web							Contains a base class that represent a web encoder; subclasses that represent HTML, JavaScript, and Url character encoding; and a class that represents a filter for allowing only certain characters, character ranges, or code points to be encoded.
+System.Text.Json									Provides high-performance, low-allocating, and standards-compliant capabilities to process JavaScript Object Notation (JSON), which includes serializing objects to JSON text and deserializing JSON text to objects, with UTF-8 support built-in. It also provides types to read and write JSON text encoded as UTF-8, and to create an in-memory document object model (DOM) for random access of the JSON elements within a structured view of the data.
+System.Text.Json.Serialization						Contains classes that are used to customize and extend serialization and deserialization of objects into JSON formatted documents or streams, either via an attribute model or via type converters.
+System.Text.RegularExpressions						Provides regular expression functionality that may be used from any platform or language that runs within .NET. In addition to the types contained in this namespace, the RegexStringValidator class enables you to determine whether a particular string conforms to a regular expression pattern.
+System.Text.Unicode									Contains types that let you retrieve and work with named Unicode ranges.
+System.Threading									Provides classes and interfaces that enable multithreaded programming. In addition to classes for synchronizing thread activities and access to data (Mutex, Monitor, Interlocked, AutoResetEvent, and so on), this namespace includes a ThreadPool class that allows you to use a pool of system-supplied threads, and a Timer class that executes callback methods on thread pool threads.
+System.Threading.Channels							Provides a set of synchronization data structures for passing data between producers and consumers asynchronously.
+System.Threading.Tasks								Provides types that simplify the work of writing concurrent and asynchronous code. The main types are Task which represents an asynchronous operation that can be waited on and cancelled, and Task<TResult>, which is a task that can return a value. The TaskFactory class provides static methods for creating and starting tasks, and the TaskScheduler class provides the default thread scheduling infrastructure.
+System.Threading.Tasks.Dataflow						Provides an actor-based programming model that supports in-process message passing for coarse-grained dataflow and pipelining tasks.
+System.Threading.Tasks.Sources						Provides types for creating ValueTask and ValueTask<TResult> optimized to minimize allocations. The IValueTaskSource and IValueTaskSource<TResult> interfaces can be implemented on objects used to provide the backing implementations for ValueTask and ValueTask<TResult>, and ManualResetValueTaskSourceCore<TResult> can be used to implement the core logic necessary to support the task lifecycle. These are advanced types and need only be used in specialized situations where performance is paramount.
+System.Timers										Provides the Timer component, which allows you to raise an event on a specified interval.
+System.Transactions									Contains classes that allow you to write your own transactional application and resource manager. Specifically, you can create and participate in a transaction (local or distributed) with one or multiple participants.
+System.Web											Contains classes and interfaces that enable browser-server communication. This namespace includes the HttpRequest class, which provides extensive information about the current HTTP request; the HttpResponse class, which manages HTTP output to the client; and the HttpServerUtility class, which provides access to server-side utilities and processes. System.Web also includes classes for cookie manipulation, file transfer, exception information, and output cache control.
+System.Windows										Provides several important Windows Presentation Foundation (WPF) base element classes, various classes that support the WPF property system and event logic, and other types that are more broadly consumed by the WPF core and framework.
+System.Windows.Annotations							Provides classes to support user-created annotations on content displayed in WPF document viewing controls.
+System.Windows.Annotations.Storage					Provides types that define the storage architecture and mediums to save and retrieve user-created annotations.
+System.Windows.Automation							Provides support for Windows Presentation Foundation (WPF) UI Automation clients.
+System.Windows.Automation.Peers						Defines the AutomationPeer base class and a set of types that derive from it that correspond to .NET controls. Each AutomationPeer exposes the corresponding .NET control to Microsoft UI Automation.
+System.Windows.Automation.Provider					Provides APIs for creating UI Automation providers.
+System.Windows.Automation.Text						Contains enumerations that specify text formatting and related behavior for Windows Presentation Foundation (WPF) UI automation.
+System.Windows.Baml2006								Contains reader and writer classes that can consume XAML in BAML form.
+System.Windows.Controls								Provides classes to create elements, known as controls, that enable a user to interact with an application. The control classes are at the core of the user's experience with any application because they allow a user to view, select, or enter data or other information.
+System.Windows.Controls.Primitives					Contains base classes and controls that are intended to be used as part of other more complex controls.
+System.Windows.Controls.Ribbon						Contains types that are used to create a user interface by using the Microsoft Ribbon for WPF.
+System.Windows.Controls.Ribbon.Primitives			Contains types that are used as layout containers in a Microsoft Ribbon for WPF control.
+System.Windows.Converters							Provides classes to support type conversion during serialization in Windows Presentation Foundation (WPF).
+System.Windows.Data									Contains classes used for binding properties to data sources, data source provider classes, and data-specific implementations of collections and views.
+System.Windows.Diagnostics							Provides support for Windows Presentation Foundation (WPF) XAML tooling.
+System.Windows.Documents							Contains types that support FixedDocument, FlowDocument, and XML Paper Specification (XPS) document creation.
+System.Windows.Documents.DocumentStructures			Provides classes to describe the structure of an XpsDocument in terms of sections, paragraphs, figures, bulleted or numbered lists, and tables.
+System.Windows.Documents.Serialization				Provides types that support the creation and use of run-time accessible plug-in serializers that read and write documents in different data formats.
+System.Windows.Forms								Contains classes for creating Windows-based applications that take full advantage of the rich user interface features available in the Microsoft Windows operating system.
+System.Windows.Forms.Automation						Provides support for Windows Forms UI Automation clients.
+System.Windows.Forms.ComponentModel.Com2Interop		Contains helper classes that Visual Studio uses to display property pages while in design mode.
+System.Windows.Forms.Design							Contains classes that support design-time configuration and behavior for Windows Forms components. These classes consist of designer classes that provide support for Windows Forms components, a set of design-time services; UITypeEditor classes for configuring certain types of properties, and classes for importing ActiveX controls.
+System.Windows.Forms.Design.Behavior				Contains classes for creating custom user interface behavior for components at design time.
+System.Windows.Forms.Integration					Contains classes that support interoperation of Windows Forms and WPF controls.
+System.Windows.Forms.Layout							Contains classes for implementing layout behaviors in your form or control.
+System.Windows.Forms.PropertyGridInternal			Provides internal support for the PropertyGrid control. The classes in this namespace support the .NET infrastructure and aren't intended to be used directly from your code.
+System.Windows.Forms.VisualStyles					Contains classes for rendering controls and other Windows user interface (UI) elements with visual styles in operating systems that support them.
+System.Windows.Ink									Provides classes to interact with and manipulate ink on the Windows Presentation Foundation (WPF) platform.
+System.Windows.Input								Provides types to support the Windows Presentation Foundation (WPF) input system. This includes device abstraction classes for mouse, keyboard, and stylus devices, a common input manager class, support for commanding and custom commands, and various utility classes.
+System.Windows.Input.Manipulations					Provides functionality for monitoring and responding to a collection of manipulators as a single composite, enabling an application to track the changes to the composite instead of the individual components.
+System.Windows.Input.StylusPlugIns					Provides classes that support manipulating data from a tablet pen on the Windows Presentation Foundation (WPF) platform. These classes offer low-level control over Stylus input and the creation of digital ink Stroke objects. The StylusPlugIn class provides a mechanism for you to implement custom behavior and apply that behavior to the stream of data coming from the stylus device for the optimal performance.
+System.Windows.Input.StylusWisp						Provides classes that support manipulating data from a WISP tablet device pen on the Windows Presentation Foundation (WPF) platform.
+System.Windows.Interop								Provides supporting types for interoperation between Windows Presentation Foundation (WPF) and other technologies such as Windows APIs and provides base classes for other specific interoperation scenarios involving WPF.
+System.Windows.Markup								Provides types to support XAML. Some of these types are located in WPF assemblies and are specific to WPF scenarios that involve XAML. Other types in this namespace provide support for .NET XAML Services in general, and don't require referencing WPF assemblies.
+System.Windows.Markup.Localizer						Provides types that assist in the localization of binary XAML (BAML) sources.
+System.Windows.Markup.Primitives					Contains classes that support Extensible Application Markup Language (XAML) in Windows Presentation Foundation (WPF).
+System.Windows.Media								Provides types that enable integration of rich media, including drawings, text, and audio/video content in Windows Presentation Foundation (WPF) applications.
+System.Windows.Media.Animation						Provides types that support property animation functionality, including timelines, storyboards, and key frames.
+System.Windows.Media.Converters						Contains classes that are used by the MarkupWriter for serialization of Extensible Application Markup Language (XAML).
+System.Windows.Media.Effects						Provides types that can be used to apply visual effects to bitmap images.
+System.Windows.Media.Imaging						Provides types that are used to encode and decode bitmap images.
+System.Windows.Media.Media3D						Contains types that support 3-D presentation in Windows Presentation Foundation (WPF) applications.
+System.Windows.Media.Media3D.Converters				Contains classes that are used by the MarkupWriter for serialization of Extensible Application Markup Language (XAML).
+System.Windows.Media.TextFormatting					Provides types that control formatting of text, typically at a lower level than control-based text presentation or the text object model.
+System.Windows.Navigation							Provides types that support navigation, including navigating between windows and navigation journaling.
+System.Windows.Resources							Provides low-level classes that support the Windows Presentation Foundation (WPF) resource model and the Resources build action.
+System.Windows.Shapes								Provides access to a library of shapes that can be used in Extensible Application Markup Language (XAML) or code.
+System.Windows.Shell								Contains types that provide managed code access to the enhanced functionality of the Windows 7 taskbar.
+System.Windows.Threading							Contains types to support the Windows Presentation Foundation (WPF) threading system.
+System.Windows.Xps									Provides classes that write XPS documents to a data store or print queue.
+System.Windows.Xps.Packaging						Provides types that allow applications to read and write the components of an XPS document.
+System.Windows.Xps.Serialization					Provides types that support serialization of XPS documents.
+System.Xaml											Provides types that relate to XAML readers and XAML writers. This includes the default implementations of .NET XAML Services and its XAML readers and XAML writers. Also contains types relevant to the XAML type system and other support types related to XAML and .NET XAML Services concepts.
+System.Xaml.Permissions								Contains types that specify permissions for certain XAML loading scenarios, such as loading under partial trust or loading internal types.
+System.Xaml.Schema									Contains types that support extensibility of the XAML type system.
+System.Xml											Provides standards-based support for processing XML.
+System.Xml.Linq										Contains the classes for LINQ to XML. LINQ to XML is an in-memory XML programming interface that enables you to modify XML documents efficiently and easily.
+System.Xml.Resolvers								Provides support for prepopulating the cache with DTDs or XML streams.
+System.Xml.Schema									Contains the XML classes that provide standards-based support for XML schema definition language (XSD) schemas.
+System.Xml.Serialization							Contains classes that are used to serialize objects into XML format documents or streams.
+System.Xml.XPath									Contains the classes that define a cursor model for navigating and editing XML information items as instances of the XQuery 1.0 and XPath 2.0 Data Model.
+System.Xml.Xsl										Provides support for Extensible Stylesheet Transformation (XSLT) transforms. It supports the W3C XSL Transformations (XSLT) Version 1.0 Recommendation.
+UIAutomationClientsideProviders						Contains a single type that maps client automation providers.

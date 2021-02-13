@@ -1,0 +1,41 @@
+' https://plantuml.com/ru/class-diagram
+
+@startuml kernel
+/'
+    owners feed pets, pets please owners (association)
+    a tail is a part of both dogs and cats (aggregation / composition)
+    a cat is a kind of pet (inheritance / generalization)
+    specific pet is a cat (specialization)
+    Extension?
+'/
+interface Reader
+interface Writer
+interface CharReader
+interface CharWriter
+interface TokenReader
+interface SyntaxReader
+class Utf8
+class ProcReader
+class SourceReader
+CharReader <|-- Utf8
+CharWriter <|-- Utf8
+Utf8 o-- Reader
+Utf8 o-- Writer
+TokenReader <|-- SourceReader
+SourceReader o-- CharReader
+SyntaxReader <|-- ProcReader
+ProcReader o-- TokenReader
+@enduml
+
+@startuml example
+Class01 <|-- Class02
+Class03 *-- Class04
+Class05 o-- Class06
+Class07 .. Class08
+Class09 -- Class10
+Class11 <|.. Class12
+Class13 --> Class14
+Class15 ..> Class16
+Class17 ..|> Class18
+Class19 <--* Class20
+@enduml
