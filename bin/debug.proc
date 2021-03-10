@@ -1,0 +1,3 @@
+// Файл для отладки.
+class Test
+    private void Method(int argc)

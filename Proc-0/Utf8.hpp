@@ -5,8 +5,8 @@
 
 #include "Reader.hpp"
 #include "Writer.hpp"
-#include "CharReader.hpp"
-#include "CharWriter.hpp"
+#include "UnicodeReader.hpp"
+#include "UnicodeWriter.hpp"
 
 /*
 	3. Исходные коды программ представлены в текстовом виде. Наиболее распространенным сейчас является формат UTF-8.
@@ -39,7 +39,7 @@
 #define UTF8_END   -1
 #define UTF8_ERROR -2
 
-class Utf8: public CharReader, public CharWriter {
+class Utf8: public UnicodeReader, public UnicodeWriter {
 private:
 
 	char _symbol;
@@ -164,16 +164,31 @@ private:
 
 public:
 
+	// Основной конструктор.
+	// TODO Если будут введены отдельные реализации инфтерфейсов, необходимо рассмотреть возможность языка
+	// TODO комбинировать несколько интерфейсов и не писать каждый раз отдельные конструкторы.
+	// @param reader Входящий поток состояний.
+	// @param writer Исходящий поток состояний.
+	Utf8(Reader *reader, Writer *writer) {
+
+	}
+
 	// Здесь еще возможны варианты с Seeker'ом, но очень затратно это описывать вручную и несколькими классами.
 	// Теоретически компилятор может создавать реализацию любого интерфейса отдельно от общей реализации.
 	// Необходимо дописать новый синтаксис для конструктора, который явно указывает используемый интерфейс(ы).
+	// Конструктор для Proc будет содержать в конструкторе интерфейс SourceToken.UnicodeReader и реализовывать часть класса.
 	Utf8(Reader *reader) {
 		_reader = reader;
 	}
 
 	// Initialize the UTF-8 encoder.
+	// Конструктор для Proc будет содержать в конструкторе интерфейс SourceToken.UnicodeWriter и реализовывать часть класса.
 	Utf8(Writer *writer) {
 		_writer = writer;
+	}
+
+	// Деструкторы аналогично можно писать для разных реализаций.
+	~Utf8() {
 	}
 
 	virtual int ReadChar() {

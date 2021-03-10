@@ -3,7 +3,7 @@
 #ifndef ASSEMBLER_READER_H
 #define ASSEMBLER_READER_H
 
-#include "CharReader.hpp"
+#include "UnicodeReader.hpp"
 #include "FileStream.hpp"
 #include "TokenReader.hpp"
 #include "Utf8.hpp"
@@ -20,14 +20,14 @@ class AssemblerReader: public TokenReader {
 
 private:
 
-	CharReader *_reader;
+	UnicodeReader *_reader;
 
 	FileStream *_writer;
 	Utf8 *_utf8;
 
 public:
 
-	AssemblerReader(CharReader *reader) {
+	AssemblerReader(UnicodeReader *reader) {
 		_reader = reader;
 
 		_writer = new FileStream("debug.txt", O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);

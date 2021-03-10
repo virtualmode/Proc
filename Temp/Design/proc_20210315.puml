@@ -63,13 +63,25 @@ class SourceToken << Token >>
 {
     SourceToken может быть
     целесообразен, т.к.
-    текстовые языки похожи,
-    но часть нагрузки ляжет на
-    синтаксический анализатор.
+    текстовые языки похожи
 }
 
 UnicodeReader --o SourceToken
 UnicodeWriter --o SourceToken
+
+class JavaScriptToken << Token >>
+{
+}
+
+UnicodeReader --o JavaScriptToken
+UnicodeWriter --o JavaScriptToken
+
+class ProcToken << Token >>
+{
+}
+
+UnicodeReader --o ProcToken
+UnicodeWriter --o ProcToken
 
 class Amd64Token << Token >>
 {
@@ -92,11 +104,26 @@ class DnaToken << Token >>
 Reader --o DnaToken
 Writer --o DnaToken
 
+interface StateToken << Token >>
+{
+    Не целесообразен,
+    т.к. уникален
+}
+
+Reader --o StateToken
+Writer --o StateToken
+
 class SymbolTable
 {
 }
 
-SourceToken *-- SymbolTable
+SourceToken o-- SymbolTable
+JavaScriptToken o-- SymbolTable
+ProcToken o-- SymbolTable
+Amd64Token o-- SymbolTable
+ArmToken o-- SymbolTable
+DnaToken o-- SymbolTable
+StateToken o-- SymbolTable
 
 class JavaScript << Syntax >>
 {
@@ -105,9 +132,6 @@ class JavaScript << Syntax >>
 class Proc << Syntax >>
 {
 }
-
-JavaScript o-- SymbolTable
-Proc o-- SymbolTable
 
 class Amd64 << Syntax >>
 {
@@ -121,8 +145,16 @@ class Dna << Syntax >>
 {
 }
 
-SourceToken --o JavaScript
-SourceToken --o Proc
+SymbolTable --o JavaScript
+SymbolTable --o Proc
+SymbolTable --o Amd64
+SymbolTable --o Arm
+SymbolTable --o Dna
+
+JavaScriptToken --o JavaScript
+'SourceToken --o JavaScript
+ProcToken --o Proc
+'SourceToken --o Proc
 Amd64Token --o Amd64
 ArmToken --o Arm
 DnaToken --o Dna

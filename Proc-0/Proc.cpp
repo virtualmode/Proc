@@ -24,7 +24,7 @@
 #include "Temp/Dependency.h"
 
 #include "FileStream.hpp"
-#include "SourceReader.hpp"
+#include "SourceToken.hpp"
 #include "Utf8.hpp"
 
 
@@ -55,8 +55,8 @@ int main(int argc, char **argv)
 		int i = 0;
 		FileStream source(argv[2]);
 		Utf8 utf8((Reader*)&source);
-		SourceReader lexer(&utf8);
-		while (lexer.ReadToken() > 0) {
+		SourceToken lexer;
+		while (lexer.ReadToken(&utf8) > 0) {
 			i++;
 		}
 		printf("Proc lexer ready with %u states.\n", i);

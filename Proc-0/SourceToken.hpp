@@ -1,7 +1,12 @@
 #pragma once
 
-#ifndef TOKEN_READER_H
-#define TOKEN_READER_H
+#ifndef SOURCE_TOKEN_H
+#define SOURCE_TOKEN_H
+
+#include "Temp/Dependency.h"
+
+#include "UnicodeReader.hpp"
+#include "UnicodeWriter.hpp"
 
 /*
 	4. Первичная обработка исходного кода для компилятора или интерпретатора начинается с лексического анализа. Есть
@@ -13,14 +18,46 @@
 	Такие классы задач можно выделить суффиксами в соответствии от их назначения, например Reader, Writer или Seeker.
 */
 
-// Интерфейс лексического анализатора.
-// В других источниках можно встретить варианты: lexical analyzer, lexer, tokenizer, scanner.
-class TokenReader {
+// Лексический анализатор исходного кода. Машина состояний. Конечный автомат.
+// В других источниках можно встретить варианты: lexical analyzer, lexer, tokenizer, scanner, token reader.
+class SourceToken {
+
+private:
+
+	// Текущий код символа Юникода.
+	//int _symbol;
+
 public:
 
+	// Можно реализовать Union.
+	// Не хочется использовать в данном случае наследование.
+	int Value;
+	int FloatValue;
+	char id[16];
+
+	// Основной конструктор.
+	SourceToken() {
+	}
+
+	~SourceToken() {
+	}
+
 	// Чтение очередной лексемы.
-	// @return Количество успешно прочтённых лексем.
-	virtual int ReadToken() = 0;
+	// Основная машина состояний лексического анализатора, выполняющая простейший шаг и определяющая следующий автомат.
+	// @return Успешность прочтённой лексемы.
+	virtual bool ReadToken(UnicodeReader *reader) {
+		int symbol = reader->ReadChar();
+		if (symbol >= 0) {
+			if (symbol < 256)
+				printf_s("%c", symbol);
+			else
+				printf_s("[%u]", symbol);
+
+			return 1;
+		}
+		
+		return 0;
+	}
 };
 
-#endif // TOKEN_READER_H
+#endif // SOURCE_TOKEN_H

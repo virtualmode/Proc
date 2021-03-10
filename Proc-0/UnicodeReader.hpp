@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef CHAR_READER_H
-#define CHAR_READER_H
+#ifndef UNICODE_READER_H
+#define UNICODE_READER_H
 
 /*
 	?. Потоки могут кодировать разнообразную информацию. Текст является основной её формой, с которой будут работать
@@ -10,9 +10,9 @@
 */
 
 // Интерфейс символьного анализатора.
-class CharReader {
+class UnicodeReader {
 public:
 	virtual int ReadChar() = 0;
 };
 
-#endif // CHAR_READER_H
+#endif // UNICODE_READER_H

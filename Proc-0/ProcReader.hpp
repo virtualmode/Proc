@@ -6,30 +6,25 @@
 #include "Temp/Dependency.h"
 
 #include "SyntaxReader.hpp"
-#include "TokenReader.hpp"
+#include "SourceToken.hpp"
 
 // Синтаксический анализатор Proc.
-class ProcReader: public SyntaxReader {
+class ProcReader {
 
 private:
 
-	TokenReader *_reader;
+	SourceToken *_sourceToken;
 
 public:
 
 	// Основной конструктор.
-	// @param reader Входящий поток символов.
-	ProcReader(TokenReader *reader) {
-		_reader = reader;
+	// @param sourceToken Поток лексем исходного кода.
+	ProcReader(SourceToken *sourceToken) {
+		_sourceToken = sourceToken;
 	}
 
 	~ProcReader() {
 	}
-
-	virtual int ReadSyntax() = 0;
-
-	virtual void ReadBody() = 0;
-	virtual void ReadDefinition() = 0;
 };
 
 #endif // PROC_READER_H

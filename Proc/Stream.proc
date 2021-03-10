@@ -34,10 +34,10 @@ type StreamSeeker
 	void Seek(StreamReader reader, object base, int count)
 	void Seek(StreamWriter writer, object base, int count)
 
-type CharReader
+type UnicodeReader
 	void ReadChar(StreamReader reader, object destination)
 
-type Utf8Stream: CharReader, CharWriter
+type Utf8Stream: UnicodeReader, CharWriter
 
 	object ReadChar(StreamReader reader, object destination)
 		return null // Пример.
@@ -52,7 +52,7 @@ void Test(object a)
 // Такой метод легко интегрировать в текущий язык, но теряется возможности.
 // Т.е. лучше делать не методом скорее всего, а регионом.
 // Взаимодействие межязыковое сделать через AST.
-void CharReader.amd64.Test(...) // ???
+void UnicodeReader.amd64.Test(...) // ???
 void 586.Test(object b)
 	mov as, dx
 	int 21h

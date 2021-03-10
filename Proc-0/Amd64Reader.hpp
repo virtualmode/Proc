@@ -3,7 +3,7 @@
 #ifndef AMD64_READER_H
 #define AMD64_READER_H
 
-#include "CharReader.hpp"
+#include "UnicodeReader.hpp"
 #include "FileStream.hpp"
 #include "TokenReader.hpp"
 #include "Utf8.hpp"
@@ -13,14 +13,14 @@ class Amd64Reader: public TokenReader {
 
 private:
 
-	CharReader *_reader;
+	UnicodeReader *_reader;
 
 	FileStream *_writer;
 	Utf8 *_utf8;
 
 public:
 
-	Amd64Reader(CharReader *reader) {
+	Amd64Reader(UnicodeReader *reader) {
 		_reader = reader;
 
 		_writer = new FileStream("debug.txt", O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
