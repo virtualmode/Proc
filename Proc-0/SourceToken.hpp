@@ -7,6 +7,7 @@
 
 #include "UnicodeReader.hpp"
 #include "UnicodeWriter.hpp"
+#include "SymbolType.hpp"
 
 /*
 	4. Первичная обработка исходного кода для компилятора или интерпретатора начинается с лексического анализа. Есть
@@ -24,39 +25,65 @@ class SourceToken {
 
 private:
 
-	// Текущий код символа Юникода.
-	//int _symbol;
+	UnicodeReader *_reader;
 
 public:
 
-	// Можно реализовать Union.
-	// Не хочется использовать в данном случае наследование.
-	int Value;
-	int FloatValue;
-	char id[16];
+	// Тип символа.
+	SymbolType Type;
+
+	// Нужно реализовать потоки состояний и возможность использования на них объединений union или cast.
+	char Value[128]; // Предполагается, что это и будет единственный поток состояний, хранящий значение лексемы.
+	// Язык не должен ограничивать размер чисел из-за архитектуры процессора.
+	int Symbol; // [Obsolete] Текущий код символа Юникода.
+	long Number; // [Obsolete] Значение целого числа.
+	double Real; // [Obsolete] Значение числа с плавающей точкой.
 
 	// Основной конструктор.
-	SourceToken() {
+	SourceToken(UnicodeReader *reader) {
+		_reader = reader;
 	}
 
 	~SourceToken() {
 	}
 
-	// Чтение очередной лексемы.
-	// Основная машина состояний лексического анализатора, выполняющая простейший шаг и определяющая следующий автомат.
-	// @return Успешность прочтённой лексемы.
-	virtual bool ReadToken(UnicodeReader *reader) {
-		int symbol = reader->ReadChar();
-		if (symbol >= 0) {
-			if (symbol < 256)
-				printf_s("%c", symbol);
-			else
-				printf_s("[%u]", symbol);
+	// Чтение очередной лексемы. Простейший шаг, определяющий следующий автомат.
+	// Результат чтения не имеет значения, т.к. синтаксический анализатор сам решает,
+	// является ли для него состояние машины приемлемым для следующего шага.
+	virtual void ReadToken() {
+		int unicode = _reader->ReadChar();
 
-			return 1;
+		// Если нет возможности прочесть очередное состояние из потока.
+		if (unicode < 0) {
+			Type = SymbolType::EndOfStream;
+			return;
 		}
 		
-		return 0;
+		// Переход к следующему состоянию.
+		switch (unicode) {
+			case 0:
+				break;
+
+			default:
+				if (_reader->IsDigit()) {
+					Number();
+				} else if (ch >= 'A' && ch <= 'Z' || ch >= 'a' && ch <= 'z') {
+					Ident();
+				} else if (ch == '~') {
+					chRead();
+					sym = NOT;
+				} else {
+					chRead();
+					sym = _NULL;
+				}
+				break;
+		}
+
+		// Отладочная информация.
+		if (unicode < 256)
+			printf_s("%c", unicode);
+		else
+			printf_s("[%u]", unicode);
 	}
 };
 

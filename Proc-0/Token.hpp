@@ -5,10 +5,9 @@
 
 #include "Temp/Dependency.h"
 
-// Интерфейс языковых лексем.
+// Интерфейс единицы состояния.
 class Token {
 public:
-	int Tag;
 };
 
 #endif // TOKEN_H

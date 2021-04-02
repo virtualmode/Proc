@@ -10,54 +10,76 @@
     Extension?
 '/
 
-class NeutralContainer
-
-class Stream << Token >>
+class EscapeContainer
 {
-    Платформозависимая
-    реализация реального
-    носителя информации
-    вычислителя
+    Для систем с праймерами
+    скомпилированный код не
+    должен совпадать ни с
+    одним из них, поэтому
+    контейнер необходим для
+    экранирования.
+    '..
+    '--
+    '==
+    '__
+    '-private_field
+    '#protected_field
+    '~package_private
+    '__
+    '+public_method()
 }
 
-interface Reader
+class DeviceStream << Fake, Token >>
 {
-    Читает состояния
-    из потока
+    Платформозависимые
+    реализации реальных
+    носителей информации
+    вычислителя.
+    .. Реализации ..
+    MemoryStream
+    NewMemoryStream
+    __
 }
 
-interface Writer
+interface Stream << Fake >>
 {
-    Пишет состояния
-    в поток
+    Интерфейсы для работы
+    с потоками состояний.
 }
 
-Stream --|> Reader
-Stream --|> Writer
+DeviceStream --|> Stream
 
-class Utf8 << Token >>
+class Utf8 << Token, string? >>
 {
     Поток UTF-8
-    формата юникода
+    формата Юникода.
 }
 
-Utf8 o-- Reader
-Utf8 o-- Writer
-
-interface UnicodeReader
+class UnknownEncoding << Token >>
 {
-    Читает коды символов
-    юникода из потока
+    Реализация потока
+    неизвестного алфавита.
 }
 
-interface UnicodeWriter
+interface UnknownStream << Fake >>
 {
-    Пишет коды символов
-    юникода в поток
+    Интерфейсы для работы
+    с потоками кодов
+    неизвестного алфавита.
 }
 
-Utf8 --|> UnicodeReader
-Utf8 --|> UnicodeWriter
+interface UnicodeStream << Fake >>
+{
+    Интерфейсы для работы
+    с потоками кодов символов
+    Юникода.
+}
+
+Utf8 o-- Stream
+UnknownEncoding o-- Stream
+
+Utf8 --|> UnicodeStream
+UnknownEncoding --|> UnknownStream
 
 class SourceToken << Token >>
 {
@@ -68,29 +90,32 @@ class SourceToken << Token >>
     синтаксический анализатор.
 }
 
-UnicodeReader --o SourceToken
-UnicodeWriter --o SourceToken
+UnicodeStream --o SourceToken
+
+class UnknownToken << Token >>
+{
+}
+
+UnknownStream --o UnknownToken
+UnknownStream --o "?     " SourceToken
 
 class Amd64Token << Token >>
 {
 }
 
-Reader --o Amd64Token
-Writer --o Amd64Token
+Stream --o Amd64Token
 
 class ArmToken << Token >>
 {
 }
 
-Reader --o ArmToken
-Writer --o ArmToken
+Stream --o ArmToken
 
 class DnaToken << Token >>
 {
 }
 
-Reader --o DnaToken
-Writer --o DnaToken
+Stream --o DnaToken
 
 class SymbolTable
 {
@@ -121,11 +146,16 @@ class Dna << Syntax >>
 {
 }
 
+class Unknown << Syntax >>
+{
+}
+
 SourceToken --o JavaScript
 SourceToken --o Proc
 Amd64Token --o Amd64
 ArmToken --o Arm
 DnaToken --o Dna
+UnknownToken --o Unknown
 
 class Statement << AST >>
 {
@@ -136,5 +166,6 @@ Proc --o Statement
 Amd64 --o Statement
 Arm --o Statement
 Dna --o Statement
+Unknown --o Statement
 
 @enduml

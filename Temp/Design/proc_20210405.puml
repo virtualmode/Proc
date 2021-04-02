@@ -1,0 +1,140 @@
+' https://plantuml.com/sitemap-language-specification
+
+@startuml Proc
+
+/'
+    owners feed pets, pets please owners (association)
+    a tail is a part of both dogs and cats (aggregation / composition)
+    a cat is a kind of pet (inheritance / generalization)
+    specific pet is a cat (specialization)
+    Extension?
+'/
+
+class NeutralContainer
+
+class Stream << Token >>
+{
+    Платформозависимая
+    реализация реального
+    носителя информации
+    вычислителя
+}
+
+interface Reader
+{
+    Читает состояния
+    из потока
+}
+
+interface Writer
+{
+    Пишет состояния
+    в поток
+}
+
+Stream --|> Reader
+Stream --|> Writer
+
+class Utf8 << Token >>
+{
+    Поток UTF-8
+    формата юникода
+}
+
+Utf8 o-- Reader
+Utf8 o-- Writer
+
+interface UnicodeReader
+{
+    Читает коды символов
+    юникода из потока
+}
+
+interface UnicodeWriter
+{
+    Пишет коды символов
+    юникода в поток
+}
+
+Utf8 --|> UnicodeReader
+Utf8 --|> UnicodeWriter
+
+class SourceToken << Token >>
+{
+    SourceToken может быть
+    целесообразен, т.к.
+    текстовые языки похожи,
+    но часть нагрузки ляжет на
+    синтаксический анализатор.
+}
+
+UnicodeReader --o SourceToken
+UnicodeWriter --o SourceToken
+
+class Amd64Token << Token >>
+{
+}
+
+Reader --o Amd64Token
+Writer --o Amd64Token
+
+class ArmToken << Token >>
+{
+}
+
+Reader --o ArmToken
+Writer --o ArmToken
+
+class DnaToken << Token >>
+{
+}
+
+Reader --o DnaToken
+Writer --o DnaToken
+
+class SymbolTable
+{
+}
+
+SourceToken *-- SymbolTable
+
+class JavaScript << Syntax >>
+{
+}
+
+class Proc << Syntax >>
+{
+}
+
+JavaScript o-- SymbolTable
+Proc o-- SymbolTable
+
+class Amd64 << Syntax >>
+{
+}
+
+class Arm << Syntax >>
+{
+}
+
+class Dna << Syntax >>
+{
+}
+
+SourceToken --o JavaScript
+SourceToken --o Proc
+Amd64Token --o Amd64
+ArmToken --o Arm
+DnaToken --o Dna
+
+class Statement << AST >>
+{
+}
+
+JavaScript --o Statement
+Proc --o Statement
+Amd64 --o Statement
+Arm --o Statement
+Dna --o Statement
+
+@enduml
