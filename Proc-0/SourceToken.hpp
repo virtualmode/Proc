@@ -5,8 +5,8 @@
 
 #include "Temp/Dependency.h"
 
-#include "UnicodeReader.hpp"
-#include "UnicodeWriter.hpp"
+#include "Char.hpp"
+#include "CharToken.hpp"
 #include "SymbolType.hpp"
 
 /*
@@ -21,11 +21,14 @@
 
 // Лексический анализатор исходного кода. Машина состояний. Конечный автомат.
 // В других источниках можно встретить варианты: lexical analyzer, lexer, tokenizer, scanner, token reader.
+// TODO Анализатор работает с Юникод текстом и наверное максимум может быть совместим с подобными кодировками,
+// TODO но есть ли смысл так делать, непонятно. Типа это UnicodeLexer и должен работать только с Юникодом.
+// TODO Если потребуется работать с другими источниками исходников, то для них должен быть написан свой анализатор.
 class SourceToken {
 
 private:
 
-	UnicodeReader *_reader;
+	CharToken *_charToken;
 
 public:
 
@@ -40,8 +43,11 @@ public:
 	double Real; // [Obsolete] Значение числа с плавающей точкой.
 
 	// Основной конструктор.
-	SourceToken(UnicodeReader *reader) {
-		_reader = reader;
+	SourceToken(CharToken *charToken) {
+		// TODO Это не токен в чистом виде, скорее надо переименовать в машину состояний.
+		// TODO И передавать композицию интерфейсов CharToken и CharReader например.
+		// TODO Но может быть если класс будет работать как дизассемблер, то и CharWriter.
+		_charToken = charToken;
 	}
 
 	~SourceToken() {
@@ -51,30 +57,35 @@ public:
 	// Результат чтения не имеет значения, т.к. синтаксический анализатор сам решает,
 	// является ли для него состояние машины приемлемым для следующего шага.
 	virtual void ReadToken() {
-		int unicode = _reader->ReadChar();
+		_charToken->ReadChar(); // Перевод машины в следующее состояние.
 
 		// Если нет возможности прочесть очередное состояние из потока.
-		if (unicode < 0) {
+		if (_charToken->EndOfText) {
 			Type = SymbolType::EndOfStream;
 			return;
 		}
 		
 		// Переход к следующему состоянию.
-		switch (unicode) {
+		if (_charToken->Value == (int)Char::Space)
+		{
+
+		}
+
+		/*switch (unicode) {
 			case 0:
 				break;
 
 			default:
-				if (_reader->IsDigit()) {
-					Number();
+				if (_unicodeToken->IsDigit()) {
+					//Number();
 				} else if (ch >= 'A' && ch <= 'Z' || ch >= 'a' && ch <= 'z') {
-					Ident();
+					//Ident();
 				} else if (ch == '~') {
-					chRead();
-					sym = NOT;
+					//chRead();
+					//sym = NOT;
 				} else {
-					chRead();
-					sym = _NULL;
+					//chRead();
+					//sym = _NULL;
 				}
 				break;
 		}
@@ -83,7 +94,7 @@ public:
 		if (unicode < 256)
 			printf_s("%c", unicode);
 		else
-			printf_s("[%u]", unicode);
+			printf_s("[%u]", unicode);*/
 	}
 };
 

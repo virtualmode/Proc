@@ -1,9 +1,11 @@
 #pragma once
 
-#ifndef UNICODE_READER_H
-#define UNICODE_READER_H
+#ifndef CHAR_READER_H
+#define CHAR_READER_H
 
-#include "UnicodeToken.hpp"
+#include "Temp/Dependency.h"
+
+#include "Char.hpp"
 
 /*
 	?. Потоки могут кодировать разнообразную информацию. Текст является основной её формой, с которой будут работать
@@ -14,11 +16,13 @@
 // Интерфейс символьного анализатора.
 // TODO Данный класс не должен наследоваться от символа Юникода.
 // TODO Необходимо продумать композицию интерфейсов.
-class UnicodeReader: public UnicodeToken {
+class CharReader {
 public:
 
+	bool EndOfText; // TODO Может быть стоит переименовать в EndOfStream.
+
 	// Чтение следующего символа.
-	virtual int ReadChar() = 0;
+	virtual Char ReadChar() = 0;
 };
 
-#endif // UNICODE_READER_H
+#endif // CHAR_READER_H

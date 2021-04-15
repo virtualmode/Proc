@@ -5,8 +5,7 @@
 
 #include "Reader.hpp"
 #include "Writer.hpp"
-#include "UnicodeReader.hpp"
-#include "UnicodeWriter.hpp"
+#include "CharToken.hpp"
 
 /*
 	3. Исходные коды программ представлены в текстовом виде. Наиболее распространенным сейчас является формат UTF-8.
@@ -39,9 +38,10 @@
 #define UTF8_END   -1
 #define UTF8_ERROR -2
 
-class Utf8: public UnicodeReader, public UnicodeWriter {
+class Utf8: public CharToken {
 private:
 
+	int _value;
 	char _symbol;
 	Reader *_reader;
 	Writer *_writer;
@@ -191,13 +191,25 @@ public:
 	~Utf8() {
 	}
 
-	virtual int ReadChar() {
-		return utf8_decode_next();
+	virtual Char ReadChar() {
+		_value = utf8_decode_next();
+		return Char::Unknown; // TODO Машина состояний UTF-8 должна сама определить к какому типу относится символ.
 	}
 
 	virtual void WriteChar(int character) {
 		utf8_encode_next(character);
 	}
+
+		// Является ли текущий символ арабской десятичной цифрой юникода.
+	virtual bool IsDigit() {
+		return false;
+	}
+
+	// Является ли текущий символ буквой юникода.
+	virtual bool IsLetter() {
+		return false;
+	}
+
 };
 
 #endif // UTF8_H

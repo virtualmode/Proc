@@ -1,12 +1,14 @@
 #pragma once
 
-#ifndef UNICODE_WRITER_H
-#define UNICODE_WRITER_H
+#ifndef CHAR_WRITER_H
+#define CHAR_WRITER_H
+
+#include "Temp/Dependency.h"
 
 // Интерфейс символьного генератора.
-class UnicodeWriter {
+class CharWriter {
 public:
 	virtual void WriteChar(int character) = 0;
 };
 
-#endif // UNICODE_WRITER_H
+#endif // CHAR_WRITER_H

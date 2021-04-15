@@ -6,7 +6,7 @@
 #include "Temp/Dependency.h"
 
 // Тип последоваельности.
-enum SymbolType {
+enum class SymbolType {
 	Delimiter, // Символы разделителей.
 	EndOfLine, // Признак окончания строки (LF, CR, CRLF, NEL, LS, PS).
 	EndOfStream, // Терминатор последовательности.

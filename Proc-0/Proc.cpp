@@ -55,10 +55,11 @@ int main(int argc, char **argv)
 		int i = 0;
 		FileStream source(argv[2]);
 		Utf8 utf8((Reader*)&source);
-		SourceToken lexer;
-		while (lexer.ReadToken(&utf8) > 0) {
+		SourceToken lexer(&utf8);
+		do {
+			lexer.ReadToken();
 			i++;
-		}
+		} while (lexer.Type != SymbolType::EndOfStream);
 		printf("Proc lexer ready with %u states.\n", i);
 	}
 

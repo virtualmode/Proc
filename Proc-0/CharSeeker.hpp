@@ -1,14 +1,14 @@
 #pragma once
 
-#ifndef UNICODE_SEEKER_H
-#define UNICODE_SEEKER_H
+#ifndef CHAR_SEEKER_H
+#define CHAR_SEEKER_H
 
 #include "Temp/Dependency.h"
 
 // Интерфейс поиска в символьном потоке.
-class UnicodeSeeker {
+class CharSeeker {
 public:
 	virtual int SeekChar(object offset) = 0;
 };
 
-#endif // UNICODE_SEEKER_H
+#endif // CHAR_SEEKER_H
