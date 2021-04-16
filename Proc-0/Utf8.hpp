@@ -193,7 +193,9 @@ public:
 
 	virtual Char ReadChar() {
 		_value = utf8_decode_next();
-		return Char::Unknown; // TODO Машина состояний UTF-8 должна сама определить к какому типу относится символ.
+		// TODO Машина состояний UTF-8 должна сама определить к какому типу относится символ.
+		
+		return Char::Unknown;
 	}
 
 	virtual void WriteChar(int character) {

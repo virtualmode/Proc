@@ -30,6 +30,19 @@ private:
 
 	CharToken *_charToken;
 
+	inline bool IsWhitespace() {
+		return _charToken->Value == Char::Space ||
+			_charToken->Value == Char::CharacterTabulation;
+	}
+
+	void ReadWhitespace() {
+		Type = SymbolType::Whitespace;
+		Number = 0;
+		do {
+			Number++;
+		} while (IsWhitespace());
+	}
+
 public:
 
 	// Тип символа.
@@ -57,17 +70,20 @@ public:
 	// Результат чтения не имеет значения, т.к. синтаксический анализатор сам решает,
 	// является ли для него состояние машины приемлемым для следующего шага.
 	virtual void ReadToken() {
-		_charToken->ReadChar(); // Перевод машины в следующее состояние.
+		// Минимально лексема может состоять из одного символа.
+		_charToken->ReadChar(); // Перевод символьной машины в следующее состояние.
 
-		// Если нет возможности прочесть очередное состояние из потока.
-		if (_charToken->EndOfText) {
+		// Если нет возможности прочесть очередное состояние из потока, работа анализатора завершается.
+		if (_charToken->EndOfStream) {
 			Type = SymbolType::EndOfStream;
 			return;
 		}
-		
-		// Переход к следующему состоянию.
-		if (_charToken->Value == (int)Char::Space)
-		{
+
+		// В зависимости от текущего состояния необходимо определить следующую m-конфигурацию.
+		if (IsWhitespace()) {
+			ReadWhitespace();
+		} else if (_charToken->Value == Char::CarriageReturn ||
+			_charToken->Value == Char::NextLine) {
 
 		}
 

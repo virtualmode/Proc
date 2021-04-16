@@ -19,7 +19,7 @@
 class CharReader {
 public:
 
-	bool EndOfText; // TODO Может быть стоит переименовать в EndOfStream.
+	bool EndOfStream;
 
 	// Чтение следующего символа.
 	virtual Char ReadChar() = 0;
