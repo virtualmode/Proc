@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef TOKEN_H
-#define TOKEN_H
+#ifndef TOKEN_HPP
+#define TOKEN_HPP
 
 #include "Temp/Dependency.h"
 
@@ -10,4 +10,4 @@ class Token {
 public:
 };
 
-#endif // TOKEN_H
+#endif // TOKEN_HPP

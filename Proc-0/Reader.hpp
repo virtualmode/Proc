@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef READER_H
-#define READER_H
+#ifndef READER_HPP
+#define READER_HPP
 
 #include "Temp/Dependency.h"
 
@@ -47,4 +47,4 @@ public:
 	virtual object Read(object destination, object base) = 0; // TODO Временная заглушка для старых языков.
 };
 
-#endif // READER_H
+#endif // READER_HPP

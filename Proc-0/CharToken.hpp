@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef CHAR_TOKEN_H
-#define CHAR_TOKEN_H
+#ifndef CHAR_TOKEN_HPP
+#define CHAR_TOKEN_HPP
 
 #include "Temp/Dependency.h"
 
@@ -27,4 +27,4 @@ public:
 	virtual bool IsLetter() = 0;
 };
 
-#endif // CHAR_TOKEN_H
+#endif // CHAR_TOKEN_HPP

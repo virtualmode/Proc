@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef WRITER_H
-#define WRITER_H
+#ifndef WRITER_HPP
+#define WRITER_HPP
 
 #include "Temp/Dependency.h"
 
@@ -19,4 +19,4 @@ public:
 	virtual object Write(object source, object base) = 0; // TODO Временная заглушка для старых языков.
 };
 
-#endif // WRITER_H
+#endif // WRITER_HPP

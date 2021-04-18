@@ -19,14 +19,10 @@
 	оборудованием и прочее должны быть вынесены за пределы компилируемого ядра вычислителя.
 */
 
-
 // Файл предварительно скомпилированных заголовков.
 #include "Temp/Dependency.h"
 
-#include "FileStream.hpp"
-#include "SourceToken.hpp"
-#include "Utf8.hpp"
-
+#include "Proc.hpp"
 
 // Используемые прототипы Оберон-0.
 extern "C" {
@@ -35,11 +31,11 @@ extern "C" {
 	void Compile(const char *fileName);
 }
 
-
 // Точка входа.
 int main(int argc, char **argv)
 {
 	// Combines several ideas: UTM, VM, Interpreter, Translator, Compiler.
+	Proc processor;
 
 	// Отладка Оберон-0.
 	//printf("Oberon-0\r\n\r\n");
@@ -52,15 +48,7 @@ int main(int argc, char **argv)
 		printf("-l FILE\t\t\tuse lexical analysis on FILE\n");
 
 	} else if (strcmp(argv[1], "-l") == 0) { // Лексический анализ файла.
-		int i = 0;
-		FileStream source(argv[2]);
-		Utf8 utf8((Reader*)&source);
-		SourceToken lexer(&utf8);
-		do {
-			lexer.ReadToken();
-			i++;
-		} while (lexer.Type != SymbolType::EndOfStream);
-		printf("Proc lexer ready with %u states.\n", i);
+		processor.Main(argv[2]);
 	}
 
 	return 0;

@@ -1,11 +1,13 @@
 #pragma once
 
-#ifndef UTF8_H
-#define UTF8_H
+#ifndef UTF8_HPP
+#define UTF8_HPP
 
+#include "Char.hpp"
+#include "CharToken.hpp"
 #include "Reader.hpp"
 #include "Writer.hpp"
-#include "CharToken.hpp"
+
 
 /*
 	3. Исходные коды программ представлены в текстовом виде. Наиболее распространенным сейчас является формат UTF-8.
@@ -41,10 +43,21 @@
 class Utf8: public CharToken {
 private:
 
+	// Ассоциативный массив для быстрого перевода мнемоник в коды символов.
+	static int _char[CHAR_SIZE];
+
 	int _value;
 	char _symbol;
 	Reader *_reader;
 	Writer *_writer;
+
+	// Статический конструктор.
+	friend class CharTokenStatic;
+	struct CharTokenStatic {
+		CharTokenStatic() {
+			_char[(int)Char::Unknown] = 0x0000;
+		}
+	} _constructor;
 
 	// Set the next continuation byte.
 	// Необходимо учесть, что запись и чтение необходимо выполнять в двоичном режиме,
@@ -194,24 +207,25 @@ public:
 	virtual Char ReadChar() {
 		_value = utf8_decode_next();
 		// TODO Машина состояний UTF-8 должна сама определить к какому типу относится символ.
-		
 		return Char::Unknown;
 	}
 
 	virtual void WriteChar(int character) {
 		utf8_encode_next(character);
+		_value = character;
 	}
 
 		// Является ли текущий символ арабской десятичной цифрой юникода.
 	virtual bool IsDigit() {
-		return false;
+		return _value >= 0x0030 && _value <= 0x0039;
 	}
 
 	// Является ли текущий символ буквой юникода.
 	virtual bool IsLetter() {
-		return false;
+		return (_value >= 0x0041 && _value <= 0x005a) ||
+			(_value >= 0x0061 && _value <= 0x007a);
 	}
 
 };
 
-#endif // UTF8_H
+#endif // UTF8_HPP

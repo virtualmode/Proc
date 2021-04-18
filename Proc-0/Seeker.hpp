@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef SEEKER_H
-#define SEEKER_H
+#ifndef SEEKER_HPP
+#define SEEKER_HPP
 
 #include "Temp/Dependency.h"
 
@@ -13,4 +13,4 @@ public:
 	virtual object Seek(object offset) = 0;
 };
 
-#endif // SEEKER_H
+#endif // SEEKER_HPP

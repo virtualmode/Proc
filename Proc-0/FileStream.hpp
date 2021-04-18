@@ -10,8 +10,8 @@
 
 #pragma once
 
-#ifndef FILE_STREAM_H
-#define FILE_STREAM_H
+#ifndef FILE_STREAM_HPP
+#define FILE_STREAM_HPP
 
 #include "Temp/Dependency.h"
 
@@ -104,4 +104,4 @@ public:
 	}
 };
 
-#endif // FILE_STREAM_H
+#endif // FILE_STREAM_HPP

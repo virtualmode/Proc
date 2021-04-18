@@ -1,19 +1,19 @@
 #pragma once
 
-#ifndef SYMBOL_TYPE_H
-#define SYMBOL_TYPE_H
+#ifndef SYMBOL_TYPE_HPP
+#define SYMBOL_TYPE_HPP
 
 #include "Temp/Dependency.h"
 
 // Тип последоваельности.
 enum class SymbolType {
+	Unknown, // Группа непредусмотренных символов.
 	Delimiter, // Символы разделителей.
 	EndOfLine, // Признак окончания строки (LF, CR, CRLF, NEL, LS, PS).
 	EndOfStream, // Терминатор последовательности.
 	Number, // Последовательность цифр без разделителей.
-	Unknown, // Группа непредусмотренных символов.
 	Whitespace, // Горизонтальные или вертикальные отступы между словами (SP, HT, TAB, VT).
 	Word, // Слово.
 };
 
-#endif // SYMBOL_TYPE_H
+#endif // SYMBOL_TYPE_HPP

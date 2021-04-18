@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef CHAR_WRITER_H
-#define CHAR_WRITER_H
+#ifndef CHAR_WRITER_HPP
+#define CHAR_WRITER_HPP
 
 #include "Temp/Dependency.h"
 
@@ -11,4 +11,4 @@ public:
 	virtual void WriteChar(int character) = 0;
 };
 
-#endif // CHAR_WRITER_H
+#endif // CHAR_WRITER_HPP

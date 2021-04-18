@@ -1,11 +1,10 @@
 #pragma once
 
-#ifndef ASSEMBLER_READER_H
-#define ASSEMBLER_READER_H
+#ifndef ASSEMBLER_READER_HPP
+#define ASSEMBLER_READER_HPP
 
-#include "UnicodeReader.hpp"
+#include "CharReader.hpp"
 #include "FileStream.hpp"
-#include "TokenReader.hpp"
 #include "Utf8.hpp"
 
 /*
@@ -16,18 +15,18 @@
 // AssemblerScanner
 // TODO Варианты для переименования: Amd64AssemblerScanner,
 // TODO т.к. хрен его знает можно ли другие ассемблеры представить одинаково.
-class AssemblerReader: public TokenReader {
+class AssemblerReader {
 
 private:
 
-	UnicodeReader *_reader;
+	CharReader *_reader;
 
 	FileStream *_writer;
 	Utf8 *_utf8;
 
 public:
 
-	AssemblerReader(UnicodeReader *reader) {
+	AssemblerReader(CharReader *reader) {
 		_reader = reader;
 
 		_writer = new FileStream("debug.txt", O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
@@ -58,4 +57,4 @@ public:
 	}
 };
 
-#endif // ASSEMBLER_READER_H
+#endif // ASSEMBLER_READER_HPP

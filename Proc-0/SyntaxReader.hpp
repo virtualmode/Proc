@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef SYNTAX_READER_H
-#define SYNTAX_READER_H
+#ifndef SYNTAX_READER_HPP
+#define SYNTAX_READER_HPP
 
 class SyntaxReader {
 public:
@@ -19,4 +19,4 @@ public:
 	virtual void ReadDefinition() = 0;
 };
 
-#endif // SYNTAX_READER_H
+#endif // SYNTAX_READER_HPP

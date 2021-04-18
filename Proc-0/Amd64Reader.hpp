@@ -1,26 +1,25 @@
 #pragma once
 
-#ifndef AMD64_READER_H
-#define AMD64_READER_H
+#ifndef AMD64_READER_HPP
+#define AMD64_READER_HPP
 
-#include "UnicodeReader.hpp"
+#include "CharReader.hpp"
 #include "FileStream.hpp"
-#include "TokenReader.hpp"
 #include "Utf8.hpp"
 
 // Лексический анализатор двоичного кода архитектуры AMD64.
-class Amd64Reader: public TokenReader {
+class Amd64Reader {
 
 private:
 
-	UnicodeReader *_reader;
+	CharReader *_reader;
 
 	FileStream *_writer;
 	Utf8 *_utf8;
 
 public:
 
-	Amd64Reader(UnicodeReader *reader) {
+	Amd64Reader(CharReader *reader) {
 		_reader = reader;
 
 		_writer = new FileStream("debug.txt", O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
@@ -51,4 +50,4 @@ public:
 	}
 };
 
-#endif // AMD64_READER_H
+#endif // AMD64_READER_HPP

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef CHAR_READER_H
-#define CHAR_READER_H
+#ifndef CHAR_READER_HPP
+#define CHAR_READER_HPP
 
 #include "Temp/Dependency.h"
 
@@ -25,4 +25,4 @@ public:
 	virtual Char ReadChar() = 0;
 };
 
-#endif // CHAR_READER_H
+#endif // CHAR_READER_HPP

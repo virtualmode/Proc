@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef PROC_READER_H
-#define PROC_READER_H
+#ifndef PROC_READER_HPP
+#define PROC_READER_HPP
 
 #include "Temp/Dependency.h"
 
@@ -27,4 +27,4 @@ public:
 	}
 };
 
-#endif // PROC_READER_H
+#endif // PROC_READER_HPP

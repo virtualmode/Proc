@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef SOURCE_TOKEN_H
-#define SOURCE_TOKEN_H
+#ifndef SOURCE_TOKEN_HPP
+#define SOURCE_TOKEN_HPP
 
 #include "Temp/Dependency.h"
 
@@ -28,19 +28,60 @@ class SourceToken {
 
 private:
 
-	CharToken *_charToken;
+	CharToken &_charToken;
 
 	inline bool IsWhitespace() {
-		return _charToken->Value == Char::Space ||
-			_charToken->Value == Char::CharacterTabulation;
+		return _charToken.Value >= Char::CharacterTabulation &&
+			_charToken.Value <= Char::Space;
 	}
 
-	void ReadWhitespace() {
+	inline void ReadWhitespace() {
 		Type = SymbolType::Whitespace;
 		Number = 0;
 		do {
 			Number++;
+			_charToken.ReadChar();
 		} while (IsWhitespace());
+	}
+
+	inline bool IsEndOfLine() {
+		return _charToken.Value >= Char::CarriageReturn &&
+			_charToken.Value <= Char::VerticalTabulation;
+	}
+
+	inline void ReadEndOfLine() {
+		Type = SymbolType::EndOfLine;
+		Number = 0;
+		do {
+			Number++;
+			_charToken.ReadChar();
+		} while (IsEndOfLine());
+	}
+
+	inline bool IsDelimiter() {
+		return _charToken.Value >= Char::Ampersand &&
+			_charToken.Value <= Char::RightSquareBracket;
+	}
+
+	inline void ReadDelimiter() {
+		_charToken.ReadChar();
+	}
+
+	inline void ReadInteger() {
+
+	}
+
+	inline void ReadWord() {
+
+	}
+
+	inline void ReadUnknown() {
+		Type = SymbolType::Unknown;
+		Number = 0;
+		do {
+			Number++;
+			_charToken.ReadChar();
+		} while (_charToken.Value == Char::Unknown);
 	}
 
 public:
@@ -56,11 +97,12 @@ public:
 	double Real; // [Obsolete] Значение числа с плавающей точкой.
 
 	// Основной конструктор.
-	SourceToken(CharToken *charToken) {
+	SourceToken(CharToken *charToken): _charToken(*charToken) {
 		// TODO Это не токен в чистом виде, скорее надо переименовать в машину состояний.
 		// TODO И передавать композицию интерфейсов CharToken и CharReader например.
 		// TODO Но может быть если класс будет работать как дизассемблер, то и CharWriter.
-		_charToken = charToken;
+		_charToken.ReadChar(); // Предпросмотр оптимизирует код.
+		Type = SymbolType::Unknown;
 	}
 
 	~SourceToken() {
@@ -70,11 +112,8 @@ public:
 	// Результат чтения не имеет значения, т.к. синтаксический анализатор сам решает,
 	// является ли для него состояние машины приемлемым для следующего шага.
 	virtual void ReadToken() {
-		// Минимально лексема может состоять из одного символа.
-		_charToken->ReadChar(); // Перевод символьной машины в следующее состояние.
-
 		// Если нет возможности прочесть очередное состояние из потока, работа анализатора завершается.
-		if (_charToken->EndOfStream) {
+		if (_charToken.EndOfStream) {
 			Type = SymbolType::EndOfStream;
 			return;
 		}
@@ -82,36 +121,18 @@ public:
 		// В зависимости от текущего состояния необходимо определить следующую m-конфигурацию.
 		if (IsWhitespace()) {
 			ReadWhitespace();
-		} else if (_charToken->Value == Char::CarriageReturn ||
-			_charToken->Value == Char::NextLine) {
-
+		} else if (IsEndOfLine()) {
+			ReadEndOfLine();
+		} else if (IsDelimiter()) {
+			ReadDelimiter();
+		} else if (_charToken.IsDigit()) {
+			ReadInteger();
+		} else if (_charToken.IsLetter()) {
+			ReadWord();
+		} else {
+			ReadUnknown();
 		}
-
-		/*switch (unicode) {
-			case 0:
-				break;
-
-			default:
-				if (_unicodeToken->IsDigit()) {
-					//Number();
-				} else if (ch >= 'A' && ch <= 'Z' || ch >= 'a' && ch <= 'z') {
-					//Ident();
-				} else if (ch == '~') {
-					//chRead();
-					//sym = NOT;
-				} else {
-					//chRead();
-					//sym = _NULL;
-				}
-				break;
-		}
-
-		// Отладочная информация.
-		if (unicode < 256)
-			printf_s("%c", unicode);
-		else
-			printf_s("[%u]", unicode);*/
 	}
 };
 
-#endif // SOURCE_TOKEN_H
+#endif // SOURCE_TOKEN_HPP

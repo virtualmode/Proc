@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef MEMORY_STREAM_H
-#define MEMORY_STREAM_H
+#ifndef MEMORY_STREAM_HPP
+#define MEMORY_STREAM_HPP
 
 #include "Temp/Dependency.h"
 
@@ -26,4 +26,4 @@ class MemoryStream: public Reader, public Writer {
 	}
 };
 
-#endif // MEMORY_STREAM_H
+#endif // MEMORY_STREAM_HPP
