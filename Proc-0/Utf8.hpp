@@ -3,7 +3,6 @@
 #ifndef UTF8_HPP
 #define UTF8_HPP
 
-#include "Char.hpp"
 #include "CharToken.hpp"
 #include "Reader.hpp"
 #include "Writer.hpp"
@@ -43,21 +42,16 @@
 class Utf8: public CharToken {
 private:
 
-	// Ассоциативный массив для быстрого перевода мнемоник в коды символов.
-	static int _char[CHAR_SIZE];
-
-	int _value;
-	char _symbol;
+	char _symbol; // Очередной прочитанный символ.
 	Reader *_reader;
 	Writer *_writer;
 
 	// Статический конструктор.
-	friend class CharTokenStatic;
+	/*friend class CharTokenStatic;
 	struct CharTokenStatic {
 		CharTokenStatic() {
-			_char[(int)Char::Unknown] = 0x0000;
 		}
-	} _constructor;
+	} _constructor;*/
 
 	// Set the next continuation byte.
 	// Необходимо учесть, что запись и чтение необходимо выполнять в двоичном режиме,
@@ -177,13 +171,14 @@ private:
 
 public:
 
+	int Value; // Код текущего символа.
+
 	// Основной конструктор.
 	// TODO Если будут введены отдельные реализации инфтерфейсов, необходимо рассмотреть возможность языка
 	// TODO комбинировать несколько интерфейсов и не писать каждый раз отдельные конструкторы.
 	// @param reader Входящий поток состояний.
 	// @param writer Исходящий поток состояний.
 	Utf8(Reader *reader, Writer *writer) {
-
 	}
 
 	// Здесь еще возможны варианты с Seeker'ом, но очень затратно это описывать вручную и несколькими классами.
@@ -204,26 +199,43 @@ public:
 	~Utf8() {
 	}
 
-	virtual Char ReadChar() {
-		_value = utf8_decode_next();
-		// TODO Машина состояний UTF-8 должна сама определить к какому типу относится символ.
-		return Char::Unknown;
+	virtual int ReadChar() {
+		Value = utf8_decode_next();
+		return Value;
 	}
 
 	virtual void WriteChar(int character) {
 		utf8_encode_next(character);
-		_value = character;
+		Value = character;
+	}
+
+	virtual bool IsWhitespace() {
+		//return _charToken.Value >= Char::CharacterTabulation &&
+		//	_charToken.Value <= Char::Space;
+		return false;
+	}
+
+	virtual bool IsEndOfLine() {
+		//return _charToken.Value >= Char::CarriageReturn &&
+		//	_charToken.Value <= Char::VerticalTabulation;
+		return false;
+	}
+
+	virtual bool IsDelimiter() {
+		//return _charToken.Value >= Char::Ampersand &&
+		//	_charToken.Value <= Char::RightSquareBracket;
+		return false;
 	}
 
 		// Является ли текущий символ арабской десятичной цифрой юникода.
-	virtual bool IsDigit() {
-		return _value >= 0x0030 && _value <= 0x0039;
+	virtual bool IsDecimalDigit() {
+		return Value >= 0x0030 && Value <= 0x0039;
 	}
 
 	// Является ли текущий символ буквой юникода.
-	virtual bool IsLetter() {
-		return (_value >= 0x0041 && _value <= 0x005a) ||
-			(_value >= 0x0061 && _value <= 0x007a);
+	virtual bool IsLatinLetter() {
+		return (Value >= 0x0041 && Value <= 0x005a) ||
+			(Value >= 0x0061 && Value <= 0x007a);
 	}
 
 };

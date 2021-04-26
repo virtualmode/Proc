@@ -30,23 +30,13 @@ private:
 
 	CharToken &_charToken;
 
-	inline bool IsWhitespace() {
-		return _charToken.Value >= Char::CharacterTabulation &&
-			_charToken.Value <= Char::Space;
-	}
-
 	inline void ReadWhitespace() {
 		Type = SymbolType::Whitespace;
 		Number = 0;
 		do {
 			Number++;
 			_charToken.ReadChar();
-		} while (IsWhitespace());
-	}
-
-	inline bool IsEndOfLine() {
-		return _charToken.Value >= Char::CarriageReturn &&
-			_charToken.Value <= Char::VerticalTabulation;
+		} while (_charToken.IsWhitespace());
 	}
 
 	inline void ReadEndOfLine() {
@@ -55,12 +45,7 @@ private:
 		do {
 			Number++;
 			_charToken.ReadChar();
-		} while (IsEndOfLine());
-	}
-
-	inline bool IsDelimiter() {
-		return _charToken.Value >= Char::Ampersand &&
-			_charToken.Value <= Char::RightSquareBracket;
+		} while (_charToken.IsEndOfLine());
 	}
 
 	inline void ReadDelimiter() {
@@ -75,14 +60,14 @@ private:
 
 	}
 
-	inline void ReadUnknown() {
+	/*inline void ReadUnknown() {
 		Type = SymbolType::Unknown;
 		Number = 0;
 		do {
 			Number++;
 			_charToken.ReadChar();
 		} while (_charToken.Value == Char::Unknown);
-	}
+	}*/
 
 public:
 
@@ -105,13 +90,13 @@ public:
 		Type = SymbolType::Unknown;
 	}
 
-	~SourceToken() {
+	virtual ~SourceToken() {
 	}
 
 	// Чтение очередной лексемы. Простейший шаг, определяющий следующий автомат.
 	// Результат чтения не имеет значения, т.к. синтаксический анализатор сам решает,
 	// является ли для него состояние машины приемлемым для следующего шага.
-	virtual void ReadToken() {
+	void ReadToken() {
 		// Если нет возможности прочесть очередное состояние из потока, работа анализатора завершается.
 		if (_charToken.EndOfStream) {
 			Type = SymbolType::EndOfStream;
@@ -119,18 +104,19 @@ public:
 		}
 
 		// В зависимости от текущего состояния необходимо определить следующую m-конфигурацию.
-		if (IsWhitespace()) {
+		if (_charToken.IsWhitespace()) {
 			ReadWhitespace();
-		} else if (IsEndOfLine()) {
+		} else if (_charToken.IsEndOfLine()) {
 			ReadEndOfLine();
-		} else if (IsDelimiter()) {
+		} else if (_charToken.IsDelimiter()) {
 			ReadDelimiter();
-		} else if (_charToken.IsDigit()) {
+		} else if (_charToken.IsDecimalDigit()) {
 			ReadInteger();
-		} else if (_charToken.IsLetter()) {
+		} else if (_charToken.IsLatinLetter()) {
 			ReadWord();
 		} else {
-			ReadUnknown();
+			_charToken.ReadChar();
+			//ReadUnknown();
 		}
 	}
 };

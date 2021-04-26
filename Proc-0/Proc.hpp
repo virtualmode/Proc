@@ -9,17 +9,33 @@
 #include "SourceToken.hpp"
 #include "Utf8.hpp"
 
+// Синтаксический анализатор процессора.
 class Proc {
+
+private:
+
+	FileStream &_source;
+	Utf8 &_utf8;
+	SourceToken &_lexer;
+
 public:
-	void Main(const char *fileName) {
+
+	Proc(const char *fileName):
+		_source(FileStream(fileName)),
+		_utf8(Utf8((Reader*)&_source)),
+		_lexer(SourceToken((CharToken*)&_utf8)) {
+	}
+
+	virtual ~Proc() {
+	}
+
+	// Начальное состояние машины.
+	void Start() {
 		int i = 0;
-		FileStream source(fileName);
-		Utf8 utf8((Reader*)&source);
-		SourceToken lexer(&utf8);
 		do {
-			lexer.ReadToken();
+			_lexer.ReadToken();
 			i++;
-		} while (lexer.Type != SymbolType::EndOfStream);
+		} while (_lexer.Type != SymbolType::EndOfStream);
 		printf("Proc lexer ready with %u states.\n", i);
 
 		/*// Отладочная информация.

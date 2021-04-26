@@ -11,20 +11,25 @@
 
 // Интерфейс машины состояний символа.
 // TODO CharReader и CharWriter должны использоваться независимо.
+// TODO Необходимо добавить в язык возможность композиции интерфейсов.
+// TODO А пока придётся наследовать с другими необходимыми интерфейсами.
 class CharToken: public CharReader, public CharWriter {
 public:
 
-	// TODO Необходимо добавить в язык возможность композиции интерфейсов.
-	// TODO А пока придётся наследовать с другими необходимыми интерфейсами.
+	// Поток со значением кода символа в реализуемой кодировке.
+	int Value;
 
-	// Представление символа.
-	Char Value;
+	virtual bool IsWhitespace() = 0;
 
-	// Является ли текущий символ арабской десятичной цифрой.
-	virtual bool IsDigit() = 0;
+	virtual bool IsEndOfLine() = 0;
 
-	// Является ли текущий символ буквой.
-	virtual bool IsLetter() = 0;
+	virtual bool IsDelimiter() = 0;
+
+	// Является ли текущий символ индо-арабской десятичной цифрой.
+	virtual bool IsDecimalDigit() = 0;
+
+	// Является ли текущий символ латинской буквой.
+	virtual bool IsLatinLetter() = 0;
 };
 
 #endif // CHAR_TOKEN_HPP

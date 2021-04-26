@@ -35,7 +35,6 @@ extern "C" {
 int main(int argc, char **argv)
 {
 	// Combines several ideas: UTM, VM, Interpreter, Translator, Compiler.
-	Proc processor;
 
 	// Отладка Оберон-0.
 	//printf("Oberon-0\r\n\r\n");
@@ -48,7 +47,8 @@ int main(int argc, char **argv)
 		printf("-l FILE\t\t\tuse lexical analysis on FILE\n");
 
 	} else if (strcmp(argv[1], "-l") == 0) { // Лексический анализ файла.
-		processor.Main(argv[2]);
+		Proc processor(argv[2]);
+		processor.Start();
 	}
 
 	return 0;
