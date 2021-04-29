@@ -47,7 +47,8 @@ int main(int argc, char **argv)
 		printf("-l FILE\t\t\tuse lexical analysis on FILE\n");
 
 	} else if (strcmp(argv[1], "-l") == 0) { // Лексический анализ файла.
-		Proc processor(argv[2]);
+		FileStream source(argv[2]);
+		Proc processor(source);
 		processor.Start();
 	}
 

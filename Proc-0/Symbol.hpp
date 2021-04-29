@@ -1,12 +1,12 @@
 #pragma once
 
-#ifndef SYMBOL_TYPE_HPP
-#define SYMBOL_TYPE_HPP
+#ifndef SYMBOL_HPP
+#define SYMBOL_HPP
 
 #include "Temp/Dependency.h"
 
 // Тип последоваельности.
-enum class SymbolType {
+enum class Symbol {
 	Unknown, // Группа непредусмотренных символов.
 	Delimiter, // Символы разделителей.
 	EndOfLine, // Признак окончания строки (LF, CR, CRLF, NEL, LS, PS).
@@ -16,4 +16,4 @@ enum class SymbolType {
 	Word, // Слово.
 };
 
-#endif // SYMBOL_TYPE_HPP
+#endif // SYMBOL_HPP

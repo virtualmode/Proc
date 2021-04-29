@@ -179,6 +179,9 @@ public:
 	// @param reader Входящий поток состояний.
 	// @param writer Исходящий поток состояний.
 	Utf8(Reader *reader, Writer *writer) {
+		_reader = reader;
+		_writer = writer;
+		Type = Char::Unknown;
 	}
 
 	// Здесь еще возможны варианты с Seeker'ом, но очень затратно это описывать вручную и несколькими классами.
@@ -187,20 +190,26 @@ public:
 	// Конструктор для Proc будет содержать в конструкторе интерфейс SourceToken.UnicodeReader и реализовывать часть класса.
 	Utf8(Reader *reader) {
 		_reader = reader;
+		Type = Char::Unknown;
 	}
 
 	// Initialize the UTF-8 encoder.
 	// Конструктор для Proc будет содержать в конструкторе интерфейс SourceToken.UnicodeWriter и реализовывать часть класса.
 	Utf8(Writer *writer) {
 		_writer = writer;
+		Type = Char::Unknown;
 	}
 
 	// Деструкторы аналогично можно писать для разных реализаций.
-	~Utf8() {
+	virtual ~Utf8() {
 	}
 
 	virtual int ReadChar() {
 		Value = utf8_decode_next();
+		// TODO Значение вычисляется по необходимости в методах проверки.
+		// TODO Это некрасиво, но очень ускоряет лексический анализатор и
+		// TODO сохраняет при этом имеющиеся возможности.
+		Type = Char::Unknown;
 		return Value;
 	}
 
@@ -209,35 +218,75 @@ public:
 		Value = character;
 	}
 
-	virtual bool IsWhitespace() {
-		//return _charToken.Value >= Char::CharacterTabulation &&
-		//	_charToken.Value <= Char::Space;
-		return false;
-	}
-
-	virtual bool IsEndOfLine() {
-		//return _charToken.Value >= Char::CarriageReturn &&
-		//	_charToken.Value <= Char::VerticalTabulation;
-		return false;
-	}
-
-	virtual bool IsDelimiter() {
-		//return _charToken.Value >= Char::Ampersand &&
-		//	_charToken.Value <= Char::RightSquareBracket;
-		return false;
-	}
-
-		// Является ли текущий символ арабской десятичной цифрой юникода.
+	// Является ли текущий символ арабской десятичной цифрой юникода.
 	virtual bool IsDecimalDigit() {
-		return Value >= 0x0030 && Value <= 0x0039;
+		if (Value >= 0x0030 && Value <= 0x0039) {
+			Type = (Char)((int)Char::Digit0 + Value - 0x0030);
+			return true;
+		}
+
+		return false;
 	}
 
 	// Является ли текущий символ буквой юникода.
 	virtual bool IsLatinLetter() {
-		return (Value >= 0x0041 && Value <= 0x005a) ||
-			(Value >= 0x0061 && Value <= 0x007a);
+		if (Value >= 0x0041 && Value <= 0x005a) {
+			Type = (Char)((int)Char::LatinCapitalLetterA + Value - 0x0041);
+		} else if (Value >= 0x0061 && Value <= 0x007a) {
+			Type = (Char)((int)Char::LatinSmallLetterA + Value - 0x0061);
+		} else {
+			if (Value == 0x005f) // TODO Исключение при считывании слов.
+				Type = Char::LowLine;
+
+			return false;
+		}
+
+		return true;
 	}
 
+	// Символ является отступом.
+	// @deprecated Временная замена использования значения лексемы.
+	virtual bool IsWhitespace() {
+		switch (Value) {
+			case 0x0009: Type = Char::CharacterTabulation; break; // Horizontal Tabulation (HT, TAB).
+			case 0x0020: Type = Char::Space; break; // Space (SP).
+			default: return false;
+		}
+
+		return true;
+	}
+
+	// Символ относится к группе разделителей, используемых в компиляторе.
+	// @deprecated Временная замена использования значения лексемы.
+	virtual bool IsDelimiter() {
+		switch (Value) {
+			case 'a': Type = Char::CarriageReturn; break; // Carriage Return (CR).
+			case 0x000a: Type = Char::LineFeed; break; // End of Line (EOL), Line Feed (LF), New Line (NL).
+			case 0x0085: Type = Char::NextLine; break; // Next Line (NEL).
+			case 0x2028: Type = Char::LineSeparator; break; // Line Separator (LS).
+			case 0x2029: Type = Char::ParagraphSeparator; break; // Paragraph Separator (PS).
+			case 0x000b: Type = Char::VerticalTabulation; break; // Vertical Tabulation (VT).
+			default: return false;
+		}
+
+		return true;
+	}
+
+	// Символ является разделителем строк.
+	// @deprecated Временная замена использования значения лексемы.
+	virtual bool IsEndOfLine() {
+		switch (Value) {
+			case 0x000d: Type = Char::CarriageReturn; break; // Carriage Return (CR).
+			case 0x000a: Type = Char::LineFeed; break; // End of Line (EOL), Line Feed (LF), New Line (NL).
+			case 0x0085: Type = Char::NextLine; break; // Next Line (NEL).
+			case 0x2028: Type = Char::LineSeparator; break; // Line Separator (LS).
+			case 0x2029: Type = Char::ParagraphSeparator; break; // Paragraph Separator (PS).
+			case 0x000b: Type = Char::VerticalTabulation; break; // Vertical Tabulation (VT).
+			default: return false;
+		}
+
+		return true;
+	}
 };
 
 #endif // UTF8_HPP

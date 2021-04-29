@@ -6,20 +6,20 @@
 #include "Temp/Dependency.h"
 
 #include "SyntaxReader.hpp"
-#include "SourceToken.hpp"
+#include "SymbolToken.hpp"
 
 // Синтаксический анализатор Proc.
 class ProcReader {
 
 private:
 
-	SourceToken *_sourceToken;
+	SymbolToken *_sourceToken;
 
 public:
 
 	// Основной конструктор.
 	// @param sourceToken Поток лексем исходного кода.
-	ProcReader(SourceToken *sourceToken) {
+	ProcReader(SymbolToken *sourceToken) {
 		_sourceToken = sourceToken;
 	}
 

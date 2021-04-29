@@ -1,13 +1,13 @@
 #pragma once
 
-#ifndef SOURCE_TOKEN_HPP
-#define SOURCE_TOKEN_HPP
+#ifndef SYMBOL_TOKEN_HPP
+#define SYMBOL_TOKEN_HPP
 
 #include "Temp/Dependency.h"
 
 #include "Char.hpp"
 #include "CharToken.hpp"
-#include "SymbolType.hpp"
+#include "Symbol.hpp"
 
 /*
 	4. Первичная обработка исходного кода для компилятора или интерпретатора начинается с лексического анализа. Есть
@@ -24,73 +24,73 @@
 // TODO Анализатор работает с Юникод текстом и наверное максимум может быть совместим с подобными кодировками,
 // TODO но есть ли смысл так делать, непонятно. Типа это UnicodeLexer и должен работать только с Юникодом.
 // TODO Если потребуется работать с другими источниками исходников, то для них должен быть написан свой анализатор.
-class SourceToken {
 
+// Лексический анализатор исходного кода, машина состояний, конечный автомат.
+// В других источниках можно встретить варианты: lexical analyzer, lexer, tokenizer, scanner, token reader.
+// Теоретически он должен быть написан для каждой поддерживаемой кодировки.
+// При чтении одного и того же набора символов в разных кодировках все реализации должны возвращать одинаковую лексему.
+// Набор лексем избавляет от необходимости создавать реализацию синтаксического анализатора для каждой кодировки.
+// Но если и текстовые потоки представить аналогичным образом, одного лексического анализатора также будет достаточно.
+class SymbolToken {
 private:
 
 	CharToken &_charToken;
 
+	inline void ReadWord() {
+	}
+
 	inline void ReadWhitespace() {
-		Type = SymbolType::Whitespace;
-		Number = 0;
+		Type = Symbol::Whitespace;
+		Value = 0;
 		do {
-			Number++;
+			Value++;
 			_charToken.ReadChar();
 		} while (_charToken.IsWhitespace());
 	}
 
+	inline void ReadDelimiter() {
+		Type = Symbol::Delimiter;
+		Value = (int)_charToken.Type;
+	}
+
 	inline void ReadEndOfLine() {
-		Type = SymbolType::EndOfLine;
-		Number = 0;
+		Type = Symbol::EndOfLine;
+		Value = 0;
 		do {
-			Number++;
+			Value++;
 			_charToken.ReadChar();
 		} while (_charToken.IsEndOfLine());
 	}
 
-	inline void ReadDelimiter() {
+	inline void ReadInteger() {
+	}
+
+	inline void ReadUnknown() {
+		Type = Symbol::Unknown;
 		_charToken.ReadChar();
 	}
-
-	inline void ReadInteger() {
-
-	}
-
-	inline void ReadWord() {
-
-	}
-
-	/*inline void ReadUnknown() {
-		Type = SymbolType::Unknown;
-		Number = 0;
-		do {
-			Number++;
-			_charToken.ReadChar();
-		} while (_charToken.Value == Char::Unknown);
-	}*/
 
 public:
 
 	// Тип символа.
-	SymbolType Type;
+	Symbol Type;
 
 	// Нужно реализовать потоки состояний и возможность использования на них объединений union или cast.
-	char Value[128]; // Предполагается, что это и будет единственный поток состояний, хранящий значение лексемы.
 	// Язык не должен ограничивать размер чисел из-за архитектуры процессора.
-	int Symbol; // [Obsolete] Текущий код символа Юникода.
-	long Number; // [Obsolete] Значение целого числа.
+	long Value; // [Obsolete] Предполагается, что это и будет единственный поток состояний, хранящий значение лексемы.
 	double Real; // [Obsolete] Значение числа с плавающей точкой.
 
 	// Основной конструктор.
-	SourceToken(CharToken *charToken): _charToken(*charToken) {
+	SymbolToken(CharToken *charToken):
+		_charToken(*charToken) {
 		// TODO Это не токен в чистом виде, скорее надо переименовать в машину состояний.
 		// TODO И передавать композицию интерфейсов CharToken и CharReader например.
 		// TODO Но может быть если класс будет работать как дизассемблер, то и CharWriter.
 		_charToken.ReadChar(); // Предпросмотр оптимизирует код.
-		Type = SymbolType::Unknown;
+		Type = Symbol::Unknown;
 	}
 
-	virtual ~SourceToken() {
+	virtual ~SymbolToken() {
 	}
 
 	// Чтение очередной лексемы. Простейший шаг, определяющий следующий автомат.
@@ -99,26 +99,26 @@ public:
 	void ReadToken() {
 		// Если нет возможности прочесть очередное состояние из потока, работа анализатора завершается.
 		if (_charToken.EndOfStream) {
-			Type = SymbolType::EndOfStream;
+			Type = Symbol::EndOfStream;
 			return;
 		}
 
 		// В зависимости от текущего состояния необходимо определить следующую m-конфигурацию.
-		if (_charToken.IsWhitespace()) {
+		if (_charToken.IsLatinLetter() ||
+			_charToken.Type == Char::LowLine) {
+			ReadWord();
+		} else if (_charToken.IsWhitespace()) {
 			ReadWhitespace();
-		} else if (_charToken.IsEndOfLine()) {
-			ReadEndOfLine();
 		} else if (_charToken.IsDelimiter()) {
 			ReadDelimiter();
+		} else if (_charToken.IsEndOfLine()) {
+			ReadEndOfLine();
 		} else if (_charToken.IsDecimalDigit()) {
 			ReadInteger();
-		} else if (_charToken.IsLatinLetter()) {
-			ReadWord();
 		} else {
-			_charToken.ReadChar();
-			//ReadUnknown();
+			ReadUnknown();
 		}
 	}
 };
 
-#endif // SOURCE_TOKEN_HPP
+#endif // SYMBOL_TOKEN_HPP

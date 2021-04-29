@@ -6,7 +6,7 @@
 #include "Temp/Dependency.h"
 
 #include "FileStream.hpp"
-#include "SourceToken.hpp"
+#include "SymbolToken.hpp"
 #include "Utf8.hpp"
 
 // Синтаксический анализатор процессора.
@@ -14,16 +14,14 @@ class Proc {
 
 private:
 
-	FileStream &_source;
 	Utf8 &_utf8;
-	SourceToken &_lexer;
+	SymbolToken &_lexer;
 
 public:
 
-	Proc(const char *fileName):
-		_source(FileStream(fileName)),
-		_utf8(Utf8((Reader*)&_source)),
-		_lexer(SourceToken((CharToken*)&_utf8)) {
+	Proc(Reader &source):
+		_utf8(Utf8(&source)),
+		_lexer(SymbolToken((CharToken*)&_utf8)) {
 	}
 
 	virtual ~Proc() {
@@ -35,7 +33,7 @@ public:
 		do {
 			_lexer.ReadToken();
 			i++;
-		} while (_lexer.Type != SymbolType::EndOfStream);
+		} while (_lexer.Type != Symbol::EndOfStream);
 		printf("Proc lexer ready with %u states.\n", i);
 
 		/*// Отладочная информация.

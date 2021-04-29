@@ -81,23 +81,23 @@ UnknownEncoding o-- Stream
 Utf8 --|> UnicodeStream
 UnknownEncoding --|> UnknownStream
 
-class SourceToken << Token >>
+class SymbolToken << Token >>
 {
-    SourceToken может быть
+    SymbolToken может быть
     целесообразен, т.к.
     текстовые языки похожи,
     но часть нагрузки ляжет на
     синтаксический анализатор.
 }
 
-UnicodeStream --o SourceToken
+UnicodeStream --o SymbolToken
 
 class UnknownToken << Token >>
 {
 }
 
 UnknownStream --o UnknownToken
-UnknownStream --o "?     " SourceToken
+UnknownStream --o "?     " SymbolToken
 
 class Amd64Token << Token >>
 {
@@ -121,7 +121,7 @@ class SymbolTable
 {
 }
 
-SourceToken *-- SymbolTable
+SymbolToken *-- SymbolTable
 
 class JavaScript << Syntax >>
 {
@@ -150,8 +150,8 @@ class Unknown << Syntax >>
 {
 }
 
-SourceToken --o JavaScript
-SourceToken --o Proc
+SymbolToken --o JavaScript
+SymbolToken --o Proc
 Amd64Token --o Amd64
 ArmToken --o Arm
 DnaToken --o Dna
