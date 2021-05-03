@@ -8,6 +8,14 @@
 // Интерфейс поиска в символьном потоке.
 class CharSeeker {
 public:
+
+	// Номер текущего символа.
+	long Character;
+	// Номер текущего символа в строке.
+	long LineCharacter;
+	// Номер текущей строки.
+	long LineNumber;
+
 	virtual int SeekChar(object offset) = 0;
 };
 

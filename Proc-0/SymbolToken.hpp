@@ -62,7 +62,30 @@ private:
 		} while (_charToken.IsEndOfLine());
 	}
 
+	// Чтение целого числа.
 	inline void ReadInteger() {
+		Type = Symbol::Integer;
+		Value = 0;
+		do {
+			if (Value <= (LONG_MAX - (long)_charToken.Type + (long)Char::Digit0) / 10) {
+				Value = 10 * Value + (long)_charToken.Type - (long)Char::Digit0;
+			} else {
+				// Ошибка.
+			}
+			_charToken.ReadChar();
+		} while (_charToken.IsDecimalDigit());
+
+		/*val = 0;
+		sym = NUMBER;
+		do {
+			if (val <= (LONG_MAX - ORD(ch) + ORD('0')) / 10) {
+				val = 10 * val + (ORD(ch) - ORD('0'));
+			} else {
+				Mark("too big number.");
+				val = 0;
+			}
+			chRead();
+		} while (!(ch < '0' || ch > '9'));*/
 	}
 
 	inline void ReadUnknown() {
@@ -79,6 +102,8 @@ public:
 	// Язык не должен ограничивать размер чисел из-за архитектуры процессора.
 	long Value; // [Obsolete] Предполагается, что это и будет единственный поток состояний, хранящий значение лексемы.
 	double Real; // [Obsolete] Значение числа с плавающей точкой.
+
+	long ErrorPosition;
 
 	// Основной конструктор.
 	SymbolToken(CharToken *charToken):
@@ -105,7 +130,7 @@ public:
 
 		// В зависимости от текущего состояния необходимо определить следующую m-конфигурацию.
 		if (_charToken.IsLatinLetter() ||
-			_charToken.Type == Char::LowLine) {
+			_charToken.Type == Char::Underline) {
 			ReadWord();
 		} else if (_charToken.IsWhitespace()) {
 			ReadWhitespace();

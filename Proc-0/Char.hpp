@@ -3,39 +3,40 @@
 #ifndef CHAR_HPP
 #define CHAR_HPP
 
-// Мнемоники символов доступных алфавитов, представляющие их смысл, а не числовое значение в конкретной кодировке.
-// Все символы строго сгруппированы для оптимизации обращений лексических анализаторов.
+// Лексемы символьных потоков, представляющие значение символов, а не их числовое представление в конкретной кодировке.
+// Все значения строго отсортированы и сгруппированы в соответствии с интервалами кодировок без учёта самих кодов.
+// Такая организация позволяет оптимизировать работу с некоторыми кодировками и сохранить при этом совместимость.
 enum class Char {
 
 	// ASCII управляющие символы 0x0000-0x001f.
-	Null, // Пустой символ ^@ (NULL).
-	StartOfHeading, // Начало заголовка ^A.
-	StartOfText, // Начало текста ^B.
-	EndOfText, // Сигнал прерывания в терминале ^C.
-	EndOfTransmission, // Конец вводимых данных ^D.
-	Enquiry, // Запрос ^E.
-	Acknowledge, // Подтверждение ^F.
-	Bell, // Звуковой сигнал ^G, \a.
-	Backspace, // Возврат на один шаг ^H, \b.
-	CharacterTabulation, // Горизонтальная табуляция ^I, \t (HT, TAB).
+	Null, // Пустой символ ^@ (NUL).
+	StartOfHeading, // Начало заголовка ^A (SOH).
+	StartOfText, // Начало текста ^B (STX).
+	EndOfText, // Сигнал прерывания в терминале ^C (ETX).
+	EndOfTransmission, // Конец вводимых данных ^D (EOT).
+	Enquiry, // Запрос ^E (ENQ).
+	Acknowledge, // Подтверждение ^F (ACK).
+	Bell, // Звуковой сигнал ^G, \a (BEL).
+	Backspace, // Возврат на один шаг ^H, \b (BS).
+	HorizontalTabulation, // Горизонтальная табуляция ^I, \t (HT, TAB).
 	LineFeed, // Подача строки, конец строки, новая строка ^J, \n (LF, EOL, NL).
-	LineTabulation, // Вертикальная табуляция ^K, \v (VT).
+	VerticalTabulation, // Вертикальная табуляция ^K, \v (VT).
 	FormFeed, // Прогон страницы ^L, \f (FF).
 	CarriageReturn, // Возврат каретки ^M, \r (CR).
-	ShiftOut, // Режим национальных символов ^N.
-	ShiftIn, // Режим ASCII ^O.
-	DataLinkEscape, // Экранирование управляющих символов в обычный текст ^P.
-	DeviceControlOne, // Первый код управления устройством ^Q.
-	DeviceControlTwo, // Второй код управления устройством ^R.
-	DeviceControlThree, // Третий код управления устройством ^S.
-	DeviceControlFour, // Четвёртый код управления устройством ^T.
-	NegativeAcknowledge, // Отрицательное подтверждение ^U.
-	SynchronousIdle, // Пустой символ для синхронного режима передачи ^V.
-	EndOfTransmissionBlock, // Конец блока передаваемых данных ^W.
-	Cancel, // Отмена предыдущих данных строки ^X.
-	EndOfMedium, // Конец носителя ^Y.
-	Substitute, // Символ замены потерянного во время передачи символа ^Z.
-	Escape, // Альтернативный регистр для следующих символов, считающихся уже не ASCII ^[, \e.
+	ShiftOut, // Режим национальных символов ^N (SO).
+	ShiftIn, // Режим ASCII ^O (SI).
+	DataLinkEscape, // Экранирование управляющих символов в обычный текст ^P (DLE).
+	DeviceControl1, // Первый код управления устройством ^Q (DC1).
+	DeviceControl2, // Второй код управления устройством ^R (DC2).
+	DeviceControl3, // Третий код управления устройством ^S (DC3).
+	DeviceControl4, // Четвёртый код управления устройством ^T (DC4).
+	NegativeAcknowledge, // Отрицательное подтверждение ^U (NAK).
+	SynchronousIdle, // Пустой символ для синхронного режима передачи ^V (SYN).
+	EndOfTransmissionBlock, // Конец блока передаваемых данных ^W (ETB).
+	Cancel, // Отмена предыдущих данных строки ^X (CAN).
+	EndOfMedium, // Конец носителя ^Y (EM).
+	SubstituteCharacter, // Символ замены потерянного во время передачи символа ^Z (SUB).
+	Escape, // Альтернативный регистр для следующих символов, считающихся уже не ASCII ^[, \e (ESC).
 	FileSeparator, // Разделитель файлов ^\ (FS).
 	GroupSeparator, // Разделитель групп ^] (GS).
 	RecordSeparator, // Разделитель записей ^^ (RS).
@@ -55,11 +56,11 @@ enum class Char {
 	Asterisk, // *
 	PlusSign, // +
 	Comma, // ,
-	HyphenMinus, // -
+	HyphenMinus, // Hyphen -
 	FullStop, // .
-	Slash, // /
+	Slash, // Solidus /
 
-	// Индо-арабские десятичные цифры 0x0030-0x0039.
+	// ASCII индо-арабские десятичные цифры 0x0030-0x0039.
 	Digit0,
 	Digit1,
 	Digit2,
@@ -80,85 +81,86 @@ enum class Char {
 	QuestionMark, // ?
 	CommercialAt, // @
 
-	// Латинские заглавные буквы 0x0041-0x005a.
-	LatinCapitalLetterA,
-	LatinCapitalLetterB,
-	LatinCapitalLetterC,
-	LatinCapitalLetterD,
-	LatinCapitalLetterE,
-	LatinCapitalLetterF,
-	LatinCapitalLetterG,
-	LatinCapitalLetterH,
-	LatinCapitalLetterI,
-	LatinCapitalLetterJ,
-	LatinCapitalLetterK,
-	LatinCapitalLetterL,
-	LatinCapitalLetterM,
-	LatinCapitalLetterN,
-	LatinCapitalLetterO,
-	LatinCapitalLetterP,
-	LatinCapitalLetterQ,
-	LatinCapitalLetterR,
-	LatinCapitalLetterS,
-	LatinCapitalLetterT,
-	LatinCapitalLetterU,
-	LatinCapitalLetterV,
-	LatinCapitalLetterW,
-	LatinCapitalLetterX,
-	LatinCapitalLetterY,
-	LatinCapitalLetterZ,
+	// ASCII латинские заглавные буквы 0x0041-0x005a.
+	CapitalLetterA,
+	CapitalLetterB,
+	CapitalLetterC,
+	CapitalLetterD,
+	CapitalLetterE,
+	CapitalLetterF,
+	CapitalLetterG,
+	CapitalLetterH,
+	CapitalLetterI,
+	CapitalLetterJ,
+	CapitalLetterK,
+	CapitalLetterL,
+	CapitalLetterM,
+	CapitalLetterN,
+	CapitalLetterO,
+	CapitalLetterP,
+	CapitalLetterQ,
+	CapitalLetterR,
+	CapitalLetterS,
+	CapitalLetterT,
+	CapitalLetterU,
+	CapitalLetterV,
+	CapitalLetterW,
+	CapitalLetterX,
+	CapitalLetterY,
+	CapitalLetterZ,
 
 	// ASCII 0x005b-0x0060.
 	LeftSquareBracket, // [
 	Backslash, // \ :)
 	RightSquareBracket, // ]
 	CircumflexAccent, // ^
-	LowLine, // _
+	Underline, // _
 	GraveAccent, // `
 
-	// Латинские строчные буквы 0x0061-0x007a.
-	LatinSmallLetterA,
-	LatinSmallLetterB,
-	LatinSmallLetterC,
-	LatinSmallLetterD,
-	LatinSmallLetterE,
-	LatinSmallLetterF,
-	LatinSmallLetterG,
-	LatinSmallLetterH,
-	LatinSmallLetterI,
-	LatinSmallLetterJ,
-	LatinSmallLetterK,
-	LatinSmallLetterL,
-	LatinSmallLetterM,
-	LatinSmallLetterN,
-	LatinSmallLetterO,
-	LatinSmallLetterP,
-	LatinSmallLetterQ,
-	LatinSmallLetterR,
-	LatinSmallLetterS,
-	LatinSmallLetterT,
-	LatinSmallLetterU,
-	LatinSmallLetterV,
-	LatinSmallLetterW,
-	LatinSmallLetterX,
-	LatinSmallLetterY,
-	LatinSmallLetterZ,
+	// ASCII латинские строчные буквы 0x0061-0x007a.
+	SmallLetterA,
+	SmallLetterB,
+	SmallLetterC,
+	SmallLetterD,
+	SmallLetterE,
+	SmallLetterF,
+	SmallLetterG,
+	SmallLetterH,
+	SmallLetterI,
+	SmallLetterJ,
+	SmallLetterK,
+	SmallLetterL,
+	SmallLetterM,
+	SmallLetterN,
+	SmallLetterO,
+	SmallLetterP,
+	SmallLetterQ,
+	SmallLetterR,
+	SmallLetterS,
+	SmallLetterT,
+	SmallLetterU,
+	SmallLetterV,
+	SmallLetterW,
+	SmallLetterX,
+	SmallLetterY,
+	SmallLetterZ,
 
-	// ASCII 0x007b-0x007e.
+	// ASCII 0x007b-0x007f.
 	LeftCurlyBracket, // {
 	VerticalLine, // |
 	RightCurlyBracket, // }
 	Tilde, // ~
-	Delete, // Управляющий символ забивания кода отверстием на перфоленте ^? (DEL).
+	Delete, // Управляющий символ удаления ^? (DEL).
 
+	// Область других символов.
 	Unknown, // Символ неизвестного назначения.
 
 	// Unicode.
+	NextLine, // Переход на следующую строку 0x0085 (NEL).
 	NoBreakSpace, // Неразрывный пробел 0x00a0 (NBSP).
-	NonBreakingHyphen, // Неразрывный дефис 0x2011.
-	LineSeparator, // Разделитель строк (LS).
-	NextLine, // Переход на следующую строку (NEL).
-	ParagraphSeparator, // Разделитель абзацев (PS).
+	NonBreakingHyphen, // Неразрывный дефис 0x2011 (NBHYPHEN).
+	LineSeparator, // Разделитель строк 0x2028 (LS).
+	ParagraphSeparator, // Разделитель абзацев 0x2029 (PS).
 };
 
 #endif // CHAR_HPP

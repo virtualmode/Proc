@@ -169,6 +169,16 @@ private:
 		return UTF8_ERROR;
 	}
 
+	// Обновление лексемы в соответствии с текущим кодом символа.
+	inline void UpdateType() {
+		if (Value <= (int)Char::Delete) {
+			Type = (Char)Value;
+		} else {
+			// TODO Реализовать определение других символов при необходимости.
+			Type = Char::Unknown;
+		}
+	}
+
 public:
 
 	int Value; // Код текущего символа.
@@ -206,86 +216,61 @@ public:
 
 	virtual int ReadChar() {
 		Value = utf8_decode_next();
-		// TODO Значение вычисляется по необходимости в методах проверки.
-		// TODO Это некрасиво, но очень ускоряет лексический анализатор и
-		// TODO сохраняет при этом имеющиеся возможности.
-		Type = Char::Unknown;
+		UpdateType();
 		return Value;
 	}
 
 	virtual void WriteChar(int character) {
 		utf8_encode_next(character);
 		Value = character;
+		UpdateType();
 	}
 
 	// Является ли текущий символ арабской десятичной цифрой юникода.
 	virtual bool IsDecimalDigit() {
-		if (Value >= 0x0030 && Value <= 0x0039) {
-			Type = (Char)((int)Char::Digit0 + Value - 0x0030);
-			return true;
-		}
-
-		return false;
+		return Type >= Char::Digit0 && Type <= Char::Digit9;
 	}
 
-	// Является ли текущий символ буквой юникода.
+	// Является ли текущий символ строчной латинской буквой.
+	virtual bool IsSmallLatinLetter() {
+		return Type >= Char::SmallLetterA && Type <= Char::SmallLetterZ;
+	}
+
+	// Является ли текущий символ заглавной латинской буквой.
+	virtual bool IsCapitalLatinLetter() {
+		return Type >= Char::CapitalLetterA && Type <= Char::CapitalLetterZ;
+	}
+
+	// Является ли текущий символ латинской буквой.
 	virtual bool IsLatinLetter() {
-		if (Value >= 0x0041 && Value <= 0x005a) {
-			Type = (Char)((int)Char::LatinCapitalLetterA + Value - 0x0041);
-		} else if (Value >= 0x0061 && Value <= 0x007a) {
-			Type = (Char)((int)Char::LatinSmallLetterA + Value - 0x0061);
-		} else {
-			if (Value == 0x005f) // TODO Исключение при считывании слов.
-				Type = Char::LowLine;
-
-			return false;
-		}
-
-		return true;
+		return IsSmallLatinLetter() || IsCapitalLatinLetter();
 	}
 
 	// Символ является отступом.
 	// @deprecated Временная замена использования значения лексемы.
 	virtual bool IsWhitespace() {
-		switch (Value) {
-			case 0x0009: Type = Char::CharacterTabulation; break; // Horizontal Tabulation (HT, TAB).
-			case 0x0020: Type = Char::Space; break; // Space (SP).
-			default: return false;
-		}
-
-		return true;
+		return Type == Char::HorizontalTabulation ||
+			Type == Char::Space;
 	}
 
-	// Символ относится к группе разделителей, используемых в компиляторе.
+	// Символ относится к группе допустимых разделителей, используемых в компиляторе.
 	// @deprecated Временная замена использования значения лексемы.
 	virtual bool IsDelimiter() {
-		switch (Value) {
-			case 'a': Type = Char::CarriageReturn; break; // Carriage Return (CR).
-			case 0x000a: Type = Char::LineFeed; break; // End of Line (EOL), Line Feed (LF), New Line (NL).
-			case 0x0085: Type = Char::NextLine; break; // Next Line (NEL).
-			case 0x2028: Type = Char::LineSeparator; break; // Line Separator (LS).
-			case 0x2029: Type = Char::ParagraphSeparator; break; // Paragraph Separator (PS).
-			case 0x000b: Type = Char::VerticalTabulation; break; // Vertical Tabulation (VT).
-			default: return false;
-		}
-
-		return true;
+		return Type >= Char::Space && Type <= Char::Slash ||
+			Type >= Char::Colon && Type <= Char::CommercialAt ||
+			Type >= Char::LeftSquareBracket && Type <= Char::GraveAccent ||
+			Type >= Char::LeftCurlyBracket && Type <= Char::Delete;
 	}
 
 	// Символ является разделителем строк.
 	// @deprecated Временная замена использования значения лексемы.
 	virtual bool IsEndOfLine() {
-		switch (Value) {
-			case 0x000d: Type = Char::CarriageReturn; break; // Carriage Return (CR).
-			case 0x000a: Type = Char::LineFeed; break; // End of Line (EOL), Line Feed (LF), New Line (NL).
-			case 0x0085: Type = Char::NextLine; break; // Next Line (NEL).
-			case 0x2028: Type = Char::LineSeparator; break; // Line Separator (LS).
-			case 0x2029: Type = Char::ParagraphSeparator; break; // Paragraph Separator (PS).
-			case 0x000b: Type = Char::VerticalTabulation; break; // Vertical Tabulation (VT).
-			default: return false;
-		}
-
-		return true;
+		return Type == Char::CarriageReturn ||
+			Type == Char::LineFeed ||
+			Type == Char::NextLine ||
+			Type == Char::LineSeparator ||
+			Type == Char::ParagraphSeparator ||
+			Type == Char::VerticalTabulation;
 	}
 };
 

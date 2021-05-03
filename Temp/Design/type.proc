@@ -8,6 +8,19 @@
 	представлении. Все другие основания дают возможность только хранить и передавать данные (это кстати неточно).
 */
 
+/*
+	INSPIRATION
+	IS THE
+	CULMINATION
+	OF FOCUS
+	AND DESIRE
+	TO FIND THE
+	BEST INSIDE
+	YOURSELF
+	AND BRING IT
+	FORWARD
+*/
+
 #define unit[256] char
 enum[256] ?
 
