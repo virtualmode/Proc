@@ -8,6 +8,7 @@
 #include "Char.hpp"
 #include "CharToken.hpp"
 #include "Symbol.hpp"
+#include "SymbolError.hpp"
 
 /*
 	4. Первичная обработка исходного кода для компилятора или интерпретатора начинается с лексического анализа. Есть
@@ -36,7 +37,41 @@ private:
 
 	CharToken &_charToken;
 
-	inline void ReadWord() {
+	// Перевод машины в состояние ошибки.
+	void SetError(SymbolError error, const char *message) {
+		Error = error;
+		ErrorPosition = _charToken.Position;
+		ErrorLine = _charToken.Line;
+	}
+
+	inline void ReadIdentifier() {
+		Type = Symbol::Identifier;
+		//Value = 0;
+		do {
+			//Value++;
+			_charToken.ReadChar();
+		} while (_charToken.IsLatinLetter());
+
+		/*int i, k;
+		i = 0;
+		do { // Считывание всего идентификатора:
+			if (i < IDLEN) {
+				id[i] = ch;
+				i++;
+			}
+			chRead();
+		} while (!(ch < '0' || ch > '9' && toupper(ch) < 'A' || toupper(ch) > 'Z')); // TODO Оригинал.
+		id[i] = 0; // Терминальный ноль.
+		k = 0;
+		while (k < nkw && strcmp(id, keyTab[k].id) != 0) {
+			k++; // Поиск совпадений с ключевыми словами.
+		}
+		// Определение типа идентификатора:
+		if (k < nkw) {
+			sym = keyTab[k].sym; // Терминальный символ из таблицы языка.
+		} else {
+			sym = IDENT; // Идентификатор - нетерминальный символ.
+		}*/
 	}
 
 	inline void ReadWhitespace() {
@@ -49,7 +84,7 @@ private:
 	}
 
 	inline void ReadDelimiter() {
-		Type = Symbol::Delimiter;
+		//Type = Symbol::Delimiter;
 		Value = (int)_charToken.Type;
 	}
 
@@ -69,23 +104,11 @@ private:
 		do {
 			if (Value <= (LONG_MAX - (long)_charToken.Type + (long)Char::Digit0) / 10) {
 				Value = 10 * Value + (long)_charToken.Type - (long)Char::Digit0;
-			} else {
-				// Ошибка.
+			} else if (Error != SymbolError::None) {
+				SetError(SymbolError::NumberOverflow, "Not enought long size to store number.");
 			}
 			_charToken.ReadChar();
 		} while (_charToken.IsDecimalDigit());
-
-		/*val = 0;
-		sym = NUMBER;
-		do {
-			if (val <= (LONG_MAX - ORD(ch) + ORD('0')) / 10) {
-				val = 10 * val + (ORD(ch) - ORD('0'));
-			} else {
-				Mark("too big number.");
-				val = 0;
-			}
-			chRead();
-		} while (!(ch < '0' || ch > '9'));*/
 	}
 
 	inline void ReadUnknown() {
@@ -100,22 +123,31 @@ public:
 
 	// Нужно реализовать потоки состояний и возможность использования на них объединений union или cast.
 	// Язык не должен ограничивать размер чисел из-за архитектуры процессора.
-	long Value; // [Obsolete] Предполагается, что это и будет единственный поток состояний, хранящий значение лексемы.
+	long Value; // Предполагается, что это и будет единственный поток состояний, хранящий значение лексемы.
 	double Real; // [Obsolete] Значение числа с плавающей точкой.
 
-	long ErrorPosition;
+	// TODO Состояние очередной ошибки можно вынести в отдельный интерфейс.
+	// TODO Но если здесь достаточно одного состояния, то в синтаксическом анализаторе это может быть несколько ошибок за итерацию.
+	SymbolError Error; // Флаг наличия ошибки.
+	long ErrorPosition; // Позиция в символьном потоке.
+	long ErrorLine; // Строка с ошибкой.
 
 	// Основной конструктор.
 	SymbolToken(CharToken *charToken):
 		_charToken(*charToken) {
+		Type = Symbol::Unknown;
+		Error = SymbolError::None;
 		// TODO Это не токен в чистом виде, скорее надо переименовать в машину состояний.
 		// TODO И передавать композицию интерфейсов CharToken и CharReader например.
 		// TODO Но может быть если класс будет работать как дизассемблер, то и CharWriter.
 		_charToken.ReadChar(); // Предпросмотр оптимизирует код.
-		Type = Symbol::Unknown;
 	}
 
 	virtual ~SymbolToken() {
+	}
+
+	void AddTerminal() {
+		
 	}
 
 	// Чтение очередной лексемы. Простейший шаг, определяющий следующий автомат.
@@ -131,7 +163,7 @@ public:
 		// В зависимости от текущего состояния необходимо определить следующую m-конфигурацию.
 		if (_charToken.IsLatinLetter() ||
 			_charToken.Type == Char::Underline) {
-			ReadWord();
+			ReadIdentifier();
 		} else if (_charToken.IsWhitespace()) {
 			ReadWhitespace();
 		} else if (_charToken.IsDelimiter()) {

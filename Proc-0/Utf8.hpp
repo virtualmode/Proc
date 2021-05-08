@@ -46,6 +46,9 @@ private:
 	Reader *_reader;
 	Writer *_writer;
 
+	// Предыдущий символ последовательности перевода на новую строку.
+	Char _eolSequence;
+
 	// Статический конструктор.
 	/*friend class CharTokenStatic;
 	struct CharTokenStatic {
@@ -179,6 +182,40 @@ private:
 		}
 	}
 
+	// Состояние новой строки.
+	inline void NextLine() {
+		Line++;
+		Character = 0;
+		Column = 0;
+	}
+
+	// Вычисление курсора, номера символа в строке, колонки, номера строки.
+	void UpdateCounters() {
+		Position++;
+		Character++;
+		Column++; // TODO Необходимо учитывать, что символы типа табуляции занимают несколько позиций.
+		if (IsEndOfLine()) {
+			if (_eolSequence != Char::CarriageReturn || Type != Char::LineFeed)
+				 NextLine();
+
+			_eolSequence = Type;
+		} else {
+			if (_eolSequence != Char::Unknown)
+				NextLine();
+
+			_eolSequence = Char::Unknown;
+		}
+	}
+
+	Utf8() {
+		_eolSequence = Char::Unknown;
+		Type = Char::Unknown;
+		Position = 0;
+		Character = 0;
+		Column = 0;
+		Line = 0;
+	}
+
 public:
 
 	int Value; // Код текущего символа.
@@ -188,26 +225,23 @@ public:
 	// TODO комбинировать несколько интерфейсов и не писать каждый раз отдельные конструкторы.
 	// @param reader Входящий поток состояний.
 	// @param writer Исходящий поток состояний.
-	Utf8(Reader *reader, Writer *writer) {
+	Utf8(Reader *reader, Writer *writer): Utf8() {
 		_reader = reader;
 		_writer = writer;
-		Type = Char::Unknown;
 	}
 
 	// Здесь еще возможны варианты с Seeker'ом, но очень затратно это описывать вручную и несколькими классами.
 	// Теоретически компилятор может создавать реализацию любого интерфейса отдельно от общей реализации.
 	// Необходимо дописать новый синтаксис для конструктора, который явно указывает используемый интерфейс(ы).
 	// Конструктор для Proc будет содержать в конструкторе интерфейс SourceToken.UnicodeReader и реализовывать часть класса.
-	Utf8(Reader *reader) {
+	Utf8(Reader *reader): Utf8() {
 		_reader = reader;
-		Type = Char::Unknown;
 	}
 
 	// Initialize the UTF-8 encoder.
 	// Конструктор для Proc будет содержать в конструкторе интерфейс SourceToken.UnicodeWriter и реализовывать часть класса.
-	Utf8(Writer *writer) {
+	Utf8(Writer *writer): Utf8() {
 		_writer = writer;
-		Type = Char::Unknown;
 	}
 
 	// Деструкторы аналогично можно писать для разных реализаций.
@@ -217,6 +251,7 @@ public:
 	virtual int ReadChar() {
 		Value = utf8_decode_next();
 		UpdateType();
+		UpdateCounters();
 		return Value;
 	}
 
@@ -224,6 +259,14 @@ public:
 		utf8_encode_next(character);
 		Value = character;
 		UpdateType();
+		UpdateCounters();
+		Position++;
+	}
+
+	virtual bool SeekChar(long offset) {
+		// TODO Необходимо реализовать переход машины состояний вперед и назад на несколько шагов.
+		// TODO Также надо подумать о возможности в принципе перехода назад.
+		return false;
 	}
 
 	// Является ли текущий символ арабской десятичной цифрой юникода.
@@ -247,14 +290,14 @@ public:
 	}
 
 	// Символ является отступом.
-	// @deprecated Временная замена использования значения лексемы.
+	// @deprecated Достаточно специфическая реализация для использования в таком виде.
 	virtual bool IsWhitespace() {
 		return Type == Char::HorizontalTabulation ||
 			Type == Char::Space;
 	}
 
 	// Символ относится к группе допустимых разделителей, используемых в компиляторе.
-	// @deprecated Временная замена использования значения лексемы.
+	// @deprecated Достаточно специфическая реализация для использования в таком виде.
 	virtual bool IsDelimiter() {
 		return Type >= Char::Space && Type <= Char::Slash ||
 			Type >= Char::Colon && Type <= Char::CommercialAt ||
@@ -262,8 +305,8 @@ public:
 			Type >= Char::LeftCurlyBracket && Type <= Char::Delete;
 	}
 
-	// Символ является разделителем строк.
-	// @deprecated Временная замена использования значения лексемы.
+	// Символ является разделителем строк или входит в последовательность разделения.
+	// @deprecated Название не совсем соответствует действительности.
 	virtual bool IsEndOfLine() {
 		return Type == Char::CarriageReturn ||
 			Type == Char::LineFeed ||

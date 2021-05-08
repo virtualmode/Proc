@@ -177,7 +177,7 @@ void Ident() {
 		}
 		chRead();
 	} while (!(ch < '0' || ch > '9' && toupper(ch) < 'A' || toupper(ch) > 'Z')); // TODO Оригинал.
-	id[i] = 0;
+	id[i] = 0; // Терминальный ноль.
 	k = 0;
 	while (k < nkw && strcmp(id, keyTab[k].id) != 0) {
 		k++; // Поиск совпадений с ключевыми словами.

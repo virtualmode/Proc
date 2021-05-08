@@ -10,13 +10,19 @@ class CharSeeker {
 public:
 
 	// Номер текущего символа.
-	long Character;
-	// Номер текущего символа в строке.
-	long LineCharacter;
-	// Номер текущей строки.
-	long LineNumber;
+	long Position;
 
-	virtual int SeekChar(object offset) = 0;
+	// Номер текущего символа в строке.
+	long Character;
+
+	// Номер позиции символа в строке.
+	// Табуляция занимает несколько позиций.
+	long Column;
+
+	// Номер текущей строки.
+	long Line;
+
+	virtual bool SeekChar(long offset) = 0;
 };
 
 #endif // CHAR_SEEKER_HPP
