@@ -71,12 +71,16 @@ enum class Symbol {
 	CppRealDouble,
 
 	// Шестнадцатиричные целые числа.
-	Hexadecimal, // AT&T assembly and C programming languages hexadecimal format: 0x5a3.
-	BasicHexadecimal, // QuickBASIC, FreeBASIC, Visual Basic hexadecimal format: &h5a3.
+	Hexadecimal, // Unix, AT&T assembly, C programming language and its syntactic descendants: 0x5a3.
+	BasicHexadecimal, // QuickBASIC, FreeBASIC, Visual Basic: &h5a3.
 	CssHexadecimal, // Color references in HTML: #ffffff.
-	IntelHexadecimal, // Intel-derived assembly languages and Modula-2 hexadecimal format: 5A3H, FFh or 0FFh.
-	PascalHexadecimal, // Motorola, 6502, Pascal, Delphi, BASIC hexadecimal format: $5a3.
+	EscapeHexadecimal, // Escape sequence with : \x5a3.
+	IntelHexadecimal, // Intel-derived assembly languages and Modula-2: 5A3H, FFh or 0FFh.
+	PascalHexadecimal, // Motorola, 6502, Pascal, Delphi, BASIC: $5a3.
 	XmlHexadecimal, // XML hexadecimal format: &#x821a.
+	UnicodeHexadecimal, // Unicode escape sequence with all four hexadecimal digits: \u004b.
+
+	AlgolHexadecimal,
 
 	// Специфические для языка терминалы.
 	CppNotEqual,

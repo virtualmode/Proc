@@ -84,7 +84,7 @@ private:
 	}
 
 	inline void ReadDelimiter() {
-		//Type = Symbol::Delimiter;
+		Type = Symbol::Delimiter;
 		Value = (int)_charToken.Type;
 	}
 
