@@ -6,25 +6,15 @@
 #include "Temp/Dependency.h"
 
 #include "FileStream.hpp"
-#include "SymbolToken.hpp"
 #include "Utf8.hpp"
+#include "SymbolToken.hpp"
+#include "ProcSymbolToken.hpp"
 
 // Синтаксический анализатор процессора.
 class Proc {
-
 private:
 
-	// Обычно синтаксический анализатор использует соответствующий ему лексический анализатор.
-	// А лексический анализатор использует определённый символьный поток.
-	// Но синтаксис Proc позволяет переключаться между языками.
-	// Т.е. он может содержать в себе другой синтаксический анализатор?
-	// Использование другого синтаксического анализатора можно также представить как
-	// переход в другое состояние ранее не доступное Proc.
-
-	Reader &_stream;
-
-	// Цепочка Proc:
-	Utf8 &_utf8;
+	// Лексический анализатор исходного кода.
 	SymbolToken &_lexer;
 
 	// OBSOLETE
@@ -39,10 +29,8 @@ public:
 	// Но почему не лексический анализатор в параметре?!
 	// Т.к. класс скорее является фабрикой лексико-синтаксических цепочек классов,
 	// которые всегда цепляются на базовый поток.
-	Proc(Reader &source):
-		_stream(source),
-		_utf8(Utf8(&source)),
-		_lexer(SymbolToken((CharToken*)&_utf8)) {
+	Proc(SymbolToken &symbolToken):
+		_lexer(symbolToken) {
 	}
 
 	//Proc(ISyntaxAnalyzer syntaxAnalyzer) // Сразу перейти в состояние другого процессора.

@@ -9,6 +9,7 @@
 #include "CharToken.hpp"
 #include "Symbol.hpp"
 #include "SymbolError.hpp"
+#include "Keyword.hpp"
 
 /*
 	4. Первичная обработка исходного кода для компилятора или интерпретатора начинается с лексического анализа. Есть
@@ -20,11 +21,7 @@
 	Такие классы задач можно выделить суффиксами в соответствии от их назначения, например Reader, Writer или Seeker.
 */
 
-// Лексический анализатор исходного кода. Машина состояний. Конечный автомат.
-// В других источниках можно встретить варианты: lexical analyzer, lexer, tokenizer, scanner, token reader.
-// TODO Анализатор работает с Юникод текстом и наверное максимум может быть совместим с подобными кодировками,
-// TODO но есть ли смысл так делать, непонятно. Типа это UnicodeLexer и должен работать только с Юникодом.
-// TODO Если потребуется работать с другими источниками исходников, то для них должен быть написан свой анализатор.
+#define KEYWORD_TABLE_SIZE 32
 
 // Лексический анализатор исходного кода, машина состояний, конечный автомат.
 // В других источниках можно встретить варианты: lexical analyzer, lexer, tokenizer, scanner, token reader.
@@ -33,9 +30,12 @@
 // Набор лексем избавляет от необходимости создавать реализацию синтаксического анализатора для каждой кодировки.
 // Но если и текстовые потоки представить аналогичным образом, одного лексического анализатора также будет достаточно.
 class SymbolToken {
-private:
+protected:
 
 	CharToken &_charToken;
+
+	int _keywordCount;
+	struct Keyword _keywordTable[KEYWORD_TABLE_SIZE];
 
 	// Перевод машины в состояние ошибки.
 	void SetError(SymbolError error, const char *message) {
@@ -44,34 +44,37 @@ private:
 		ErrorLine = _charToken.Line;
 	}
 
+	// Является ли текущий символ частью идентификатора.
+	// @param orDigit Учитывать цифры в середине и конце идентификатора.
+	inline bool IsIdentifierLetter(bool orDigit) {
+		return _charToken.Type == Char::Underline ||
+			_charToken.IsLatinLetter() || // TODO Можно расширить поддержку идентификаторов.
+			(orDigit && _charToken.IsDecimalDigit());
+	}
+
 	inline void ReadIdentifier() {
 		Type = Symbol::Identifier;
-		//Value = 0;
-		do {
-			//Value++;
-			_charToken.ReadChar();
-		} while (_charToken.IsLatinLetter());
-
-		/*int i, k;
-		i = 0;
-		do { // Считывание всего идентификатора:
-			if (i < IDLEN) {
-				id[i] = ch;
-				i++;
+		Value = 0;
+		do { // Считывание всего идентификатора.
+			if (Value < KEYWORD_ID_SIZE) {
+				// TODO Заменить на нормальные строки и символьные лексемы.
+				Identifier[Value] = (char)_charToken.Value;
+				Value++;
 			}
-			chRead();
-		} while (!(ch < '0' || ch > '9' && toupper(ch) < 'A' || toupper(ch) > 'Z')); // TODO Оригинал.
-		id[i] = 0; // Терминальный ноль.
-		k = 0;
-		while (k < nkw && strcmp(id, keyTab[k].id) != 0) {
-			k++; // Поиск совпадений с ключевыми словами.
-		}
-		// Определение типа идентификатора:
-		if (k < nkw) {
-			sym = keyTab[k].sym; // Терминальный символ из таблицы языка.
+			_charToken.ReadChar();
+		} while (IsIdentifierLetter(true));
+		Identifier[Value] = '\0'; // Терминальный ноль.
+		// Поиск совпадений с ключевыми словами.
+		Value = 0;
+		while (Value < _keywordCount &&
+			strcmp(Identifier, _keywordTable[Value].Identifier) != 0) // TODO Заменить на нормальные строки.
+			Value++;
+		// Определение типа идентификатора.
+		if (Value < _keywordCount) {
+			Type = _keywordTable[Value].Symbol; // Терминальный символ из таблицы языка.
 		} else {
-			sym = IDENT; // Идентификатор - нетерминальный символ.
-		}*/
+			Type = Symbol::Identifier; // Идентификатор считается нетерминальный символ.
+		}
 	}
 
 	inline void ReadWhitespace() {
@@ -86,6 +89,7 @@ private:
 	inline void ReadDelimiter() {
 		Type = Symbol::Delimiter;
 		Value = (int)_charToken.Type;
+		_charToken.ReadChar();
 	}
 
 	inline void ReadEndOfLine() {
@@ -105,7 +109,7 @@ private:
 			if (Value <= (LONG_MAX - (long)_charToken.Type + (long)Char::Digit0) / 10) {
 				Value = 10 * Value + (long)_charToken.Type - (long)Char::Digit0;
 			} else if (Error != SymbolError::None) {
-				SetError(SymbolError::NumberOverflow, "Not enought long size to store number.");
+				SetError(SymbolError::NumberOverflow, "Not enough long size to store number.");
 			}
 			_charToken.ReadChar();
 		} while (_charToken.IsDecimalDigit());
@@ -125,6 +129,7 @@ public:
 	// Язык не должен ограничивать размер чисел из-за архитектуры процессора.
 	long Value; // Предполагается, что это и будет единственный поток состояний, хранящий значение лексемы.
 	double Real; // [Obsolete] Значение числа с плавающей точкой.
+	char Identifier[KEYWORD_ID_SIZE]; // [Obsolete] Значение идентификатора.
 
 	// TODO Состояние очередной ошибки можно вынести в отдельный интерфейс.
 	// TODO Но если здесь достаточно одного состояния, то в синтаксическом анализаторе это может быть несколько ошибок за итерацию.
@@ -141,41 +146,23 @@ public:
 		// TODO И передавать композицию интерфейсов CharToken и CharReader например.
 		// TODO Но может быть если класс будет работать как дизассемблер, то и CharWriter.
 		_charToken.ReadChar(); // Предпросмотр оптимизирует код.
+		_keywordCount = 0;
 	}
 
 	virtual ~SymbolToken() {
 	}
 
-	void AddTerminal() {
-		
+	// Добавление зарезервированного слова.
+	void EnterKeyword(Symbol symbol, const char *name) {
+		_keywordTable[_keywordCount].Symbol = symbol;
+		memcpy(_keywordTable[_keywordCount].Identifier, name, strlen(name));
+		_keywordCount++;
 	}
 
 	// Чтение очередной лексемы. Простейший шаг, определяющий следующий автомат.
 	// Результат чтения не имеет значения, т.к. синтаксический анализатор сам решает,
 	// является ли для него состояние машины приемлемым для следующего шага.
-	void ReadToken() {
-		// Если нет возможности прочесть очередное состояние из потока, работа анализатора завершается.
-		if (_charToken.EndOfStream) {
-			Type = Symbol::EndOfStream;
-			return;
-		}
-
-		// В зависимости от текущего состояния необходимо определить следующую m-конфигурацию.
-		if (_charToken.IsLatinLetter() ||
-			_charToken.Type == Char::Underline) {
-			ReadIdentifier();
-		} else if (_charToken.IsWhitespace()) {
-			ReadWhitespace();
-		} else if (_charToken.IsDelimiter()) {
-			ReadDelimiter();
-		} else if (_charToken.IsEndOfLine()) {
-			ReadEndOfLine();
-		} else if (_charToken.IsDecimalDigit()) {
-			ReadInteger();
-		} else {
-			ReadUnknown();
-		}
-	}
+	virtual void ReadToken() = 0;
 };
 
 #endif // SYMBOL_TOKEN_HPP

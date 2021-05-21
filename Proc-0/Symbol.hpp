@@ -62,7 +62,7 @@ enum class Symbol {
 	Integer, // Последовательность цифр без разделителей: -123, 0x80, 21h.
 	ZeroXInteger,
 	XmlInteger, // XML integer format: &#8217.
-	
+
 	Real, // Вещественные числа: -0.3, 3.57e-3, 0.7e12, 1e+20, 5.0f, 1.0d.
 	RealExp,
 
@@ -82,8 +82,12 @@ enum class Symbol {
 
 	AlgolHexadecimal,
 
-	// Специфические для языка терминалы.
-	CppNotEqual,
+	// Терминальные символы логики.
+	NotEqual,
+
+	// Зарезервированные слова.
+	Class,
+	Enumeration,
 };
 
 #endif // SYMBOL_HPP

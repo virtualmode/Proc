@@ -3,6 +3,8 @@
     class Test
         private void Method(int argc)
     	private object Method()
+			return 24 + Test(100)
+
       private object Test()
 
 enum ExampleType
@@ -10,3 +12,7 @@ enum ExampleType
   	    Type2
     	Type3
     	  Type4
+
+/*
+	This is comment.
+*/
