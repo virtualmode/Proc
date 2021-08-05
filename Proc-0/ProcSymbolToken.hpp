@@ -15,7 +15,7 @@ public:
 
 	// Основной конструктор.
 	// @param charToken Символьный поток.
-	ProcSymbolToken(CharToken *charToken):
+	ProcSymbolToken(CharStream *charToken):
 		SymbolToken(charToken) {
 		EnterKeyword(Symbol::Class, "class");
 		EnterKeyword(Symbol::Enumeration, "enum");

@@ -10,6 +10,11 @@
 #include "CharWriter.hpp"
 #include "CharSeeker.hpp"
 
+class String {
+private:
+public:
+};
 
+#define string String
 
 #endif // STRING_HPP

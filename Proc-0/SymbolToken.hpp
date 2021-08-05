@@ -5,8 +5,10 @@
 
 #include "Temp/Dependency.h"
 
-#include "Char.hpp"
-#include "CharToken.hpp"
+#include "Text/Char.hpp"
+#include "Text/CharType.hpp"
+#include "Text/CharStream.hpp"
+
 #include "Symbol.hpp"
 #include "SymbolError.hpp"
 #include "Keyword.hpp"
@@ -32,7 +34,7 @@
 class SymbolToken {
 protected:
 
-	CharToken &_charToken;
+	CharStream &_charToken;
 
 	int _keywordCount;
 	struct Keyword _keywordTable[KEYWORD_TABLE_SIZE];
@@ -47,7 +49,7 @@ protected:
 	// Является ли текущий символ частью идентификатора.
 	// @param orDigit Учитывать цифры в середине и конце идентификатора.
 	inline bool IsIdentifierLetter(bool orDigit) {
-		return _charToken.Type == Char::Underline ||
+		return _charToken.Type == CharType::Underline ||
 			_charToken.IsLatinLetter() || // TODO Можно расширить поддержку идентификаторов.
 			(orDigit && _charToken.IsDecimalDigit());
 	}
@@ -106,8 +108,8 @@ protected:
 		Type = Symbol::Integer;
 		Value = 0;
 		do {
-			if (Value <= (LONG_MAX - (long)_charToken.Type + (long)Char::Digit0) / 10) {
-				Value = 10 * Value + (long)_charToken.Type - (long)Char::Digit0;
+			if (Value <= (LONG_MAX - (long)_charToken.Type + (long)CharType::Digit0) / 10) {
+				Value = 10 * Value + (long)_charToken.Type - (long)CharType::Digit0;
 			} else if (Error != SymbolError::None) {
 				SetError(SymbolError::NumberOverflow, "Not enough long size to store number.");
 			}
@@ -138,7 +140,7 @@ public:
 	long ErrorLine; // Строка с ошибкой.
 
 	// Основной конструктор.
-	SymbolToken(CharToken *charToken):
+	SymbolToken(CharStream *charToken):
 		_charToken(*charToken) {
 		Type = Symbol::Unknown;
 		Error = SymbolError::None;

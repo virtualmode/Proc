@@ -3,7 +3,8 @@
 #ifndef UTF8_HPP
 #define UTF8_HPP
 
-#include "CharToken.hpp"
+#include "CharStream.hpp"
+
 #include "Reader.hpp"
 #include "Writer.hpp"
 
@@ -27,27 +28,28 @@
 	codings). It will reject surrogates. (Surrogate encoding should only be
 	used with UTF-16.)
 
-	Code     Contination Minimum Maximum
-	0xxxxxxx           0       0     127
-	10xxxxxx       error
-	110xxxxx           1     128    2047
-	1110xxxx           2    2048   65535 excluding 55296 - 57343
-	11110xxx           3   65536 1114111
-	11111xxx       error
+	Code     Continuation Minimum Maximum
+	0xxxxxxx            0       0     127
+	10xxxxxx        error
+	110xxxxx            1     128    2047
+	1110xxxx            2    2048   65535 excluding 55296 - 57343
+	11110xxx            3   65536 1114111
+	11111xxx        error
 */
 
 #define UTF8_END   -1
 #define UTF8_ERROR -2
 
-class Utf8: public CharToken {
+// TODO ЗАменить на композицию интерфейсов.
+class Utf8: public CharStream {
 private:
 
-	char _symbol; // Очередной прочитанный символ.
+	char _symbol; // Очередной прочитанный байт.
 	Reader *_reader;
 	Writer *_writer;
 
 	// Предыдущий символ последовательности перевода на новую строку.
-	Char _eolSequence;
+	CharType _eolSequence;
 
 	// Статический конструктор.
 	/*friend class CharTokenStatic;
@@ -174,11 +176,12 @@ private:
 
 	// Обновление лексемы в соответствии с текущим кодом символа.
 	inline void UpdateType() {
-		if (Value <= (int)Char::Delete) {
-			Type = (Char)Value;
+		_char value = Value + (_char)CharType::Null; // Отвязывание Юникода от значения.
+		if (value <= (_char)CharType::Delete) {
+			Type = (CharType)value;
 		} else {
 			// TODO Реализовать определение других символов при необходимости.
-			Type = Char::Unknown;
+			Type = CharType::Unknown;
 		}
 	}
 
@@ -195,21 +198,21 @@ private:
 		Character++;
 		Column++; // TODO Необходимо учитывать, что символы типа табуляции занимают несколько позиций.
 		if (IsEndOfLine()) {
-			if (_eolSequence != Char::CarriageReturn || Type != Char::LineFeed)
+			if (_eolSequence != CharType::CarriageReturn || Type != CharType::LineFeed)
 				 NextLine();
 
 			_eolSequence = Type;
 		} else {
-			if (_eolSequence != Char::Unknown)
+			if (_eolSequence != CharType::Unknown)
 				NextLine();
 
-			_eolSequence = Char::Unknown;
+			_eolSequence = CharType::Unknown;
 		}
 	}
 
 	Utf8() {
-		_eolSequence = Char::Unknown;
-		Type = Char::Unknown;
+		_eolSequence = CharType::Unknown;
+		Type = CharType::Unknown;
 		EndOfStream = false;
 		Position = 0;
 		Character = 0;
@@ -219,7 +222,7 @@ private:
 
 public:
 
-	int Value; // Код текущего символа.
+	_char Value; // Код текущего символа.
 
 	// Основной конструктор.
 	// TODO Если будут введены отдельные реализации интерфейсов, необходимо рассмотреть возможность языка
@@ -272,17 +275,17 @@ public:
 
 	// Является ли текущий символ арабской десятичной цифрой юникода.
 	virtual bool IsDecimalDigit() {
-		return Type >= Char::Digit0 && Type <= Char::Digit9;
+		return Type >= CharType::Digit0 && Type <= CharType::Digit9;
 	}
 
 	// Является ли текущий символ строчной латинской буквой.
 	virtual bool IsSmallLatinLetter() {
-		return Type >= Char::SmallLetterA && Type <= Char::SmallLetterZ;
+		return Type >= CharType::SmallLetterA && Type <= CharType::SmallLetterZ;
 	}
 
 	// Является ли текущий символ заглавной латинской буквой.
 	virtual bool IsCapitalLatinLetter() {
-		return Type >= Char::CapitalLetterA && Type <= Char::CapitalLetterZ;
+		return Type >= CharType::CapitalLetterA && Type <= CharType::CapitalLetterZ;
 	}
 
 	// Является ли текущий символ латинской буквой.
@@ -293,28 +296,28 @@ public:
 	// Символ является отступом.
 	// @deprecated Достаточно специфическая реализация для использования в таком виде.
 	virtual bool IsWhitespace() {
-		return Type == Char::HorizontalTabulation ||
-			Type == Char::Space;
+		return Type == CharType::HorizontalTabulation ||
+			Type == CharType::Space;
 	}
 
 	// Символ относится к группе допустимых разделителей, используемых в компиляторе.
 	// @deprecated Достаточно специфическая реализация для использования в таком виде.
 	virtual bool IsDelimiter() {
-		return Type >= Char::Space && Type <= Char::Slash ||
-			Type >= Char::Colon && Type <= Char::CommercialAt ||
-			Type >= Char::LeftSquareBracket && Type <= Char::GraveAccent ||
-			Type >= Char::LeftCurlyBracket && Type <= Char::Delete;
+		return Type >= CharType::Space && Type <= CharType::Slash ||
+			Type >= CharType::Colon && Type <= CharType::CommercialAt ||
+			Type >= CharType::LeftSquareBracket && Type <= CharType::GraveAccent ||
+			Type >= CharType::LeftCurlyBracket && Type <= CharType::Delete;
 	}
 
 	// Символ является разделителем строк или входит в последовательность разделения.
 	// @deprecated Название не совсем соответствует действительности.
 	virtual bool IsEndOfLine() {
-		return Type == Char::CarriageReturn ||
-			Type == Char::LineFeed ||
-			Type == Char::NextLine ||
-			Type == Char::LineSeparator ||
-			Type == Char::ParagraphSeparator ||
-			Type == Char::VerticalTabulation;
+		return Type == CharType::CarriageReturn ||
+			Type == CharType::LineFeed ||
+			Type == CharType::NextLine ||
+			Type == CharType::LineSeparator ||
+			Type == CharType::ParagraphSeparator ||
+			Type == CharType::VerticalTabulation;
 	}
 };
 

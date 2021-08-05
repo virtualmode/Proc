@@ -447,14 +447,14 @@
 // Unsigned integer types:
 typedef unsigned char u8; //!< 1 byte from 0 to 255 (char, bool).
 typedef unsigned short u16; //!< 2 bytes from 0 to 65,535 (short).
-typedef unsigned int u32; //!< 4 bytes from 0 to 4,294,967,295 (int, long).
+typedef unsigned long u32; //!< 4 bytes from 0 to 4,294,967,295 (int, long).
 typedef unsigned long long u64; //!< 8 bytes from 0 to 18,446,744,073,709,551,615 (long long).
 //typedef u64 ul; //!< Largest supported unsigned type.
 
 // Signed integer types:
 typedef signed char s8; //!< 1 bytes from –128 to 127.
 typedef signed short s16; //!< 2 bytes from –32,768 to 32,767.
-typedef signed int s32; //!< 4 bytes from –2,147,483,648 to 2,147,483,647.
+typedef signed long s32; //!< 4 bytes from –2,147,483,648 to 2,147,483,647.
 typedef signed long long s64; //!< 8 bytes from –9,223,372,036,854,775,808 to 9,223,372,036,854,775,807.
 //typedef s64 sl; //!< Largest supported signed type.
 

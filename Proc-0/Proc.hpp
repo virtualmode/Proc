@@ -5,8 +5,9 @@
 
 #include "Temp/Dependency.h"
 
+#include "Text/Utf8.hpp"
+
 #include "FileStream.hpp"
-#include "Utf8.hpp"
 #include "SymbolToken.hpp"
 #include "ProcSymbolToken.hpp"
 

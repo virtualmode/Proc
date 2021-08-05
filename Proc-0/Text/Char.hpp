@@ -1,27 +1,27 @@
 #pragma once
 
-#ifndef CHAR_TOKEN_HPP
-#define CHAR_TOKEN_HPP
+#ifndef CHAR_HPP
+#define CHAR_HPP
 
 #include "Temp/Dependency.h"
 
-#include "Char.hpp"
-#include "CharReader.hpp"
-#include "CharWriter.hpp"
-#include "CharSeeker.hpp"
+#include "CharType.hpp"
 
-// Интерфейс машины состояний символа.
-// TODO CharReader и CharWriter должны использоваться независимо.
-// TODO Необходимо добавить в язык возможность композиции интерфейсов.
-// TODO А пока придётся наследовать с другими необходимыми интерфейсами.
-class CharToken: public CharReader, public CharWriter, public CharSeeker {
+// Код символа для внутреннего использования.
+// TODO Тип символа в Proc отличается размером от C/C++ типа и должен быть переименован без подчёркивания.
+#define _char unsigned long
+//typedef unsigned long Char;
+
+// Интерфейс работы с токеном символа определённой кодировки.
+class Char {
+protected:
 public:
 
-	// TODO Поток со значением кода символа в реализуемой кодировке.
-	int Value;
+	// Поток состояний со значением кода символа в реализуемой кодировке.
+	_char Value;
 
-	// Значение лексемы.
-	Char Type;
+	// Тип токена.
+	CharType Type;
 
 	// Является ли текущий символ индо-арабской десятичной цифрой.
 	virtual bool IsDecimalDigit() = 0;
@@ -48,4 +48,4 @@ public:
 	virtual bool IsEndOfLine() = 0;
 };
 
-#endif // CHAR_TOKEN_HPP
+#endif // CHAR_HPP
