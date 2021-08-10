@@ -1,13 +1,12 @@
 #pragma once
 
-#ifndef SYMBOL_HPP
-#define SYMBOL_HPP
+#ifndef SYMBOL_TYPE_HPP
+#define SYMBOL_TYPE_HPP
 
-#include "Temp/Dependency.h"
 
 // Лексемы общего лексического анализатора исходного кода.
 // Представляют собой множество терминальных символов поддерживаемых языков.
-enum class Symbol {
+enum class SymbolType {
 	Unknown, // Группа непредусмотренных символов.
 
 /*
@@ -90,4 +89,4 @@ enum class Symbol {
 	Enumeration,
 };
 
-#endif // SYMBOL_HPP
+#endif // SYMBOL_TYPE_HPP

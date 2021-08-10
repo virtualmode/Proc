@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 	} else if (strcmp(argv[1], "-l") == 0) { // Лексический анализ файла.
 		FileStream source(argv[2]); // Базовый поток состояний, используемый процессором и дочерними анализаторами.
 		Utf8 charToken((Reader*)&source); // Символьный поток определённой кодировки.
-		ProcSymbolToken lexer(&charToken); // Лексический анализатор исходного кода.
+		ProcSymbol lexer(&charToken); // Лексический анализатор исходного кода.
 		Proc processor(lexer); // Синтаксический
 		processor.Start();
 	}

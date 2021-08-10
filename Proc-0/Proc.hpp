@@ -8,15 +8,15 @@
 #include "Text/Utf8.hpp"
 
 #include "FileStream.hpp"
-#include "SymbolToken.hpp"
-#include "ProcSymbolToken.hpp"
+#include "Symbols/Symbol.hpp"
+#include "Symbols/ProcSymbol.hpp"
 
 // Синтаксический анализатор процессора.
 class Proc {
 private:
 
 	// Лексический анализатор исходного кода.
-	SymbolToken &_lexer;
+	Symbol &_lexer;
 
 	// OBSOLETE
 	// А может сделать как-то общую цепочку для любого языка?
@@ -30,7 +30,7 @@ public:
 	// Но почему не лексический анализатор в параметре?!
 	// Т.к. класс скорее является фабрикой лексико-синтаксических цепочек классов,
 	// которые всегда цепляются на базовый поток.
-	Proc(SymbolToken &symbolToken):
+	Proc(Symbol &symbolToken):
 		_lexer(symbolToken) {
 	}
 
@@ -45,7 +45,7 @@ public:
 		do {
 			_lexer.ReadToken();
 			i++;
-		} while (_lexer.Type != Symbol::EndOfStream);
+		} while (_lexer.Type != SymbolType::EndOfStream);
 		printf("Proc lexer ready with %u states.\n", i);
 
 		/*// Отладочная информация.

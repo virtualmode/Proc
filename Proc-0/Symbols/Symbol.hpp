@@ -1,15 +1,16 @@
 #pragma once
 
-#ifndef SYMBOL_TOKEN_HPP
-#define SYMBOL_TOKEN_HPP
+#ifndef SYMBOL_HPP
+#define SYMBOL_HPP
 
 #include "Temp/Dependency.h"
 
 #include "Text/Char.hpp"
 #include "Text/CharType.hpp"
 #include "Text/CharStream.hpp"
+#include "Text/String.hpp"
 
-#include "Symbol.hpp"
+#include "SymbolType.hpp"
 #include "SymbolError.hpp"
 #include "Keyword.hpp"
 
@@ -31,7 +32,7 @@
 // При чтении одного и того же набора символов в разных кодировках все реализации должны возвращать одинаковую лексему.
 // Набор лексем избавляет от необходимости создавать реализацию синтаксического анализатора для каждой кодировки.
 // Но если и текстовые потоки представить аналогичным образом, одного лексического анализатора также будет достаточно.
-class SymbolToken {
+class Symbol {
 protected:
 
 	CharStream &_charToken;
@@ -55,12 +56,12 @@ protected:
 	}
 
 	inline void ReadIdentifier() {
-		Type = Symbol::Identifier;
+		Type = SymbolType::Identifier;
 		Value = 0;
 		do { // Считывание всего идентификатора.
 			if (Value < KEYWORD_ID_SIZE) {
 				// TODO Заменить на нормальные строки и символьные лексемы.
-				Identifier[Value] = (char)_charToken.Value;
+				Identifier[Value] = _charToken.Value;
 				Value++;
 			}
 			_charToken.ReadChar();
@@ -69,18 +70,18 @@ protected:
 		// Поиск совпадений с ключевыми словами.
 		Value = 0;
 		while (Value < _keywordCount &&
-			strcmp(Identifier, _keywordTable[Value].Identifier) != 0) // TODO Заменить на нормальные строки.
+			string::Compare(Identifier, _keywordTable[Value].Identifier, KEYWORD_ID_SIZE) != 0)
 			Value++;
 		// Определение типа идентификатора.
 		if (Value < _keywordCount) {
 			Type = _keywordTable[Value].Symbol; // Терминальный символ из таблицы языка.
 		} else {
-			Type = Symbol::Identifier; // Идентификатор считается нетерминальный символ.
+			Type = SymbolType::Identifier; // Идентификатор считается нетерминальный символ.
 		}
 	}
 
 	inline void ReadWhitespace() {
-		Type = Symbol::Whitespace;
+		Type = SymbolType::Whitespace;
 		Value = 0;
 		do {
 			Value++;
@@ -89,13 +90,13 @@ protected:
 	}
 
 	inline void ReadDelimiter() {
-		Type = Symbol::Delimiter;
-		Value = (int)_charToken.Type;
+		Type = SymbolType::Delimiter;
+		Value = (long)_charToken.Type;
 		_charToken.ReadChar();
 	}
 
 	inline void ReadEndOfLine() {
-		Type = Symbol::EndOfLine;
+		Type = SymbolType::EndOfLine;
 		Value = 0;
 		do {
 			Value++;
@@ -105,7 +106,7 @@ protected:
 
 	// Чтение целого числа.
 	inline void ReadInteger() {
-		Type = Symbol::Integer;
+		Type = SymbolType::Integer;
 		Value = 0;
 		do {
 			if (Value <= (LONG_MAX - (long)_charToken.Type + (long)CharType::Digit0) / 10) {
@@ -118,20 +119,20 @@ protected:
 	}
 
 	inline void ReadUnknown() {
-		Type = Symbol::Unknown;
+		Type = SymbolType::Unknown;
 		_charToken.ReadChar();
 	}
 
 public:
 
 	// Тип символа.
-	Symbol Type;
+	SymbolType Type;
 
 	// Нужно реализовать потоки состояний и возможность использования на них объединений union или cast.
 	// Язык не должен ограничивать размер чисел из-за архитектуры процессора.
 	long Value; // Предполагается, что это и будет единственный поток состояний, хранящий значение лексемы.
 	double Real; // [Obsolete] Значение числа с плавающей точкой.
-	char Identifier[KEYWORD_ID_SIZE]; // [Obsolete] Значение идентификатора.
+	_char Identifier[KEYWORD_ID_SIZE]; // [Obsolete] Значение идентификатора.
 
 	// TODO Состояние очередной ошибки можно вынести в отдельный интерфейс.
 	// TODO Но если здесь достаточно одного состояния, то в синтаксическом анализаторе это может быть несколько ошибок за итерацию.
@@ -140,9 +141,9 @@ public:
 	long ErrorLine; // Строка с ошибкой.
 
 	// Основной конструктор.
-	SymbolToken(CharStream *charToken):
+	Symbol(CharStream *charToken):
 		_charToken(*charToken) {
-		Type = Symbol::Unknown;
+		Type = SymbolType::Unknown;
 		Error = SymbolError::None;
 		// TODO Это не токен в чистом виде, скорее надо переименовать в машину состояний.
 		// TODO И передавать композицию интерфейсов CharToken и CharReader например.
@@ -151,11 +152,11 @@ public:
 		_keywordCount = 0;
 	}
 
-	virtual ~SymbolToken() {
+	virtual ~Symbol() {
 	}
 
 	// Добавление зарезервированного слова.
-	void EnterKeyword(Symbol symbol, const char *name) {
+	void EnterKeyword(SymbolType symbol, const char *name) {
 		_keywordTable[_keywordCount].Symbol = symbol;
 		memcpy(_keywordTable[_keywordCount].Identifier, name, strlen(name));
 		_keywordCount++;
@@ -167,4 +168,4 @@ public:
 	virtual void ReadToken() = 0;
 };
 
-#endif // SYMBOL_TOKEN_HPP
+#endif // SYMBOL_HPP

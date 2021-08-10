@@ -1,27 +1,27 @@
 #pragma once
 
-#ifndef PROC_SYMBOL_TOKEN_HPP
-#define PROC_SYMBOL_TOKEN_HPP
+#ifndef PROC_SYMBOL_HPP
+#define PROC_SYMBOL_HPP
 
 #include "Temp/Dependency.h"
 
-#include "SymbolToken.hpp"
+#include "Symbol.hpp"
 
 // Лексический анализатор Proc.
-class ProcSymbolToken: public SymbolToken {
+class ProcSymbol: public Symbol {
 private:
 
 public:
 
 	// Основной конструктор.
 	// @param charToken Символьный поток.
-	ProcSymbolToken(CharStream *charToken):
-		SymbolToken(charToken) {
-		EnterKeyword(Symbol::Class, "class");
-		EnterKeyword(Symbol::Enumeration, "enum");
+	ProcSymbol(CharStream *charToken):
+		Symbol(charToken) {
+		EnterKeyword(SymbolType::Class, "class");
+		EnterKeyword(SymbolType::Enumeration, "enum");
 	}
 
-	virtual ~ProcSymbolToken() {
+	virtual ~ProcSymbol() {
 	}
 
 	// Чтение очередной лексемы. Простейший шаг, определяющий следующий автомат.
@@ -30,7 +30,7 @@ public:
 	virtual void ReadToken() {
 		// Если нет возможности прочесть очередное состояние из потока, работа анализатора завершается.
 		if (_charToken.EndOfStream) {
-			Type = Symbol::EndOfStream;
+			Type = SymbolType::EndOfStream;
 			return;
 		}
 
@@ -51,4 +51,4 @@ public:
 	}
 };
 
-#endif // PROC_SYMBOL_TOKEN_HPP
+#endif // PROC_SYMBOL_HPP
