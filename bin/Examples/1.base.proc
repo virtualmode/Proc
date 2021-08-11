@@ -1,0 +1,14 @@
+// Базовый пример модификаторов, классов, пространств имён и комментариев.
+public class Namespace1.PublicClass
+    // TODO Пример заметки на исправление.
+	class Namespace3.PrivateClass1
+	private class Namespace3.PrivateClass2
+	private protected class Namespace4.Namespace5.PrivateProtectedClass
+	protected class ProtectedClass
+	protected internal class ProtectedInternalClass
+
+/*
+	Многострочный комментарий.
+	CRUTCH Пример некачественного кода.
+*/
+internal class Namespace2.InternalClass

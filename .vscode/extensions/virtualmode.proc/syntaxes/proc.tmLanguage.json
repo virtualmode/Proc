@@ -3,21 +3,107 @@
     "name": "proc",
     "scopeName": "source.proc",
     "patterns": [
+        { "include": "#keyword" },
         { "include": "#comment" },
+        { "include": "#type" },
+
+
+
         { "include": "#constant" },
         { "include": "#entity" },
         { "include": "#invalid" },
-        { "include": "#keyword" },
         { "include": "#meta" },
         { "include": "#operator" },
         { "include": "#punctuation" },
         { "include": "#storage" },
         { "include": "#string" },
         { "include": "#support" },
-        { "include": "#type" },
         { "include": "#variable" }
     ],
     "repository": {
+        "keyword": {
+            "patterns": [
+                {
+                    "name": "storage.type.c",
+                    "match": "\\b(public|private|protected|internal)\\b"
+                },
+                {
+                    "name": "keyword.control.c",
+                    "match": "\\b(break|case|continue|default|do|else|for|goto|if|return|switch|while)\\b"
+                }
+            ]
+        },
+        "comment": {
+            "patterns": [
+                {
+                    "name": "comment.block.c",
+                    "begin": "/\\*",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.begin.c"
+                        }
+                    },
+                    "end": "\\*/",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.end.c"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "name": "variable.other.constant",
+                            "match": "(^\\s*|\\s+)TODO\\s+.*$"
+                        },
+                        {
+                            "name": "entity.name.tag.css",
+                            "match": "(^\\s*|\\s+)CRUTCH\\s+.*$"
+                        }
+                    ]
+                },
+                {
+                    "name": "comment.line.double-slash.cpp",
+                    "begin": "//",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.cpp"
+                        }
+                    },
+                    "end": "(\n)",
+                    "patterns": [
+                        {
+                            "name": "variable.other.constant",
+                            "match": "\\s+TODO\\s+.*$"
+                        },
+                        {
+                            "name": "entity.name.tag.css",
+                            "match": "\\s+CRUTCH\\s+.*$"
+                        }
+                    ]
+                }
+            ]
+        },
+        "type": {
+            "patterns": [
+                {
+                    "match": "(class\\s+)(\\w+\\.)*(\\w+){1}$",
+                    "captures": {
+                        "1": {
+                            "name": "storage.type.c"
+                        },
+                        "3": {
+                            "name": "entity.name.type"
+                        }
+                    }
+                },
+                {
+                    "match": "\\b(Stream|Reader|Writer|Seeker|Utf8|File)\\b",
+                    "name": "support.type.sys-types.c"
+                }
+            ]
+        },
+
+
+
         "line_continuation_character": {
             "patterns": [
                 {
@@ -58,35 +144,6 @@
                 }
             ]
         },
-        "comment": {
-            "patterns": [
-                {
-                    "name": "comment.block.c",
-                    "begin": "/\\*",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.comment.begin.c"
-                        }
-                    },
-                    "end": "\\*/",
-                    "endCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.comment.end.c"
-                        }
-                    }
-                },
-                {
-                    "begin": "//",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.comment.cpp"
-                        }
-                    },
-                    "end": "(\n)",
-                    "name": "comment.line.double-slash.cpp"
-                }
-            ]
-        },
         "constant": {
             "patterns": [
                 {
@@ -109,14 +166,6 @@
         },
         "invalid": {
             "patterns": []
-        },
-        "keyword": {
-            "patterns": [
-                {
-                    "match": "\\b(break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while)\\b",
-                    "name": "keyword.control.c"
-                }
-            ]
         },
         "meta": {
             "patterns": [
@@ -381,18 +430,6 @@
         },
         "support": {
             "patterns": []
-        },
-        "type": {
-            "patterns": [
-                {
-                    "match": "\\b(virtual|void|object|bool)\\b",
-                    "name": "storage.type.c"
-                },
-                {
-                    "match": "\\b(Stream|Reader|Writer|Seeker|Utf8|File)\\b",
-                    "name": "support.type.sys-types.c"
-                }
-            ]
         },
         "variable": {
             "patterns": [
