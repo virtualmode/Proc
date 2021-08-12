@@ -74,7 +74,7 @@ private:
 	}
 
 	// Get the 6-bit payload of the next continuation byte.
-	// @return UTF8_ERROR if it is not a contination byte.
+	// @return UTF8_ERROR if it is not a continuation byte.
 	int cont() {
 		int c = get();
 		return ((c & 0xC0) == 0x80) ? (c & 0x3F) : UTF8_ERROR;
@@ -221,8 +221,6 @@ private:
 	}
 
 public:
-
-	_char Value; // Код текущего символа.
 
 	// Основной конструктор.
 	// TODO Если будут введены отдельные реализации интерфейсов, необходимо рассмотреть возможность языка

@@ -1,0 +1,120 @@
+// Базовый пример программы.
+
+// Интерфейс работы с фигурой.
+public class Example.Shape
+
+	public 2[32] Identifier
+
+	public virtual 2[32] GetArea()
+	public virtual string ToString()
+
+// Реализация прямоугольника.
+public class Example.Shape.Rectangle
+
+	public 2[32] Width, Height
+
+	public Rectangle(2[32] identifier, 2[32] width, 2[32] height)
+		Identifier = identifier
+		Width = width
+		Height = height
+
+	public virtual 2[32] GetArea()
+		return Width * Height
+
+	public virtual string ToString()
+		return "RS" + Identifier + "=" + GetArea()
+
+// Реализация круга.
+public class Example.Shape.Circle
+
+	private const PI = 3.14159
+	public 2[32] Radius
+
+	public Circle(2[32] identifier, 2[32] radius)
+		Identifier = identifier
+		Radius = radius
+
+	public virtual 2[32] GetArea()
+		return PI * Radius * Radius
+
+	public virtual string ToString()
+		return "CS" + Identifier + "=" + GetArea()
+
+// Контейнер с фигурами.
+public class Example.Shape.Service
+
+	private List<Shape> _shapes
+
+	public 2[32] GetCount()
+		return _shapes.Count
+
+	public Add(Shape shape)
+		_shapes.Add(shape)
+
+	public WriteCollection()
+		for (2[32] i = 0; i < _shapes.Count - 1; i++)
+			Console.Write(_shapes[i].ToString + ", ")
+		Console.WriteLine(_shapes[i].ToString)
+
+// Фабрика фигур.
+public static class Example.Shape.Factory
+
+	public static Shape Create(2[32] identifier)
+		if (Random.Next(2) == 0)
+			return new Rectangle(identifier, Random.Next(100), Random.Next(100))
+		else
+			return new Circle(identifier, Random.Next(100))
+
+// Генератор множества случайных фигур.
+public class Example.Shape.Generator
+
+	private ShapeContainer _shapeContainer
+
+	public ShapeGenerator(ShapeContainer shapeContainer)
+		_shapeContainer = shapeContainer
+
+	public void Generate(2[32] count)
+		for (2[32] i = 0; i < count; i++)
+			_shapeContainer.Add(Factory.Create(i))
+
+// Сортировка фигур по площади.
+public class Example.Shape.Sorter
+
+	private Container _container
+	private 2[32] _start, _count
+	private Shape _temp, _p
+
+	public Sorter(Container container, 2[32] start, 2[32] count)
+		_container = container
+		_start = start
+		_count = count
+		_p = _container[start + count / 2]
+
+	public Sort()
+		2[32] i = _start, j = _start + _count - 1
+		do
+			while (_container[i] < _p) i++
+			while (_container[j] > _p) j--
+			if (i <= j)
+				temp = _container[i]
+				_container[i] = _container[j]
+				_container[j] = _temp
+				i++
+				j--
+		while (i <= j)
+
+		if (j > 0) new Sorter(_container, 0, j)
+		if (_count > i) new Sorter(_container, i, _count - i)
+
+// Глобальная область пока что является в некотором плане точкой входа.
+using Example
+using Example.Shape
+
+Service shapeService = new Service()
+Generator shapeGenerator = new Generator(shapeService)
+Sorter shapeSorter = new Sorter(shapeService, 0, shapeService.GetCount())
+
+shapeGenerator.Generate(10)
+shapeService.WriteCollection()
+shapeSorter.Sort()
+shapeService.WriteCollection()

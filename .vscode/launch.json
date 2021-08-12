@@ -11,7 +11,7 @@
             "preLaunchTask": "Build",
             "cwd": "${workspaceFolder}/bin",
             "program": "${workspaceFolder}/bin/proc",
-            "args": ["-l", "debug.proc"],
+            "args": ["-l", "Examples/1.base.proc"],
             "stopAtEntry": false,
             "environment": [],
             "externalConsole": false,

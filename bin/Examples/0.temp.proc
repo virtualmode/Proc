@@ -1,0 +1,57 @@
+// Пример модификаторов, классов, пространств имён и комментариев.
+public class Namespace1.PublicClass
+    // TODO Пример заметки на исправление.
+	class Namespace3.PrivateClass1: Interface1, Namespace1.Interface2
+	private class Namespace3.PrivateClass2
+	private protected class Namespace4.Namespace5.PrivateProtectedClass
+	protected class ProtectedClass : IExample1, IExample2
+	protected internal class ProtectedInternalClass
+		public void Method1(bool argument1, bool argument2)
+
+/*
+	Многострочный комментарий.
+	CRUTCH Пример некачественного кода.
+*/
+internal class Namespace2.InternalClass
+
+// Пример подключения пространства имён.
+using Scope1.Scope2.Scope3 // Вариант namespace == scope? import?
+
+// TODO Необходимо подумать о выделении памяти под локальные объекты и обращении к ним.
+void Sort(256 array[4][10])
+	// Тип данных является числом 256^(4*10) состояний.
+	256[4] i, j, k // Ассоциативность допускает запись вида 256 i[4], j[4], k[4], где 256 - основание.
+	// Состояния можно рассматривать как представление данных.
+	// TODO Копировать ленту полностью или только указатели?
+	2[8][4][10] same = array // Или 4294967296[10] same = array.
+	// Чтобы не делать явное преобразование, можно опускать часть измерений кроме N-последних например.
+	// Тип элемента при этом будет вычислен как M-N, где M - все измерения с основанием.
+	for (i = 0; i < 10; i++)
+		for (j = 0; j < 10; j++)
+			if (same[i] > same[j])
+				k = same[j]
+				same[j] = same[i]
+				same[i] = k
+
+	// Вывод на экран.
+	for (i = 0; i < 10; i++) { // TODO Необходимо продумать возможность использовать необязательных конструкций.
+		Console.Write($"{same[i]} "); // TODO Типа скобок и точки с запятой.
+	}
+	Console.WriteLine()
+
+// Глобальная область видимости необходима?
+// Может заменить точку входа или дать возможность выполнять программы из консоли?
+void MainTopScope() // Ключевое слово static необязательно.
+	// TODO Сомнительное решение, но может функции и методы по умолчанию вызывать без скобок как в консоли?
+	Sort({4, 8, 1, 0, 9, 2, 7, 3, 6, 5})
+	Console.WriteLine("Global scope can provide recursive inclusion?")
+
+class Program
+	static 256[] text = "routine"
+	static void Main()
+		Console.WriteLine($"This is proc {text}.")
+
+// Заметки.
+git lg -10
+git(lg(10))
+git.lg(10)

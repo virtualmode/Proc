@@ -1,0 +1,29 @@
+//typedef [] object
+//typedef 256 byte
+
+// Пример класса для работы со строками.
+public class String
+
+	// Лента для хранения строки.
+	private 256[] _value
+
+	//private 256[][7] _value
+	//private 256[5][][7] _value
+	//private 256[5][][7][] _value
+
+	//public 256[4] Length
+
+	//public String()
+	//public String(256[] value)
+	//public String(String value)
+
+	public Set(object value)
+
+	public Set(256[] value)
+		delete[] _value
+		_value = value
+
+// Использование строк.
+String example
+example.Set("abc")
+example.Set("realloc")

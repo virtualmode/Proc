@@ -158,7 +158,8 @@ public:
 	// Добавление зарезервированного слова.
 	void EnterKeyword(SymbolType symbol, const char *name) {
 		_keywordTable[_keywordCount].Symbol = symbol;
-		memcpy(_keywordTable[_keywordCount].Identifier, name, strlen(name));
+		//memcpy(_keywordTable[_keywordCount].Identifier, name, strlen(name));
+		string::ToString(name, _keywordTable[_keywordCount].Identifier, strlen(name));
 		_keywordCount++;
 	}
 

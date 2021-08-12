@@ -11,6 +11,11 @@
 #include "Symbols/Symbol.hpp"
 #include "Symbols/ProcSymbol.hpp"
 
+// Proc[]
+// []Proc
+// Pr[]c
+// Pr[][
+
 // Синтаксический анализатор процессора.
 class Proc {
 private:
