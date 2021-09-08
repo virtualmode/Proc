@@ -50,7 +50,8 @@ protected:
 	// Является ли текущий символ частью идентификатора.
 	// @param orDigit Учитывать цифры в середине и конце идентификатора.
 	inline bool IsIdentifierLetter(bool orDigit) {
-		return _charToken.Type == CharType::Underline ||
+		return !_charToken.EndOfStream &&
+			_charToken.Type == CharType::Underline ||
 			_charToken.IsLatinLetter() || // TODO Можно расширить поддержку идентификаторов.
 			(orDigit && _charToken.IsDecimalDigit());
 	}

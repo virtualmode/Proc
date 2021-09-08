@@ -4,4 +4,4 @@
 	else
 		return Fibonacci(n - 1) + Fibonacci(n - 2)
 
-Fibonacci()
+Fibonacci(2)

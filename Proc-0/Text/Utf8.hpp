@@ -129,6 +129,9 @@ private:
 
 		c = get();
 
+		if (c < 0)
+			return c;
+
 		// Zero continuation (0 to 127).
 		// Считывается первый байт. Если первый бит == 0, то значение байта <= 127.
 		// Это значит, что символ относится к модифицированной ASCII-таблице и является
@@ -177,7 +180,9 @@ private:
 	// Обновление лексемы в соответствии с текущим кодом символа.
 	inline void UpdateType() {
 		_char value = Value + (_char)CharType::Null; // Отвязывание Юникода от значения.
-		if (value <= (_char)CharType::Delete) {
+		if ((long)Value < 0) {
+			EndOfStream = true;
+		} else if (value <= (_char)CharType::Delete) {
 			Type = (CharType)value;
 		} else {
 			// TODO Реализовать определение других символов при необходимости.
@@ -194,9 +199,13 @@ private:
 
 	// Вычисление курсора, номера символа в строке, колонки, номера строки.
 	void UpdateCounters() {
+		if (EndOfStream)
+			return;
+
 		Position++;
 		Character++;
 		Column++; // TODO Необходимо учитывать, что символы типа табуляции занимают несколько позиций.
+
 		if (IsEndOfLine()) {
 			if (_eolSequence != CharType::CarriageReturn || Type != CharType::LineFeed)
 				 NextLine();
@@ -273,17 +282,20 @@ public:
 
 	// Является ли текущий символ арабской десятичной цифрой юникода.
 	virtual bool IsDecimalDigit() {
-		return Type >= CharType::Digit0 && Type <= CharType::Digit9;
+		return (Type >= CharType::Digit0 && Type <= CharType::Digit9) &&
+			!EndOfStream;
 	}
 
 	// Является ли текущий символ строчной латинской буквой.
 	virtual bool IsSmallLatinLetter() {
-		return Type >= CharType::SmallLetterA && Type <= CharType::SmallLetterZ;
+		return (Type >= CharType::SmallLetterA && Type <= CharType::SmallLetterZ) &&
+			!EndOfStream;
 	}
 
 	// Является ли текущий символ заглавной латинской буквой.
 	virtual bool IsCapitalLatinLetter() {
-		return Type >= CharType::CapitalLetterA && Type <= CharType::CapitalLetterZ;
+		return (Type >= CharType::CapitalLetterA && Type <= CharType::CapitalLetterZ) &&
+			!EndOfStream;
 	}
 
 	// Является ли текущий символ латинской буквой.
@@ -294,28 +306,31 @@ public:
 	// Символ является отступом.
 	// @deprecated Достаточно специфическая реализация для использования в таком виде.
 	virtual bool IsWhitespace() {
-		return Type == CharType::HorizontalTabulation ||
-			Type == CharType::Space;
+		return (Type == CharType::HorizontalTabulation ||
+			Type == CharType::Space) &&
+			!EndOfStream;
 	}
 
 	// Символ относится к группе допустимых разделителей, используемых в компиляторе.
 	// @deprecated Достаточно специфическая реализация для использования в таком виде.
 	virtual bool IsDelimiter() {
-		return Type >= CharType::Space && Type <= CharType::Slash ||
+		return (Type >= CharType::Space && Type <= CharType::Slash ||
 			Type >= CharType::Colon && Type <= CharType::CommercialAt ||
 			Type >= CharType::LeftSquareBracket && Type <= CharType::GraveAccent ||
-			Type >= CharType::LeftCurlyBracket && Type <= CharType::Delete;
+			Type >= CharType::LeftCurlyBracket && Type <= CharType::Delete) &&
+			!EndOfStream;
 	}
 
 	// Символ является разделителем строк или входит в последовательность разделения.
 	// @deprecated Название не совсем соответствует действительности.
 	virtual bool IsEndOfLine() {
-		return Type == CharType::CarriageReturn ||
+		return (Type == CharType::CarriageReturn ||
 			Type == CharType::LineFeed ||
 			Type == CharType::NextLine ||
 			Type == CharType::LineSeparator ||
 			Type == CharType::ParagraphSeparator ||
-			Type == CharType::VerticalTabulation;
+			Type == CharType::VerticalTabulation) &&
+			!EndOfStream;
 	}
 };
 
