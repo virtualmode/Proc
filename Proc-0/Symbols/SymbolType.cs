@@ -1,54 +1,51 @@
-#pragma once
-
-#ifndef SYMBOL_TYPE_HPP
-#define SYMBOL_TYPE_HPP
-
-
-// Лексемы общего лексического анализатора исходного кода.
-// Представляют собой множество терминальных символов поддерживаемых языков.
-enum class SymbolType {
+/// <summary>
+/// Лексемы общего лексического анализатора исходного кода.
+/// Представляют собой множество терминальных символов поддерживаемых языков.
+/// </summary>
+enum SymbolType
+{
 	Unknown, // Группа непредусмотренных символов.
 
-/*
-	// TODO Объединение в группу разделителей увеличит производительность
-	// TODO и немного снизит наглядность, поэтому надо подумать.
-	// Односимвольные терминалы.
-	ExclamationMark, // !
-	QuotationMark, // "
-	NumberSign, // #
-	DollarSign, // $
-	PercentSign, // %
-	Ampersand, // &
-	Apostrophe, // '
-	LeftParenthesis, // (
-	RightParenthesis, // )
-	Asterisk, // *
-	PlusSign, // +
-	Comma, // ,
-	HyphenMinus, // Hyphen -
-	FullStop, // .
-	Slash, // Solidus /
+	/*
+		// TODO Объединение в группу разделителей увеличит производительность
+		// TODO и немного снизит наглядность, поэтому надо подумать.
+		// Односимвольные терминалы.
+		ExclamationMark, // !
+		QuotationMark, // "
+		NumberSign, // #
+		DollarSign, // $
+		PercentSign, // %
+		Ampersand, // &
+		Apostrophe, // '
+		LeftParenthesis, // (
+		RightParenthesis, // )
+		Asterisk, // *
+		PlusSign, // +
+		Comma, // ,
+		HyphenMinus, // Hyphen -
+		FullStop, // .
+		Slash, // Solidus /
 
-	Colon, // :
-	Semicolon, // ;
-	LessThanSign, // <
-	EqualsSign, // =
-	GreaterThanSign, // >
-	QuestionMark, // ?
-	CommercialAt, // @
+		Colon, // :
+		Semicolon, // ;
+		LessThanSign, // <
+		EqualsSign, // =
+		GreaterThanSign, // >
+		QuestionMark, // ?
+		CommercialAt, // @
 
-	LeftSquareBracket, // [
-	Backslash, // \ :)
-	RightSquareBracket, // ]
-	CircumflexAccent, // ^
-	Underline, // _
-	GraveAccent, // `
+		LeftSquareBracket, // [
+		Backslash, // \ :)
+		RightSquareBracket, // ]
+		CircumflexAccent, // ^
+		Underline, // _
+		GraveAccent, // `
 
-	LeftCurlyBracket, // {
-	VerticalLine, // |
-	RightCurlyBracket, // }
-	Tilde, // ~
-*/
+		LeftCurlyBracket, // {
+		VerticalLine, // |
+		RightCurlyBracket, // }
+		Tilde, // ~
+	*/
 
 	// Это базовые символы для всех языков.
 	EndOfLine, // Признак окончания строки (LF, CR, CRLF, NEL, LS, PS, VT).
@@ -87,6 +84,4 @@ enum class SymbolType {
 	// Зарезервированные слова.
 	Class,
 	Enumeration,
-};
-
-#endif // SYMBOL_TYPE_HPP
+}

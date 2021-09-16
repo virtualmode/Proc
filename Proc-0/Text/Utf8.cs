@@ -1,14 +1,3 @@
-#pragma once
-
-#ifndef UTF8_HPP
-#define UTF8_HPP
-
-#include "CharStream.hpp"
-
-#include "Reader.hpp"
-#include "Writer.hpp"
-
-
 /*
 	3. Исходные коды программ представлены в текстовом виде. Наиболее распространенным сейчас является формат UTF-8.
 	Компилятор должен как минимум его поддерживать, чтобы обеспечивать чтение и запись текстовых данных.
@@ -37,19 +26,24 @@
 	11111xxx        error
 */
 
-#define UTF8_END   -1
-#define UTF8_ERROR -2
+using System.Runtime.CompilerServices;
+/// <summary>
+/// TODO Заменить на композицию интерфейсов.
+/// </summary>
+class Utf8: CharStream
+{
+	private const int UTF8_BUFFER_SIZE = 4;
 
-// TODO ЗАменить на композицию интерфейсов.
-class Utf8: public CharStream {
-private:
+	public const int UTF8_END = -1;
+	public const int UTF8_ERROR = -2;
 
-	char _symbol; // Очередной прочитанный байт.
-	Reader *_reader;
-	Writer *_writer;
+	private byte _symbol; // Очередной прочитанный байт.
+	private byte[] _buffer;
+	private Reader _reader;
+	private Writer _writer;
 
 	// Предыдущий символ последовательности перевода на новую строку.
-	CharType _eolSequence;
+	private CharType _eolSequence;
 
 	// Статический конструктор.
 	/*friend class CharTokenStatic;
@@ -61,58 +55,73 @@ private:
 	// Set the next continuation byte.
 	// Необходимо учесть, что запись и чтение необходимо выполнять в двоичном режиме,
 	// чтобы операционная система не меняла EOL.
-	void set(char cb) {
-		_writer->Write((ptrdiff_t)(&cb), 256);
+	private void set(byte cb)
+	{
+		_buffer[0] = cb;
+		_writer.Write(_buffer, 256);
 	}
 
 	// Get the next byte. It returns UTF8_END if there are no more bytes.
-	int get() {
-		if (_reader->Read((object)&_symbol, 256) <= 0)
+	private int get()
+	{
+		if ((int)_reader.Read(_buffer, 256) <= 0)
 			return UTF8_END;
+
+		_symbol = _buffer[0];
 
 		return _symbol & 0xFF;
 	}
 
 	// Get the 6-bit payload of the next continuation byte.
 	// @return UTF8_ERROR if it is not a continuation byte.
-	int cont() {
+	private int cont()
+	{
 		int c = get();
 		return ((c & 0xC0) == 0x80) ? (c & 0x3F) : UTF8_ERROR;
 	}
 
 	// Целое заранее содержит 4 байта (октета) для кодирования Unicode-символа.
 	// В зависимости от значения необходимо понять каким количеством байт кодируется этот символ в UTF-8.
-	void utf8_encode_next(int symbol) {
-		int i, offset, count, temp;
+	void utf8_encode_next(int symbol)
+	{
+		int i, temp, offset = 0, count = 0;
 
 		// 0xxxxxxx
-		if (symbol <= 0x0000007F) { // Код символа до 127. Требуется 1 октет для кодирования.
-			set((char)symbol);
+		if (symbol <= 0x0000007F)
+		{ // Код символа до 127. Требуется 1 октет для кодирования.
+			set((byte)symbol);
 			return;
 
-		// 110xxxxx 10xxxxxx
-		} else if (symbol <= 0x000007FF) { // 2047. Требуется 2 октета.
+			// 110xxxxx 10xxxxxx
+		}
+		else if (symbol <= 0x000007FF)
+		{ // 2047. Требуется 2 октета.
 			count = 1;
 			offset = 0xC0;
 
-		// 1110xxxx 10xxxxxx 10xxxxxx
-		} else if (symbol <= 0x0000FFFF) { // 65535. Требуется 3 октета.
+			// 1110xxxx 10xxxxxx 10xxxxxx
+		}
+		else if (symbol <= 0x0000FFFF)
+		{ // 65535. Требуется 3 октета.
 			count = 2;
 			offset = 0xE0;
 
-		// 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-		} else if (symbol <= 0x0010FFFF) { // 1114111. Требуется 4 октета.
+			// 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+		}
+		else if (symbol <= 0x0010FFFF)
+		{ // 1114111. Требуется 4 октета.
 			count = 3;
 			offset = 0xF0;
 		}
 
 		i = 0;
-		set((symbol >> (6 * count)) + offset);
+		set((byte)((symbol >> (6 * count)) + offset));
 		i++;
 
-		while (count > 0) {
+		while (count > 0)
+		{
 			temp = symbol >> (6 * (count - 1));
-			set(0x80 | (temp & 0x3f));
+			set((byte)(0x80 | (temp & 0x3f)));
 			i++;
 			count--;
 		}
@@ -120,7 +129,8 @@ private:
 
 	// Extract the next character.
 	// @return The character (between 0 and 1114111) or UTF8_END or UTF8_ERROR.
-	int utf8_decode_next() {
+	int utf8_decode_next()
+	{
 		int c;  // The first byte of the character.
 		int c1; // The first continuation character.
 		int c2; // The second continuation character.
@@ -136,40 +146,52 @@ private:
 		// Считывается первый байт. Если первый бит == 0, то значение байта <= 127.
 		// Это значит, что символ относится к модифицированной ASCII-таблице и является
 		// латинским символом. Если значение байта > 127, то символ не ASCII.
-		if ((c & 0x80) == 0) {
+		if ((c & 0x80) == 0)
+		{
 			return c;
 		}
 
 		// One continuation (128 to 2047).
 		// Символ относится к двубайтовым, если первые 3 бита 0xE0 == 110 (0xC0).
-		if ((c & 0xE0) == 0xC0) {
+		if ((c & 0xE0) == 0xC0)
+		{
 			c1 = cont();
-			if (c1 >= 0) {
+			if (c1 >= 0)
+			{
 				r = ((c & 0x1F) << 6) | c1;
-				if (r >= 128) {
+				if (r >= 128)
+				{
 					return r;
 				}
 			}
 
-		// Two continuations (2048 to 55295 and 57344 to 65535).
-		} else if ((c & 0xF0) == 0xE0) {
+			// Two continuations (2048 to 55295 and 57344 to 65535).
+		}
+		else if ((c & 0xF0) == 0xE0)
+		{
 			c1 = cont();
 			c2 = cont();
-			if ((c1 | c2) >= 0) {
+			if ((c1 | c2) >= 0)
+			{
 				r = ((c & 0x0F) << 12) | (c1 << 6) | c2;
-				if (r >= 2048 && (r < 55296 || r > 57343)) {
+				if (r >= 2048 && (r < 55296 || r > 57343))
+				{
 					return r;
 				}
 			}
 
-		// Three continuations (65536 to 1114111).
-		} else if ((c & 0xF8) == 0xF0) {
+			// Three continuations (65536 to 1114111).
+		}
+		else if ((c & 0xF8) == 0xF0)
+		{
 			c1 = cont();
 			c2 = cont();
 			c3 = cont();
-			if ((c1 | c2 | c3) >= 0) {
+			if ((c1 | c2 | c3) >= 0)
+			{
 				r = ((c & 0x07) << 18) | (c1 << 12) | (c2 << 6) | c3;
-				if (r >= 65536 && r <= 1114111) {
+				if (r >= 65536 && r <= 1114111)
+				{
 					return r;
 				}
 			}
@@ -178,27 +200,37 @@ private:
 	}
 
 	// Обновление лексемы в соответствии с текущим кодом символа.
-	inline void UpdateType() {
-		_char value = Value + (_char)CharType::Null; // Отвязывание Юникода от значения.
-		if ((long)Value < 0) {
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	void UpdateType()
+	{
+		int value = Value + (int)CharType.Null; // Отвязывание Юникода от значения.
+		if ((long)Value < 0)
+		{
 			EndOfStream = true;
-		} else if (value <= (_char)CharType::Delete) {
+		}
+		else if (value <= (int)CharType.Delete)
+		{
 			Type = (CharType)value;
-		} else {
+		}
+		else
+		{
 			// TODO Реализовать определение других символов при необходимости.
-			Type = CharType::Unknown;
+			Type = CharType.Unknown;
 		}
 	}
 
 	// Состояние новой строки.
-	inline void NextLine() {
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	void NextLine()
+	{
 		Line++;
 		Character = 0;
 		Column = 0;
 	}
 
 	// Вычисление курсора, номера символа в строке, колонки, номера строки.
-	void UpdateCounters() {
+	void UpdateCounters()
+	{
 		if (EndOfStream)
 			return;
 
@@ -206,22 +238,27 @@ private:
 		Character++;
 		Column++; // TODO Необходимо учитывать, что символы типа табуляции занимают несколько позиций.
 
-		if (IsEndOfLine()) {
-			if (_eolSequence != CharType::CarriageReturn || Type != CharType::LineFeed)
-				 NextLine();
-
-			_eolSequence = Type;
-		} else {
-			if (_eolSequence != CharType::Unknown)
+		if (IsEndOfLine())
+		{
+			if (_eolSequence != CharType.CarriageReturn || Type != CharType.LineFeed)
 				NextLine();
 
-			_eolSequence = CharType::Unknown;
+			_eolSequence = Type;
+		}
+		else
+		{
+			if (_eolSequence != CharType.Unknown)
+				NextLine();
+
+			_eolSequence = CharType.Unknown;
 		}
 	}
 
-	Utf8() {
-		_eolSequence = CharType::Unknown;
-		Type = CharType::Unknown;
+	private Utf8()
+	{
+		_buffer = new byte[UTF8_BUFFER_SIZE];
+		_eolSequence = CharType.Unknown;
+		Type = CharType.Unknown;
 		EndOfStream = false;
 		Position = 0;
 		Character = 0;
@@ -229,14 +266,13 @@ private:
 		Line = 0;
 	}
 
-public:
-
 	// Основной конструктор.
 	// TODO Если будут введены отдельные реализации интерфейсов, необходимо рассмотреть возможность языка
 	// TODO комбинировать несколько интерфейсов и не писать каждый раз отдельные конструкторы.
 	// @param reader Входящий поток состояний.
 	// @param writer Исходящий поток состояний.
-	Utf8(Reader *reader, Writer *writer): Utf8() {
+	public Utf8(Reader reader, Writer writer) : this()
+	{
 		_reader = reader;
 		_writer = writer;
 	}
@@ -245,28 +281,28 @@ public:
 	// Теоретически компилятор может создавать реализацию любого интерфейса отдельно от общей реализации.
 	// Необходимо дописать новый синтаксис для конструктора, который явно указывает используемый интерфейс(ы).
 	// Конструктор для Proc будет содержать в конструкторе интерфейс SourceToken.UnicodeReader и реализовывать часть класса.
-	Utf8(Reader *reader): Utf8() {
+	public Utf8(Reader reader) : this()
+	{
 		_reader = reader;
 	}
 
 	// Initialize the UTF-8 encoder.
 	// Конструктор для Proc будет содержать в конструкторе интерфейс SourceToken.UnicodeWriter и реализовывать часть класса.
-	Utf8(Writer *writer): Utf8() {
+	public Utf8(Writer writer) : this()
+	{
 		_writer = writer;
 	}
 
-	// Деструкторы аналогично можно писать для разных реализаций.
-	virtual ~Utf8() {
-	}
-
-	virtual int ReadChar() {
+	public override int ReadChar()
+	{
 		Value = utf8_decode_next();
 		UpdateType();
 		UpdateCounters();
 		return Value;
 	}
 
-	virtual void WriteChar(int character) {
+	public override void WriteChar(int character)
+	{
 		utf8_encode_next(character);
 		Value = character;
 		UpdateType();
@@ -274,64 +310,70 @@ public:
 		Position++;
 	}
 
-	virtual bool SeekChar(long offset) {
+	public override bool SeekChar(long offset)
+	{
 		// TODO Необходимо реализовать переход машины состояний вперед и назад на несколько шагов.
 		// TODO Также надо подумать о возможности в принципе перехода назад.
 		return false;
 	}
 
 	// Является ли текущий символ арабской десятичной цифрой юникода.
-	virtual bool IsDecimalDigit() {
-		return (Type >= CharType::Digit0 && Type <= CharType::Digit9) &&
+	public override bool IsDecimalDigit()
+	{
+		return (Type >= CharType.Digit0 && Type <= CharType.Digit9) &&
 			!EndOfStream;
 	}
 
 	// Является ли текущий символ строчной латинской буквой.
-	virtual bool IsSmallLatinLetter() {
-		return (Type >= CharType::SmallLetterA && Type <= CharType::SmallLetterZ) &&
+	public override bool IsSmallLatinLetter()
+	{
+		return (Type >= CharType.SmallLetterA && Type <= CharType.SmallLetterZ) &&
 			!EndOfStream;
 	}
 
 	// Является ли текущий символ заглавной латинской буквой.
-	virtual bool IsCapitalLatinLetter() {
-		return (Type >= CharType::CapitalLetterA && Type <= CharType::CapitalLetterZ) &&
+	public override bool IsCapitalLatinLetter()
+	{
+		return (Type >= CharType.CapitalLetterA && Type <= CharType.CapitalLetterZ) &&
 			!EndOfStream;
 	}
 
 	// Является ли текущий символ латинской буквой.
-	virtual bool IsLatinLetter() {
+	public override bool IsLatinLetter()
+	{
 		return IsSmallLatinLetter() || IsCapitalLatinLetter();
 	}
 
 	// Символ является отступом.
 	// @deprecated Достаточно специфическая реализация для использования в таком виде.
-	virtual bool IsWhitespace() {
-		return (Type == CharType::HorizontalTabulation ||
-			Type == CharType::Space) &&
+	public override bool IsWhitespace()
+	{
+		return (Type == CharType.HorizontalTabulation ||
+			Type == CharType.Space) &&
 			!EndOfStream;
 	}
 
 	// Символ относится к группе допустимых разделителей, используемых в компиляторе.
 	// @deprecated Достаточно специфическая реализация для использования в таком виде.
-	virtual bool IsDelimiter() {
-		return (Type >= CharType::Space && Type <= CharType::Slash ||
-			Type >= CharType::Colon && Type <= CharType::CommercialAt ||
-			Type >= CharType::LeftSquareBracket && Type <= CharType::GraveAccent ||
-			Type >= CharType::LeftCurlyBracket && Type <= CharType::Delete) &&
+	public override bool IsDelimiter()
+	{
+		return (Type >= CharType.Space && Type <= CharType.Slash ||
+			Type >= CharType.Colon && Type <= CharType.CommercialAt ||
+			Type >= CharType.LeftSquareBracket && Type <= CharType.GraveAccent ||
+			Type >= CharType.LeftCurlyBracket && Type <= CharType.Delete) &&
 			!EndOfStream;
 	}
 
 	// Символ является разделителем строк или входит в последовательность разделения.
 	// @deprecated Название не совсем соответствует действительности.
-	virtual bool IsEndOfLine() {
-		return (Type == CharType::CarriageReturn ||
-			Type == CharType::LineFeed ||
-			Type == CharType::NextLine ||
-			Type == CharType::LineSeparator ||
-			Type == CharType::ParagraphSeparator ||
-			Type == CharType::VerticalTabulation) &&
+	public override bool IsEndOfLine()
+	{
+		return (Type == CharType.CarriageReturn ||
+			Type == CharType.LineFeed ||
+			Type == CharType.NextLine ||
+			Type == CharType.LineSeparator ||
+			Type == CharType.ParagraphSeparator ||
+			Type == CharType.VerticalTabulation) &&
 			!EndOfStream;
 	}
-};
-
-#endif // UTF8_HPP
+}

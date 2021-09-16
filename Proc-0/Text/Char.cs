@@ -1,18 +1,18 @@
 /// <summary>
 /// Интерфейс работы с токеном символа определённой кодировки.
 /// </summary>
-internal interface Char
+interface Char
 {
 	/// <summary>
 	/// Поток состояний со значением кода символа в реализуемой кодировке.
 	/// Код символа фиксированного размера для внутреннего использования.
 	/// </summary>
-	int Value { get; }
+	int Value { get; protected set; }
 
 	/// <summary>
 	/// Тип токена.
 	/// </summary>
-	CharType Type { get; }
+	CharType Type { get; protected set; }
 
 	/// <summary>
 	/// Является ли текущий символ индо-арабской десятичной цифрой.
