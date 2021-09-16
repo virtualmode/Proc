@@ -19,8 +19,8 @@ desktop.ini
 # Visual Studio temporary files and folders:
 .git/
 .vs/
-#bin/
-#obj/
+bin/
+obj/
 [Dd]ebug/
 [Rr]elease/
 packages/
@@ -35,7 +35,7 @@ packages/
 *.VC.opendb
 
 # Project:
-bin/proc*
+bin/[Pp]roc*
 
 # Exclusions:
 !bin/README

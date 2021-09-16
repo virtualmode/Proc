@@ -1,0 +1,161 @@
+/// <summary>
+/// Тип токена (лексемы) символа, представляющие значение символов, а не их числовое представление в конкретной кодировке.
+/// Все значения строго отсортированы и сгруппированы в соответствии с интервалами кодировок без учёта самих кодов.
+/// Такая организация позволяет оптимизировать работу с некоторыми кодировками и сохранить при этом универсальность.
+/// </summary>
+internal enum CharType
+{
+	// ASCII управляющие символы 0x0000-0x001f.
+	Null, // Пустой символ ^@ (NUL).
+	StartOfHeading, // Начало заголовка ^A (SOH).
+	StartOfText, // Начало текста ^B (STX).
+	EndOfText, // Сигнал прерывания в терминале ^C (ETX).
+	EndOfTransmission, // Конец вводимых данных ^D (EOT).
+	Enquiry, // Запрос ^E (ENQ).
+	Acknowledge, // Подтверждение ^F (ACK).
+	Bell, // Звуковой сигнал ^G, \a (BEL).
+	Backspace, // Возврат на один шаг ^H, \b (BS).
+	HorizontalTabulation, // Горизонтальная табуляция ^I, \t (HT, TAB).
+	LineFeed, // Подача строки, конец строки, новая строка ^J, \n (LF, EOL, NL).
+	VerticalTabulation, // Вертикальная табуляция ^K, \v (VT).
+	FormFeed, // Прогон страницы ^L, \f (FF).
+	CarriageReturn, // Возврат каретки ^M, \r (CR).
+	ShiftOut, // Режим национальных символов ^N (SO).
+	ShiftIn, // Режим ASCII ^O (SI).
+	DataLinkEscape, // Экранирование управляющих символов в обычный текст ^P (DLE).
+	DeviceControl1, // Первый код управления устройством ^Q (DC1).
+	DeviceControl2, // Второй код управления устройством ^R (DC2).
+	DeviceControl3, // Третий код управления устройством ^S (DC3).
+	DeviceControl4, // Четвёртый код управления устройством ^T (DC4).
+	NegativeAcknowledge, // Отрицательное подтверждение ^U (NAK).
+	SynchronousIdle, // Пустой символ для синхронного режима передачи ^V (SYN).
+	EndOfTransmissionBlock, // Конец блока передаваемых данных ^W (ETB).
+	Cancel, // Отмена предыдущих данных строки ^X (CAN).
+	EndOfMedium, // Конец носителя ^Y (EM).
+	SubstituteCharacter, // Символ замены потерянного во время передачи символа ^Z (SUB).
+	Escape, // Альтернативный регистр для следующих символов, считающихся уже не ASCII ^[, \e (ESC).
+	FileSeparator, // Разделитель файлов ^\ (FS).
+	GroupSeparator, // Разделитель групп ^] (GS).
+	RecordSeparator, // Разделитель записей ^^ (RS).
+	UnitSeparator, // Разделитель полей ^_ (US).
+
+	// ASCII 0x0020-0x002f.
+	Space, // Пробел (SP).
+	ExclamationMark, // !
+	QuotationMark, // "
+	NumberSign, // #
+	DollarSign, // $
+	PercentSign, // %
+	Ampersand, // &
+	Apostrophe, // '
+	LeftParenthesis, // (
+	RightParenthesis, // )
+	Asterisk, // *
+	PlusSign, // +
+	Comma, // ,
+	HyphenMinus, // Hyphen -
+	FullStop, // .
+	Slash, // Solidus /
+
+	// ASCII индо-арабские десятичные цифры 0x0030-0x0039.
+	Digit0,
+	Digit1,
+	Digit2,
+	Digit3,
+	Digit4,
+	Digit5,
+	Digit6,
+	Digit7,
+	Digit8,
+	Digit9,
+
+	// ASCII 0x003a-0x0040.
+	Colon, // :
+	Semicolon, // ;
+	LessThanSign, // <
+	EqualsSign, // =
+	GreaterThanSign, // >
+	QuestionMark, // ?
+	CommercialAt, // @
+
+	// ASCII латинские заглавные буквы 0x0041-0x005a.
+	CapitalLetterA,
+	CapitalLetterB,
+	CapitalLetterC,
+	CapitalLetterD,
+	CapitalLetterE,
+	CapitalLetterF,
+	CapitalLetterG,
+	CapitalLetterH,
+	CapitalLetterI,
+	CapitalLetterJ,
+	CapitalLetterK,
+	CapitalLetterL,
+	CapitalLetterM,
+	CapitalLetterN,
+	CapitalLetterO,
+	CapitalLetterP,
+	CapitalLetterQ,
+	CapitalLetterR,
+	CapitalLetterS,
+	CapitalLetterT,
+	CapitalLetterU,
+	CapitalLetterV,
+	CapitalLetterW,
+	CapitalLetterX,
+	CapitalLetterY,
+	CapitalLetterZ,
+
+	// ASCII 0x005b-0x0060.
+	LeftSquareBracket, // [
+	Backslash, // \ :)
+	RightSquareBracket, // ]
+	CircumflexAccent, // ^
+	Underline, // _
+	GraveAccent, // `
+
+	// ASCII латинские строчные буквы 0x0061-0x007a.
+	SmallLetterA,
+	SmallLetterB,
+	SmallLetterC,
+	SmallLetterD,
+	SmallLetterE,
+	SmallLetterF,
+	SmallLetterG,
+	SmallLetterH,
+	SmallLetterI,
+	SmallLetterJ,
+	SmallLetterK,
+	SmallLetterL,
+	SmallLetterM,
+	SmallLetterN,
+	SmallLetterO,
+	SmallLetterP,
+	SmallLetterQ,
+	SmallLetterR,
+	SmallLetterS,
+	SmallLetterT,
+	SmallLetterU,
+	SmallLetterV,
+	SmallLetterW,
+	SmallLetterX,
+	SmallLetterY,
+	SmallLetterZ,
+
+	// ASCII 0x007b-0x007f.
+	LeftCurlyBracket, // {
+	VerticalLine, // |
+	RightCurlyBracket, // }
+	Tilde, // ~
+	Delete, // Управляющий символ удаления ^? (DEL).
+
+	// Область других символов.
+	Unknown, // Символ неизвестного назначения.
+
+	// Unicode.
+	NextLine, // Переход на следующую строку 0x0085 (NEL).
+	NoBreakSpace, // Неразрывный пробел 0x00a0 (NBSP).
+	NonBreakingHyphen, // Неразрывный дефис 0x2011 (NBHYPHEN).
+	LineSeparator, // Разделитель строк 0x2028 (LS).
+	ParagraphSeparator, // Разделитель абзацев 0x2029 (PS).
+}
