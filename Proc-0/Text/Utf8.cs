@@ -27,15 +27,20 @@
 */
 
 using System.Runtime.CompilerServices;
+
 /// <summary>
-/// TODO Заменить на композицию интерфейсов.
+/// Поток символов UTF-8.
 /// </summary>
 class Utf8: CharStream
 {
+	#region Constants
+
 	private const int UTF8_BUFFER_SIZE = 4;
 
 	public const int UTF8_END = -1;
 	public const int UTF8_ERROR = -2;
+
+	#endregion Constants
 
 	private byte _symbol; // Очередной прочитанный байт.
 	private byte[] _buffer;
@@ -44,6 +49,8 @@ class Utf8: CharStream
 
 	// Предыдущий символ последовательности перевода на новую строку.
 	private CharType _eolSequence;
+
+	public override CharType Type { get; protected set; }
 
 	// Статический конструктор.
 	/*friend class CharTokenStatic;

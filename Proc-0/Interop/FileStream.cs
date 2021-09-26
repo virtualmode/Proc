@@ -8,6 +8,8 @@
 	оборудования.
 */
 
+namespace Interop;
+
 // Если использовать interface segregation, то может и не будет смысла в объединённом интерфейсе.
 // Также есть идея объединений для безымянных композиций интерфейсов и др. типов.
 //class Stream: public Reader, public Writer, public Seeker {
@@ -31,7 +33,7 @@ class FileStream : Reader, Writer
 	/// Compiler is not support state logic.
 	/// TODO Эту фигню надо будет заменить таблицей.
 	/// </summary>
-	public static int BaseToBytes(double baseobj)
+	public static int BaseToBytes(int baseobj)
 	{
 		return (int)Math.Log2(baseobj) / 8;
 	}
@@ -58,12 +60,12 @@ class FileStream : Reader, Writer
 	/// <exception cref="NotImplementedException"></exception>
 	public object Read(object destination, object baseobj)
 	{
-		return (object)_handle.Read((byte[])destination, 0, BaseToBytes((double)baseobj));
+		return (object)_handle.Read((byte[])destination, 0, BaseToBytes((int)baseobj));
 	}
 
 	public object Write(object source, object baseobj)
 	{
-		int byteCount = BaseToBytes((double)baseobj);
+		int byteCount = BaseToBytes((int)baseobj);
 		_handle.Write((byte[])source, 0, byteCount);
 		return byteCount;
 	}

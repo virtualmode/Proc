@@ -1,8 +1,78 @@
+
+namespace Text;
+
+//#nullable enable
+
 /// <summary>
-/// Extension methods must be defined in a static class.
+/// Простая реализация строк.
 /// </summary>
-public static class StringExtension
+public class String
 {
+	private const int REALLOC_STEP = 32;
+
+	private int[] _value;
+	private int _length;
+
+	public String()
+	{
+		_length = 0;
+		_value = new int[REALLOC_STEP];
+	}
+
+	public String(String value)
+	{
+		_length = value._length;
+		_value = new int[_length];
+		Array.Copy(value._value, _value, _length);
+	}
+
+	public String(string value)
+	{
+		_value = new int[value.Length];
+		for (_length = 0; _length < value.Length; _length++)
+		{
+			_value[_length] = (int)value[_length];
+		}
+	}
+
+	#region Некрасивый синтаксис
+
+	public int this[int index]
+	{
+		get => _value[index];
+		set => _value[index] = value;
+	}
+
+	public int this[long index]
+	{
+		get => _value[index];
+		set => _value[index] = value;
+	}
+
+	/// <summary>
+	/// Преобразование ко встроенному типу строк.
+	/// </summary>
+	public static implicit operator String(string value) => new String(value);
+
+	public static bool operator ==(String value1, String value2) => Array.Equals(value1._value, value2._value);
+
+	public static bool operator !=(String value1, String value2) => !Array.Equals(value1._value, value2._value);
+
+	public static String operator +(String value1, String value2)
+	{
+		int newLength = value1._length + value2._length;
+		if (value1._value.Length < newLength)
+		{
+			int[] newValue = new int[newLength + REALLOC_STEP];
+			Array.Copy(value1._value, newValue, value1._length);
+			value1._value = newValue;
+		}
+		Array.Copy(value2._value, 0, value1._value, value1._length, value2._length);
+		return value1;
+	}
+
+	#endregion
+
 	/// <summary>
 	/// Compares the first bytes of two areas of memory.
 	/// Returns zero if they are the same, a value less than zero if first value is

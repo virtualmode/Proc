@@ -24,7 +24,7 @@ abstract class Symbol
 
 	protected CharStream _charToken;
 	protected int _keywordCount;
-	protected Keyword[] _keywordTable = new Keyword[KEYWORD_TABLE_SIZE];
+	protected Keyword[] _keywordTable;
 
 	/// <summary>
 	/// Тип символа.
@@ -35,7 +35,7 @@ abstract class Symbol
 	// Язык не должен ограничивать размер чисел из-за архитектуры процессора.
 	public long Value; // Предполагается, что это и будет единственный поток состояний, хранящий значение лексемы.
 	public double Real; // [Obsolete] Значение числа с плавающей точкой.
-	public int[] Identifier = new int[Keyword.KEYWORD_ID_SIZE]; // [Obsolete] Значение идентификатора.
+	public Text.String Identifier; // [Obsolete] Значение идентификатора.
 
 	// TODO Состояние очередной ошибки можно вынести в отдельный интерфейс.
 	// TODO Но если здесь достаточно одного состояния, то в синтаксическом анализаторе это может быть несколько ошибок за итерацию.
@@ -54,9 +54,15 @@ abstract class Symbol
 		// TODO Но может быть если класс будет работать как дизассемблер, то и CharWriter.
 		_charToken = charToken;
 		_charToken.ReadChar(); // Предпросмотр оптимизирует код.
+		_keywordTable = new Keyword[KEYWORD_TABLE_SIZE];
 		_keywordCount = 0;
 		Type = SymbolType.Unknown;
+		Identifier = new Text.String();
 		Error = SymbolError.None;
+		ErrorPosition = 0;
+		ErrorLine = 0;
+		Real = 0.0d;
+		Value = 0;
 	}
 
 	/// <summary>
@@ -89,12 +95,8 @@ abstract class Symbol
 		Value = 0;
 		do
 		{ // Считывание всего идентификатора.
-			if (Value < Keyword.KEYWORD_ID_SIZE)
-			{
-				// TODO Заменить на нормальные строки и символьные лексемы.
-				Identifier[Value] = _charToken.Value;
-				Value++;
-			}
+			Identifier[Value] += _charToken.Value;
+			Value++;
 			_charToken.ReadChar();
 		} while (IsIdentifierLetter(true));
 		Identifier[Value] = '\0'; // Терминальный ноль.
@@ -102,8 +104,7 @@ abstract class Symbol
 		// Поиск совпадений с ключевыми словами.
 		Value = 0;
 		while (Value < _keywordCount &&
-			//string.Compare(Identifier, _keywordTable[Value].Identifier, Keyword.KEYWORD_ID_SIZE) != 0)
-			Identifier == _keywordTable[Value].Identifier) // TODO Переписать проверку правильно.
+			Identifier == _keywordTable[Value].Identifier)
 			Value++;
 		// Определение типа идентификатора.
 		if (Value < _keywordCount)
@@ -181,10 +182,11 @@ abstract class Symbol
 	/// Добавление зарезервированного слова.
 	/// </summary>
 	public void EnterKeyword(SymbolType symbol, string name) {
+		if (_keywordTable[_keywordCount] == null)
+			_keywordTable[_keywordCount] = new Keyword();
+
 		_keywordTable[_keywordCount].Symbol = symbol;
-		//memcpy(_keywordTable[_keywordCount].Identifier, name, strlen(name));
-		//string.ToString(name, _keywordTable[_keywordCount].Identifier, name.Length);
-		//_keywordTable[_keywordCount].Identifier = name; // TODO Переписать присваивание правильно.
+		_keywordTable[_keywordCount].Identifier = name;
 		_keywordCount++;
 	}
 

@@ -3,8 +3,7 @@
 /// </summary>
 class Keyword
 {
-	public const int KEYWORD_ID_SIZE = 32;
+	public SymbolType Symbol = SymbolType.Unknown;
 
-	public SymbolType Symbol;
-	public int[] Identifier = new int[KEYWORD_ID_SIZE];
+	public Text.String Identifier = null;
 }

@@ -5,69 +5,40 @@
 /// TODO А пока придётся наследовать с другими необходимыми интерфейсами.
 /// TODO После реализации композиции данный класс не будет иметь смысла.
 /// </summary>
-class CharStream : Char, CharReader, CharWriter, CharSeeker
+[Obsolete("Implement interface composition instead. Allow fields usage?")]
+abstract class CharStream : Char, CharReader, CharWriter, CharSeeker
 {
-	public int Value { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+	public int Value { get; set; }
 
-	public CharType Type { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+	public abstract CharType Type { get; protected set; }
 
-	public bool EndOfStream { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+	public bool EndOfStream { get; set; }
 
-	public long Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+	public long Position { get; set; }
 
-	public long Character { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+	public long Character { get; set; }
 
-	public long Column { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+	public long Column { get; set; }
 
-	public long Line { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+	public long Line { get; set; }
 
-	public virtual bool IsCapitalLatinLetter()
-	{
-		throw new NotImplementedException();
-	}
+	public abstract bool IsCapitalLatinLetter();
 
-	public virtual bool IsDecimalDigit()
-	{
-		throw new NotImplementedException();
-	}
+	public abstract bool IsDecimalDigit();
 
-	public virtual bool IsDelimiter()
-	{
-		throw new NotImplementedException();
-	}
+	public abstract bool IsDelimiter();
 
-	public virtual bool IsEndOfLine()
-	{
-		throw new NotImplementedException();
-	}
+	public abstract bool IsEndOfLine();
 
-	public virtual bool IsLatinLetter()
-	{
-		throw new NotImplementedException();
-	}
+	public abstract bool IsLatinLetter();
 
-	public virtual bool IsSmallLatinLetter()
-	{
-		throw new NotImplementedException();
-	}
+	public abstract bool IsSmallLatinLetter();
 
-	public virtual bool IsWhitespace()
-	{
-		throw new NotImplementedException();
-	}
+	public abstract bool IsWhitespace();
 
-	public virtual int ReadChar()
-	{
-		throw new NotImplementedException();
-	}
+	public abstract int ReadChar();
 
-	public virtual bool SeekChar(long offset)
-	{
-		throw new NotImplementedException();
-	}
+	public abstract bool SeekChar(long offset);
 
-	public virtual void WriteChar(int character)
-	{
-		throw new NotImplementedException();
-	}
+	public abstract void WriteChar(int character);
 }
