@@ -218,6 +218,9 @@ class Utf8: CharStream
 		else if (value <= (int)CharType.Delete)
 		{
 			Type = (CharType)value;
+
+			// Отладка.
+			Console.Write((char)Value);
 		}
 		else
 		{

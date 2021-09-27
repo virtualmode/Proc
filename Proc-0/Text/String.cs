@@ -68,7 +68,19 @@ public class String
 			value1._value = newValue;
 		}
 		Array.Copy(value2._value, 0, value1._value, value1._length, value2._length);
+		value1._length = newLength;
 		return value1;
+	}
+
+	/// <summary>
+	/// Для отладки.
+	/// </summary>
+	public override string ToString()
+	{
+		string result = string.Empty;
+		for (int i = 0; i < _value.Length; i++)
+			result += (char)_value[i];
+		return result;
 	}
 
 	#endregion

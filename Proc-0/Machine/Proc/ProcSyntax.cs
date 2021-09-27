@@ -36,7 +36,7 @@ class ProcSyntax {
 			_lexer.ReadToken();
 			i++;
 		} while (_lexer.Type != SymbolType.EndOfStream);
-		Console.WriteLine("Proc lexer ready with %u states.", i);
+		Console.WriteLine($"Proc lexer ready with {i} states.");
 
 		/*// Отладочная информация.
 		if (unicode < 256)
