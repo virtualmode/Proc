@@ -84,7 +84,7 @@ abstract class Symbol
 	{
 		return !_charToken.EndOfStream &&
 			_charToken.Type == CharType.Underline ||
-			_charToken.IsLatinLetter() || // TODO Можно расширить поддержку идентификаторов.
+			_charToken.IsLetter() ||
 			(orDigit && _charToken.IsDecimalDigit());
 	}
 
@@ -93,8 +93,7 @@ abstract class Symbol
 	{
 		Type = SymbolType.Identifier;
 		Value = 0;
-		do
-		{ // Считывание всего идентификатора.
+		do { // Считывание всего идентификатора.
 			Identifier[Value] += _charToken.Value;
 			Value++;
 			_charToken.ReadChar();

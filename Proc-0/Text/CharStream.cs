@@ -22,23 +22,22 @@ abstract class CharStream : Char, CharReader, CharWriter, CharSeeker
 
 	public long Line { get; set; }
 
-	public abstract bool IsCapitalLatinLetter();
+	public abstract bool IsSmallLetter();
+	public abstract bool IsCapitalLetter();
+	public abstract bool IsLetter();
 
 	public abstract bool IsDecimalDigit();
 
-	public abstract bool IsDelimiter();
-
-	public abstract bool IsEndOfLine();
-
+	public abstract bool IsSmallLatinLetter();
+	public abstract bool IsCapitalLatinLetter();
 	public abstract bool IsLatinLetter();
 
-	public abstract bool IsSmallLatinLetter();
 
+	public abstract bool IsDelimiter();
+	public abstract bool IsEndOfLine();
 	public abstract bool IsWhitespace();
 
 	public abstract int ReadChar();
-
-	public abstract bool SeekChar(long offset);
-
 	public abstract void WriteChar(int character);
+	public abstract bool SeekChar(long offset);
 }

@@ -1,6 +1,6 @@
 256[4] Fibonacci(256[4] n)
 	if (n < 2)
-		return n
+		return n // Выход из рекурсии.
 	else
 		return Fibonacci(n - 1) + Fibonacci(n - 2)
 

@@ -40,6 +40,11 @@ class Utf8: CharStream
 	public const int UTF8_END = -1;
 	public const int UTF8_ERROR = -2;
 
+	public const int UTF8_SMALL_CYRILLIC_LETTER_FROM = 0x0430;
+	public const int UTF8_SMALL_CYRILLIC_LETTER_TO = 0x044F;
+	public const int UTF8_CAPITAL_CYRILLIC_LETTER_FROM = 0x0410;
+	public const int UTF8_CAPITAL_CYRILLIC_LETTER_TO = 0x042F;
+
 	#endregion Constants
 
 	private byte _symbol; // Очередной прочитанный байт.
@@ -226,6 +231,9 @@ class Utf8: CharStream
 		{
 			// TODO Реализовать определение других символов при необходимости.
 			Type = CharType.Unknown;
+
+			// Отладка.
+			Console.Write($"#{Value}");
 		}
 	}
 
@@ -303,28 +311,38 @@ class Utf8: CharStream
 		_writer = writer;
 	}
 
-	public override int ReadChar()
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public bool IsSmallCyrillicLetter()
 	{
-		Value = utf8_decode_next();
-		UpdateType();
-		UpdateCounters();
-		return Value;
+		return (Value >= UTF8_SMALL_CYRILLIC_LETTER_FROM && Value <= UTF8_SMALL_CYRILLIC_LETTER_TO)
+			&& !EndOfStream;
 	}
 
-	public override void WriteChar(int character)
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public bool IsCapitalCyrillicLetter()
 	{
-		utf8_encode_next(character);
-		Value = character;
-		UpdateType();
-		UpdateCounters();
-		Position++;
+		return (Value >= UTF8_CAPITAL_CYRILLIC_LETTER_FROM && Value <= UTF8_CAPITAL_CYRILLIC_LETTER_TO)
+			&& !EndOfStream;
 	}
 
-	public override bool SeekChar(long offset)
+	// Является ли текущий символ строчной буквой.
+	public override bool IsSmallLetter()
 	{
-		// TODO Необходимо реализовать переход машины состояний вперед и назад на несколько шагов.
-		// TODO Также надо подумать о возможности в принципе перехода назад.
-		return false;
+		return IsSmallLatinLetter() ||
+			IsSmallCyrillicLetter();
+	}
+
+	// Является ли текущий символ заглавной буквой.
+	public override bool IsCapitalLetter()
+	{
+		return IsCapitalLatinLetter() ||
+			IsCapitalCyrillicLetter();
+	}
+
+	// Является ли текущий символ буквой.
+	public override bool IsLetter()
+	{
+		return IsSmallLetter() || IsCapitalLetter();
 	}
 
 	// Является ли текущий символ арабской десятичной цифрой юникода.
@@ -354,15 +372,6 @@ class Utf8: CharStream
 		return IsSmallLatinLetter() || IsCapitalLatinLetter();
 	}
 
-	// Символ является отступом.
-	// @deprecated Достаточно специфическая реализация для использования в таком виде.
-	public override bool IsWhitespace()
-	{
-		return (Type == CharType.HorizontalTabulation ||
-			Type == CharType.Space) &&
-			!EndOfStream;
-	}
-
 	// Символ относится к группе допустимых разделителей, используемых в компиляторе.
 	// @deprecated Достаточно специфическая реализация для использования в таком виде.
 	public override bool IsDelimiter()
@@ -385,5 +394,38 @@ class Utf8: CharStream
 			Type == CharType.ParagraphSeparator ||
 			Type == CharType.VerticalTabulation) &&
 			!EndOfStream;
+	}
+
+	// Символ является отступом.
+	// @deprecated Достаточно специфическая реализация для использования в таком виде.
+	public override bool IsWhitespace()
+	{
+		return (Type == CharType.HorizontalTabulation ||
+			Type == CharType.Space) &&
+			!EndOfStream;
+	}
+
+	public override int ReadChar()
+	{
+		Value = utf8_decode_next();
+		UpdateType();
+		UpdateCounters();
+		return Value;
+	}
+
+	public override void WriteChar(int character)
+	{
+		utf8_encode_next(character);
+		Value = character;
+		UpdateType();
+		UpdateCounters();
+		Position++;
+	}
+
+	public override bool SeekChar(long offset)
+	{
+		// TODO Необходимо реализовать переход машины состояний вперед и назад на несколько шагов.
+		// TODO Также надо подумать о возможности в принципе перехода назад.
+		return false;
 	}
 }
