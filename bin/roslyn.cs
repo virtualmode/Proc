@@ -7,7 +7,7 @@ namespace ConsoleApp
         public static int Fibonacci(int n)
         {
             if (n < 2)
-                return n;
+                return n; // Выход из рекурсии.
             else
                 return Fibonacci(n - 1) + Fibonacci(n - 2);
         }

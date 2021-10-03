@@ -5,9 +5,7 @@
 /// Pr[]c
 /// Pr[][
 /// </summary>
-class ProcSyntax {
-
-	private Symbol _lexer;
+class ProcSyntax : SyntaxReader {
 
 	// OBSOLETE
 	// А может сделать как-то общую цепочку для любого языка?
@@ -21,8 +19,7 @@ class ProcSyntax {
 	/// Т.к. класс скорее является фабрикой лексико-синтаксических цепочек классов,
 	/// которые всегда цепляются на базовый поток.
 	/// </summary>
-	public ProcSyntax(Symbol symbolToken) {
-		_lexer = symbolToken;
+	public ProcSyntax(Symbol symbolToken) : base(symbolToken) {
 	}
 
 	//public Proc(ISyntaxAnalyzer syntaxAnalyzer) { } // Сразу перейти в состояние другого процессора.
@@ -30,7 +27,7 @@ class ProcSyntax {
 	/// <summary>
 	/// Начальное состояние машины.
 	/// </summary>
-	public void Start() {
+	public override void Start() {
 		int i = 0;
 		do {
 			_lexer.ReadToken();
@@ -43,5 +40,20 @@ class ProcSyntax {
 			printf_s("%c", unicode);
 		else
 			printf_s("[%u]", unicode);*/
+	}
+
+	public override void ReadBody()
+	{
+		throw new NotImplementedException();
+	}
+
+	public override void ReadDefinition()
+	{
+		throw new NotImplementedException();
+	}
+
+	public override int ReadSyntax()
+	{
+		throw new NotImplementedException();
 	}
 }

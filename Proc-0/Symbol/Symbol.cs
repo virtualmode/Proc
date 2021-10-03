@@ -18,7 +18,7 @@ using System.Runtime.CompilerServices;
 /// Набор лексем избавляет от необходимости создавать реализацию синтаксического анализатора для каждой кодировки.
 /// Но если и текстовые потоки представить аналогичным образом, одного лексического анализатора также будет достаточно.
 /// </summary>
-abstract class Symbol
+abstract class Symbol // TODO Это скорее не Symbol, а его часть - SymbolReader.
 {
 	public const int KEYWORD_TABLE_SIZE = 32;
 
@@ -82,9 +82,8 @@ abstract class Symbol
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	protected bool IsIdentifierLetter(bool orDigit)
 	{
-		return !_charToken.EndOfStream &&
+		return _charToken.IsLetter() ||
 			_charToken.Type == CharType.Underline ||
-			_charToken.IsLetter() ||
 			(orDigit && _charToken.IsDecimalDigit());
 	}
 
@@ -128,13 +127,13 @@ abstract class Symbol
 		} while (_charToken.IsWhitespace());
 	}
 
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	/*[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	protected void ReadDelimiter()
 	{
 		Type = SymbolType.Delimiter;
 		Value = (long)_charToken.Type;
 		_charToken.ReadChar();
-	}
+	}*/
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	protected void ReadEndOfLine()
@@ -168,13 +167,6 @@ abstract class Symbol
 			}
 			_charToken.ReadChar();
 		} while (_charToken.IsDecimalDigit());
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	protected void ReadUnknown()
-	{
-		Type = SymbolType.Unknown;
-		_charToken.ReadChar();
 	}
 
 	/// <summary>

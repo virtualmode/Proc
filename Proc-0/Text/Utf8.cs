@@ -218,7 +218,8 @@ class Utf8: CharStream
 		int value = Value + (int)CharType.Null; // Отвязывание Юникода от значения.
 		if ((long)Value < 0)
 		{
-			EndOfStream = true;
+			Type = CharType.EndOfStream;
+			//EndOfStream = true;
 		}
 		else if (value <= (int)CharType.Delete)
 		{
@@ -249,7 +250,7 @@ class Utf8: CharStream
 	// Вычисление курсора, номера символа в строке, колонки, номера строки.
 	void UpdateCounters()
 	{
-		if (EndOfStream)
+		if (Type == CharType.EndOfStream)
 			return;
 
 		Position++;
@@ -277,7 +278,7 @@ class Utf8: CharStream
 		_buffer = new byte[UTF8_BUFFER_SIZE];
 		_eolSequence = CharType.Unknown;
 		Type = CharType.Unknown;
-		EndOfStream = false;
+		//EndOfStream = false;
 		Position = 0;
 		Character = 0;
 		Column = 0;
@@ -314,15 +315,13 @@ class Utf8: CharStream
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public bool IsSmallCyrillicLetter()
 	{
-		return (Value >= UTF8_SMALL_CYRILLIC_LETTER_FROM && Value <= UTF8_SMALL_CYRILLIC_LETTER_TO)
-			&& !EndOfStream;
+		return Value >= UTF8_SMALL_CYRILLIC_LETTER_FROM && Value <= UTF8_SMALL_CYRILLIC_LETTER_TO;
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public bool IsCapitalCyrillicLetter()
 	{
-		return (Value >= UTF8_CAPITAL_CYRILLIC_LETTER_FROM && Value <= UTF8_CAPITAL_CYRILLIC_LETTER_TO)
-			&& !EndOfStream;
+		return Value >= UTF8_CAPITAL_CYRILLIC_LETTER_FROM && Value <= UTF8_CAPITAL_CYRILLIC_LETTER_TO;
 	}
 
 	// Является ли текущий символ строчной буквой.
@@ -337,72 +336,6 @@ class Utf8: CharStream
 	{
 		return IsCapitalLatinLetter() ||
 			IsCapitalCyrillicLetter();
-	}
-
-	// Является ли текущий символ буквой.
-	public override bool IsLetter()
-	{
-		return IsSmallLetter() || IsCapitalLetter();
-	}
-
-	// Является ли текущий символ арабской десятичной цифрой юникода.
-	public override bool IsDecimalDigit()
-	{
-		return (Type >= CharType.Digit0 && Type <= CharType.Digit9) &&
-			!EndOfStream;
-	}
-
-	// Является ли текущий символ строчной латинской буквой.
-	public override bool IsSmallLatinLetter()
-	{
-		return (Type >= CharType.SmallLetterA && Type <= CharType.SmallLetterZ) &&
-			!EndOfStream;
-	}
-
-	// Является ли текущий символ заглавной латинской буквой.
-	public override bool IsCapitalLatinLetter()
-	{
-		return (Type >= CharType.CapitalLetterA && Type <= CharType.CapitalLetterZ) &&
-			!EndOfStream;
-	}
-
-	// Является ли текущий символ латинской буквой.
-	public override bool IsLatinLetter()
-	{
-		return IsSmallLatinLetter() || IsCapitalLatinLetter();
-	}
-
-	// Символ относится к группе допустимых разделителей, используемых в компиляторе.
-	// @deprecated Достаточно специфическая реализация для использования в таком виде.
-	public override bool IsDelimiter()
-	{
-		return (Type >= CharType.Space && Type <= CharType.Slash ||
-			Type >= CharType.Colon && Type <= CharType.CommercialAt ||
-			Type >= CharType.LeftSquareBracket && Type <= CharType.GraveAccent ||
-			Type >= CharType.LeftCurlyBracket && Type <= CharType.Delete) &&
-			!EndOfStream;
-	}
-
-	// Символ является разделителем строк или входит в последовательность разделения.
-	// @deprecated Название не совсем соответствует действительности.
-	public override bool IsEndOfLine()
-	{
-		return (Type == CharType.CarriageReturn ||
-			Type == CharType.LineFeed ||
-			Type == CharType.NextLine ||
-			Type == CharType.LineSeparator ||
-			Type == CharType.ParagraphSeparator ||
-			Type == CharType.VerticalTabulation) &&
-			!EndOfStream;
-	}
-
-	// Символ является отступом.
-	// @deprecated Достаточно специфическая реализация для использования в таком виде.
-	public override bool IsWhitespace()
-	{
-		return (Type == CharType.HorizontalTabulation ||
-			Type == CharType.Space) &&
-			!EndOfStream;
 	}
 
 	public override int ReadChar()

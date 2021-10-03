@@ -9,7 +9,7 @@
 /// </summary>
 interface CharReader
 {
-	bool EndOfStream { get; protected set; }
+	//bool EndOfStream { get; protected set; }
 
 	/// <summary>
 	/// Чтение следующего символа.

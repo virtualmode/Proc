@@ -1,55 +1,83 @@
 /// <summary>
-/// Лексемы общего лексического анализатора исходного кода.
-/// Представляют собой множество терминальных символов поддерживаемых языков.
+/// Символы (лексемы) лексического анализатора исходного кода.
+/// Представляют собой множество всех терминальных символов поддерживаемых языков.
 /// </summary>
 enum SymbolType
 {
+	#region Общие символы
+
+	// Односимвольные терминалы
+
+	// ASCII 0x0020-0x002f.
+	Space, // Пробел (SP).
+	ExclamationMark, // !
+	QuotationMark, // "
+	NumberSign, // #
+	DollarSign, // $
+	PercentSign, // %
+	Ampersand, // &
+	Apostrophe, // '
+	LeftParenthesis, // (
+	RightParenthesis, // )
+	Asterisk, // *
+	PlusSign, // +
+	Comma, // ,
+	HyphenMinus, // Hyphen -
+	FullStop, // .
+	Slash, // Solidus /
+
+	// ASCII 0x003a-0x0040.
+	Colon, // :
+	Semicolon, // ;
+	LessThanSign, // <
+	EqualsSign, // =
+	GreaterThanSign, // >
+	QuestionMark, // ?
+	CommercialAt, // @
+
+	// ASCII 0x005b-0x0060.
+	LeftSquareBracket, // [
+	Backslash, // \ :)
+	RightSquareBracket, // ]
+	CircumflexAccent, // ^
+	Underline, // _
+	GraveAccent, // `
+
+	// ASCII 0x007b-0x007e.
+	LeftCurlyBracket, // {
+	VerticalLine, // |
+	RightCurlyBracket, // }
+	Tilde, // ~
+
+	// Терминальные символы логики.
+	NotEquals, // !=
+	EqualsPredicate, // ==
+
+	AddAssignment, // +=
+	SubtractAssignment, // -=
+	MultiplyAssignment, // *=
+	DivideAssignment, // /=
+
+	// Есть ли смысл создавать лексему 'равно больше' как лексическое представление.
+	// Или же сразу определять лямбду, как более значащее представление.
+	// Скорее как синтаксическая конструкция, но настолько простая, что её может определить лексический анализатор.
+	//EqualsGreaterThan, // =>
+	//Lambda, // =>
+
+
+	//GreaterThanOrEqual, // >=
+
+	#endregion Общие символы
+
+	#region Proc
+
 	Unknown, // Группа непредусмотренных символов.
-
-	/*
-		// TODO Объединение в группу разделителей увеличит производительность
-		// TODO и немного снизит наглядность, поэтому надо подумать.
-		// Односимвольные терминалы.
-		ExclamationMark, // !
-		QuotationMark, // "
-		NumberSign, // #
-		DollarSign, // $
-		PercentSign, // %
-		Ampersand, // &
-		Apostrophe, // '
-		LeftParenthesis, // (
-		RightParenthesis, // )
-		Asterisk, // *
-		PlusSign, // +
-		Comma, // ,
-		HyphenMinus, // Hyphen -
-		FullStop, // .
-		Slash, // Solidus /
-
-		Colon, // :
-		Semicolon, // ;
-		LessThanSign, // <
-		EqualsSign, // =
-		GreaterThanSign, // >
-		QuestionMark, // ?
-		CommercialAt, // @
-
-		LeftSquareBracket, // [
-		Backslash, // \ :)
-		RightSquareBracket, // ]
-		CircumflexAccent, // ^
-		Underline, // _
-		GraveAccent, // `
-
-		LeftCurlyBracket, // {
-		VerticalLine, // |
-		RightCurlyBracket, // }
-		Tilde, // ~
-	*/
-
-	// Это базовые символы для всех языков.
-	EndOfLine, // Признак окончания строки (LF, CR, CRLF, NEL, LS, PS, VT).
 	EndOfStream, // Терминатор последовательности.
+
+	#endregion Proc
+
+	// Составные терминальные символы.
+	EndOfLine, // Признак окончания строки (LF, CR, CRLF, NEL, LS, PS, VT).
 	Delimiter, // Односимвольные терминалы, соответствующие разделителям.
 	Identifier, // Нетерминальные идентификаторы, начинающиеся с латинской буквы или подчеркивания, содержащие цифры.
 	Whitespace, // Горизонтальные отступы между словами (SP, HT, TAB).
@@ -77,9 +105,6 @@ enum SymbolType
 	UnicodeHexadecimal, // Unicode escape sequence with all four hexadecimal digits: \u004b.
 
 	AlgolHexadecimal,
-
-	// Терминальные символы логики.
-	NotEqual,
 
 	// Зарезервированные слова.
 	Class,
