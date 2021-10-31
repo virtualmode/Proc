@@ -30,9 +30,9 @@ class ProcSyntax : SyntaxReader {
 	public override void Start() {
 		int i = 0;
 		do {
-			_lexer.ReadToken();
+			_lexer.Read();
 			i++;
-		} while (_lexer.Type != SymbolType.EndOfStream);
+		} while (_lexer.Type != Source.Symbol.Type.EndOfStream);
 		Console.WriteLine($"Proc lexer ready with {i} states.");
 
 		/*// Отладочная информация.

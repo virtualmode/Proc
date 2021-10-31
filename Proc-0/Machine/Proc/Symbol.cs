@@ -1,5 +1,7 @@
 using System.Runtime.CompilerServices;
 
+using Type = Source.Symbol.Type;
+
 /// <summary>
 /// Лексический анализатор Proc.
 /// </summary>
@@ -11,8 +13,8 @@ class ProcSymbol : Symbol
 	/// <param name="charToken">Символьный поток.</param>
 	public ProcSymbol(CharStream charToken) : base(charToken)
 	{
-		EnterKeyword(SymbolType.Class, "class");
-		EnterKeyword(SymbolType.Enumeration, "enum");
+		EnterKeyword(Type.Class, "class");
+		EnterKeyword(Type.Enumeration, "enum");
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -25,12 +27,12 @@ class ProcSymbol : Symbol
 	/// Результат чтения не имеет значения, т.к. синтаксический анализатор сам решает,
 	/// является ли для него состояние машины приемлемым для следующего шага.
 	/// </summary>
-	public override void ReadToken()
+	public override void Read()
 	{
 		// В зависимости от текущего состояния необходимо определить следующую m-конфигурацию.
 		// Если нет возможности прочесть очередное состояние из потока, работа анализатора завершается.
 		if (_charToken.Type == CharType.EndOfStream)
-			Type = SymbolType.EndOfStream;
+			Type = Type.EndOfStream;
 
 		else if (IsIdentifierLetter(false))
 			ReadIdentifier();
@@ -49,61 +51,61 @@ class ProcSymbol : Symbol
 		else if (_charToken.Type == CharType.Comma)
 		{
 			_charToken.ReadChar();
-			Type = SymbolType.Comma;
+			Type = Type.Comma;
 		}
 
 		else if (_charToken.Type == CharType.Colon)
 		{
 			_charToken.ReadChar();
-			Type = SymbolType.Colon;
+			Type = Type.Colon;
 		}
 
 		else if (_charToken.Type == CharType.Semicolon)
 		{
 			_charToken.ReadChar();
-			Type = SymbolType.Semicolon;
+			Type = Type.Semicolon;
 		}
 
 		else if (_charToken.Type == CharType.Tilde)
 		{
 			_charToken.ReadChar();
-			Type = SymbolType.Tilde;
+			Type = Type.Tilde;
 		}
 
 		else if (_charToken.Type == CharType.LeftParenthesis)
 		{
 			_charToken.ReadChar();
-			Type = SymbolType.LeftParenthesis;
+			Type = Type.LeftParenthesis;
 		}
 
 		else if (_charToken.Type == CharType.RightParenthesis)
 		{
 			_charToken.ReadChar();
-			Type = SymbolType.RightParenthesis;
+			Type = Type.RightParenthesis;
 		}
 
 		else if (_charToken.Type == CharType.LeftCurlyBracket)
 		{
 			_charToken.ReadChar();
-			Type = SymbolType.LeftCurlyBracket;
+			Type = Type.LeftCurlyBracket;
 		}
 
 		else if (_charToken.Type == CharType.RightCurlyBracket)
 		{
 			_charToken.ReadChar();
-			Type = SymbolType.RightCurlyBracket;
+			Type = Type.RightCurlyBracket;
 		}
 
 		else if (_charToken.Type == CharType.LeftSquareBracket)
 		{
 			_charToken.ReadChar();
-			Type = SymbolType.LeftSquareBracket;
+			Type = Type.LeftSquareBracket;
 		}
 
 		else if (_charToken.Type == CharType.RightSquareBracket)
 		{
 			_charToken.ReadChar();
-			Type = SymbolType.RightSquareBracket;
+			Type = Type.RightSquareBracket;
 		}
 
 		#endregion Простые терминалы
@@ -114,11 +116,11 @@ class ProcSymbol : Symbol
 			if (_charToken.Type == CharType.EqualsSign)
 			{
 				_charToken.ReadChar();
-				Type = SymbolType.DivideAssignment;
+				Type = Type.DivideAssignment;
 			}
 			else
 			{
-				Type = SymbolType.Slash;
+				Type = Type.Slash;
 			}
 		}
 
@@ -128,11 +130,11 @@ class ProcSymbol : Symbol
 			if (_charToken.Type == CharType.EqualsSign)
 			{
 				_charToken.ReadChar();
-				Type = SymbolType.NotEquals;
+				Type = Type.NotEqualsPredicate;
 			}
 			else
 			{
-				Type = SymbolType.ExclamationMark;
+				Type = Type.ExclamationMark;
 			}
 		}
 
@@ -142,18 +144,20 @@ class ProcSymbol : Symbol
 			if (_charToken.Type == CharType.EqualsSign)
 			{
 				_charToken.ReadChar();
-				Type = SymbolType.EqualsPredicate;
+				Type = Type.EqualsPredicate;
 			}
 			else if (_charToken.Type == CharType.GreaterThanSign)
+			{
+			}
 			else
 			{
-				Type = SymbolType.ExclamationMark;
+				Type = Type.ExclamationMark;
 			}
 		}
 
 		else
 		{
-			Type = SymbolType.Unknown;
+			Type = Type.Unknown;
 			_charToken.ReadChar();
 			
 		}

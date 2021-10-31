@@ -1,12 +1,21 @@
-/// <summary>
-/// Символы (лексемы) лексического анализатора исходного кода.
-/// Представляют собой множество всех терминальных символов поддерживаемых языков.
-/// </summary>
-enum SymbolType
-{
-	#region Общие символы
+namespace Source.Symbol;
 
-	// Односимвольные терминалы
+/// <summary>
+/// Тип символа (лексемы) лексического анализатора исходного кода.
+/// Перечисление представляет множество всех терминальных символов поддерживаемых языков.
+/// </summary>
+enum Type // enum Symbol.Type
+{
+	#region Вспомогательные символы
+
+	Unknown, // Группа непредусмотренных символов.
+	EndOfStream, // Терминатор последовательности.
+
+	#endregion
+
+	#region Односимвольные терминалы
+
+	// Данные лексемы используются, если соответствующие им литеры не являются частью других терминалов языка.
 
 	// ASCII 0x0020-0x002f.
 	Space, // Пробел (SP).
@@ -49,32 +58,38 @@ enum SymbolType
 	RightCurlyBracket, // }
 	Tilde, // ~
 
-	// Терминальные символы логики.
-	NotEquals, // !=
+	#endregion
+
+	#region Терминальные символы логики
+
+	OrPredicate, // ||
+	AndPredicate, // &&
 	EqualsPredicate, // ==
+	NotEqualsPredicate, // !=
+	LessThanPredicate, // <
+	LessThanOrEqualPredicate, // <=
+	GreaterThanPredicate, // >
+	GreaterThanOrEqualPredicate, // >=
+
+	#endregion
+
+	#region Арифметические операторы
 
 	AddAssignment, // +=
 	SubtractAssignment, // -=
 	MultiplyAssignment, // *=
 	DivideAssignment, // /=
 
-	// Есть ли смысл создавать лексему 'равно больше' как лексическое представление.
-	// Или же сразу определять лямбду, как более значащее представление.
-	// Скорее как синтаксическая конструкция, но настолько простая, что её может определить лексический анализатор.
-	//EqualsGreaterThan, // =>
-	//Lambda, // =>
+	#endregion
 
+	#region Зарезервированные слова
 
-	//GreaterThanOrEqual, // >=
+	Class,
+	Enumeration,
 
-	#endregion Общие символы
+	#endregion
 
-	#region Proc
-
-	Unknown, // Группа непредусмотренных символов.
-	EndOfStream, // Терминатор последовательности.
-
-	#endregion Proc
+	#region Неутверждённые символы
 
 	// Составные терминальные символы.
 	EndOfLine, // Признак окончания строки (LF, CR, CRLF, NEL, LS, PS, VT).
@@ -106,7 +121,5 @@ enum SymbolType
 
 	AlgolHexadecimal,
 
-	// Зарезервированные слова.
-	Class,
-	Enumeration,
+	#endregion
 }

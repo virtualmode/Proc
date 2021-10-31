@@ -1,9 +1,11 @@
+namespace Source.Symbol;
+
 /// <summary>
 /// Информация о зарезервированном слове.
 /// </summary>
 class Keyword
 {
-	public SymbolType Symbol = SymbolType.Unknown;
+	public Type Symbol = Type.Unknown;
 
 	public Text.String Identifier = null;
 }

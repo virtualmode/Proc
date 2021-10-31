@@ -8,7 +8,15 @@
 	Такие классы задач можно выделить суффиксами в соответствии от их назначения, например Reader, Writer или Seeker.
 */
 
+// TODO Пространства имён необходимо заменить объектами, чтобы не было проблемы неопределённости типа.
+//namespace Source;
+
 using System.Runtime.CompilerServices;
+
+using Source.Symbol;
+
+using String = Text.String;
+using Type = Source.Symbol.Type;
 
 /// <summary>
 /// Лексический анализатор исходного кода, машина состояний, конечный автомат.
@@ -29,17 +37,17 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 	/// <summary>
 	/// Тип символа.
 	/// </summary>
-	public SymbolType Type;
+	public Type Type;
 
 	// Нужно реализовать потоки состояний и возможность использования на них объединений union или cast.
 	// Язык не должен ограничивать размер чисел из-за архитектуры процессора.
 	public long Value; // Предполагается, что это и будет единственный поток состояний, хранящий значение лексемы.
 	public double Real; // [Obsolete] Значение числа с плавающей точкой.
-	public Text.String Identifier; // [Obsolete] Значение идентификатора.
+	public String Identifier; // [Obsolete] Значение идентификатора.
 
 	// TODO Состояние очередной ошибки можно вынести в отдельный интерфейс.
 	// TODO Но если здесь достаточно одного состояния, то в синтаксическом анализаторе это может быть несколько ошибок за итерацию.
-	public SymbolError Error; // Флаг наличия ошибки.
+	public Error Error; // Флаг наличия ошибки.
 	public long ErrorPosition; // Позиция в символьном потоке.
 	public long ErrorLine; // Строка с ошибкой.
 
@@ -56,9 +64,9 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 		_charToken.ReadChar(); // Предпросмотр оптимизирует код.
 		_keywordTable = new Keyword[KEYWORD_TABLE_SIZE];
 		_keywordCount = 0;
-		Type = SymbolType.Unknown;
-		Identifier = new Text.String();
-		Error = SymbolError.None;
+		Type = Type.Unknown;
+		Identifier = new String();
+		Error = Error.None;
 		ErrorPosition = 0;
 		ErrorLine = 0;
 		Real = 0.0d;
@@ -68,7 +76,7 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 	/// <summary>
 	/// Перевод машины в состояние ошибки.
 	/// </summary>
-	protected void SetError(SymbolError error, string message)
+	protected void SetError(Error error, string message)
 	{
 		Error = error;
 		ErrorPosition = _charToken.Position;
@@ -90,7 +98,7 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	protected void ReadIdentifier()
 	{
-		Type = SymbolType.Identifier;
+		Type = Type.Identifier;
 		Value = 0;
 		do { // Считывание всего идентификатора.
 			Identifier[Value] += _charToken.Value;
@@ -111,14 +119,14 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 		}
 		else
 		{
-			Type = SymbolType.Identifier; // Идентификатор считается нетерминальный символ.
+			Type = Type.Identifier; // Идентификатор считается нетерминальный символ.
 		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	protected void ReadWhitespace()
 	{
-		Type = SymbolType.Whitespace;
+		Type = Type.Whitespace;
 		Value = 0;
 		do
 		{
@@ -138,7 +146,7 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	protected void ReadEndOfLine()
 	{
-		Type = SymbolType.EndOfLine;
+		Type = Type.EndOfLine;
 		Value = 0;
 		do
 		{
@@ -153,7 +161,7 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	protected void ReadInteger()
 	{
-		Type = SymbolType.Integer;
+		Type = Type.Integer;
 		Value = 0;
 		do
 		{
@@ -161,9 +169,9 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 			{
 				Value = 10 * Value + (long)_charToken.Type - (long)CharType.Digit0;
 			}
-			else if (Error != SymbolError.None)
+			else if (Error != Error.None)
 			{
-				SetError(SymbolError.NumberOverflow, "Not enough long size to store number.");
+				SetError(Error.NumberOverflow, "Not enough long size to store number.");
 			}
 			_charToken.ReadChar();
 		} while (_charToken.IsDecimalDigit());
@@ -172,7 +180,7 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 	/// <summary>
 	/// Добавление зарезервированного слова.
 	/// </summary>
-	public void EnterKeyword(SymbolType symbol, string name) {
+	public void EnterKeyword(Type symbol, string name) {
 		if (_keywordTable[_keywordCount] == null)
 			_keywordTable[_keywordCount] = new Keyword();
 
@@ -186,5 +194,5 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 	/// Результат чтения не имеет значения, т.к. синтаксический анализатор сам решает,
 	/// является ли для него состояние машины приемлемым для следующего шага.
 	/// </summary>
-	public abstract void ReadToken();
+	public abstract void Read();
 }

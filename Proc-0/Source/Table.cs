@@ -1,7 +1,8 @@
+namespace Source.Symbol;
+
 /// <summary>
 /// Таблица символов.
 /// </summary>
-class SymbolTable
+class Table
 {
-
 }
