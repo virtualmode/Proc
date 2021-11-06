@@ -26,7 +26,7 @@ using Type = Source.Symbol.Type;
 /// Набор лексем избавляет от необходимости создавать реализацию синтаксического анализатора для каждой кодировки.
 /// Но если и текстовые потоки представить аналогичным образом, одного лексического анализатора также будет достаточно.
 /// </summary>
-abstract class Symbol // TODO Это скорее не Symbol, а его часть - SymbolReader.
+abstract class Symbol // TODO Это скорее не Symbol, а его часть - Symbol.Reader.
 {
 	public const int KEYWORD_TABLE_SIZE = 32;
 

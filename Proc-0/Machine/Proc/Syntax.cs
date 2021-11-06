@@ -15,9 +15,7 @@ class ProcSyntax : SyntaxReader {
 	//ISyntaxAnalyzer syntaxAnalyzer
 
 	/// <summary>
-	/// Но почему не лексический анализатор в параметре?!
-	/// Т.к. класс скорее является фабрикой лексико-синтаксических цепочек классов,
-	/// которые всегда цепляются на базовый поток.
+	/// 
 	/// </summary>
 	public ProcSyntax(Symbol symbolToken) : base(symbolToken) {
 	}
@@ -27,7 +25,7 @@ class ProcSyntax : SyntaxReader {
 	/// <summary>
 	/// Начальное состояние машины.
 	/// </summary>
-	public override void Start() {
+	public override void Read() {
 		int i = 0;
 		do {
 			_lexer.Read();
@@ -42,18 +40,23 @@ class ProcSyntax : SyntaxReader {
 			printf_s("[%u]", unicode);*/
 	}
 
-	public override void ReadBody()
-	{
-		throw new NotImplementedException();
-	}
+	//public void ReadBody()
+	//{
+	//	throw new NotImplementedException();
+	//}
 
-	public override void ReadDefinition()
-	{
-		throw new NotImplementedException();
-	}
+	//public void ReadDefinition()
+	//{
+	//	throw new NotImplementedException();
+	//}
 
-	public override int ReadSyntax()
-	{
-		throw new NotImplementedException();
-	}
+	//// Чтение очередной конструкции.
+	//// Вообще парсер видимо за один вызов должен всё обработать.
+	//// Причем верхнем узлом будет модуль/листинг.
+	//// Мне кажется Parse() все равно надо разбить на шаги.
+	//// @return Количество успешно прочтённых TODO.
+	//public int ReadSyntax()
+	//{
+	//	throw new NotImplementedException();
+	//}
 }

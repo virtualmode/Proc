@@ -54,7 +54,7 @@ class Proc
 			// В Roslyn следующие строки создаются в SyntaxTree Oo.
 			_lexer = new ProcSymbol(_charReader); // Лексический анализатор исходного кода.
 			_syntaxReader = new ProcSyntax(_lexer); // Синтаксический анализатор.
-			_syntaxReader.Start();
+			_syntaxReader.Read();
 		}
 
 		return 0;
