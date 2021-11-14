@@ -1182,6 +1182,7 @@ void OspEnter(int cl, long n, Identf name, struct TypeDesc *type) {
 	topScope->next = obj;
 }
 
+// Oberon Syntax Parser.
 void Osp() {
 	fprintf(writerOut, "Oberon-0 compiler\n\n");
 	guard = objNew();

@@ -28,9 +28,11 @@ class Proc
 {
 	private readonly string[] _args;
 	private Interop.FileStream _source;
+	private Interop.FileStream _destination;
 	private CharStream _charReader;
 	private Symbol _lexer;
-	private SyntaxReader _syntaxReader;
+	private ProcSyntax _syntaxReader;
+	private Generator _generator;
 
 	public Proc(string[] args)
 	{
@@ -50,11 +52,16 @@ class Proc
 		else if (_args[0] == "-l")
 		{ // Лексический анализ файла.
 			_source = new Interop.FileStream(_args[1], FileMode.Open, FileAccess.Read); // Базовый поток состояний, используемый процессором и дочерними анализаторами.
+			_destination = new Interop.FileStream($"{Path.GetFileNameWithoutExtension(_args[1])}.exe", FileMode.Create, FileAccess.Write);
 			_charReader = new Utf8((Reader)_source); // Символьный поток определённой кодировки.
 			// В Roslyn следующие строки создаются в SyntaxTree Oo.
 			_lexer = new ProcSymbol(_charReader); // Лексический анализатор исходного кода.
 			_syntaxReader = new ProcSyntax(_lexer); // Синтаксический анализатор.
-			_syntaxReader.Read();
+			// TODO Генерацию можно выполнить несколькими путями:
+			// TODO Получить готовое синтаксическое дерево и сгенерировать код.
+			// TODO Или получить на вход синтаксический анализатор и в процессе генерации дерева, сформировать код.
+			_generator = new Generator(_destination, _syntaxReader);
+			_generator.Emit();
 		}
 
 		return 0;

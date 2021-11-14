@@ -10,5 +10,8 @@ abstract class SyntaxReader // TODO Предполагается, что буд�
 		_lexer = lexer;
 	}
 
-	public abstract void Read();
+	/// <summary>
+	/// Основная цель как область видимости.
+	/// </summary>
+	public abstract void Global();
 }
