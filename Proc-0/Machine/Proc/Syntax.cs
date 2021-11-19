@@ -1,6 +1,7 @@
 using Source.Symbol;
 
 using String = Text.String;
+using Type = Source.Symbol.Type;
 
 /// <summary>
 /// Синтаксический анализатор процессора.
@@ -90,21 +91,113 @@ class ProcSyntax : SyntaxReader
 	/// </summary>
 	public override void Global()
 	{
+		// Альтернативный пример: roslyn\src\Compilers\CSharp\Portable\Parser\LanguageParser.cs (406)
 
+		_lexer.Read(); // Считывание следующей лексемы.
 
+		OpenScope(); // Новая область видимости.
 
-		int i = 0;
-		do {
-			_lexer.Read();
-			i++;
-		} while (_lexer.Type != Source.Symbol.Type.EndOfStream);
-		Console.WriteLine($"Proc lexer ready with {i} states.");
+		// Возможные очередные терминалы.
+		switch (_lexer.Type)
+		{
+			case Type.Identifier:
+				break;
+			case Type.Integer:
+			case Type.Hexadecimal:
+				break;
+			//case Type.Comment:
+			default:
+				break;
+		}
 
-		/*// Отладочная информация.
-		if (unicode < 256)
-			printf_s("%c", unicode);
-		else
-			printf_s("[%u]", unicode);*/
+		int a = 0x001001;
+
+		//int i = 0;
+		//do
+		//{
+		//	_lexer.Read();
+		//	i++;
+		//} while (_lexer.Type != Type.EndOfStream);
+		//Console.WriteLine($"Proc lexer ready with {i} states.");
+
+		//// Отладочная информация.
+		//if (unicode < 256)
+		//	printf_s("%c", unicode);
+		//else
+		//	printf_s("[%u]", unicode);
+
+		//
+		//OpenScope();
+		//varsize = 0;
+		//if (sym == IDENT)
+		//{
+		//	idCpy(modid, id);
+		//	Get(); // Точка с запятой после идентификатора.
+		//	fprintf(writerOut, "Compilation of '%s' module...\n\n", modid);
+		//	// Лог Оберона: Texts.Append(Oberon.Log, W.buf);
+		//}
+		//else
+		//{
+		//	Mark("is an identifier?");
+		//}
+		//if (sym == SEMICOLON)
+		//{
+		//	Get();
+		//}
+		//else
+		//{
+		//	Mark("; ?");
+		//}
+		//Declarations(varsize);
+		//while (sym == PROCEDURE)
+		//{
+		//	ProcedureDecl();
+		//	if (sym == SEMICOLON)
+		//	{
+		//		Get();
+		//	}
+		//	else
+		//	{
+		//		Mark("; ?");
+		//	}
+		//}
+		//Header(varsize);
+		//if (sym == BEGIN)
+		//{
+		//	Get();
+		//	StatSequence();
+		//}
+		//if (sym == END)
+		//{
+		//	Get();
+		//}
+		//else
+		//{
+		//	Mark("END?");
+		//}
+		//if (sym == IDENT)
+		//{
+		//	if (strcmp(modid, id) != 0)
+		//	{
+		//		Mark("is not fit.");
+		//	}
+		//	Get();
+		//}
+		//else
+		//{
+		//	Mark("is an identifier?");
+		//}
+		//if (sym != PERIOD)
+		//{
+		//	Mark(". ?");
+		//}
+		//CloseScope();
+		//if (!error)
+		//{
+		//	// TODO Установка обработанного модуля idCpy(modid, s);
+		//	// TODO Close(s, varsize);
+		//	fprintf(writerOut, "Code has been generated %u\n", pc);
+		//}
 	}
 
 	//public void ReadBody()

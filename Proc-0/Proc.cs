@@ -61,7 +61,7 @@ class Proc
 			// TODO Получить готовое синтаксическое дерево и сгенерировать код.
 			// TODO Или получить на вход синтаксический анализатор и в процессе генерации дерева, сформировать код.
 			_generator = new Generator(_destination, _syntaxReader);
-			_generator.Emit();
+			_generator.CompileAndEmit();
 		}
 
 		return 0;
