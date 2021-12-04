@@ -1,0 +1,36 @@
+EBNF definition
+
+Oberon-0 Syntax
+
+              Module = "MODULE" ident ";" declarations ["BEGIN" StatementSequence] "END" ident.
+        declarations = ["CONST" {ident "=" expression ";"}]
+                       ["TYPE" {ident "=" type ";"}]
+                       ["VAR" {identList ":" type ";"}]
+                       {ProcedureDeclaration}
+ProcedureDeclaration = ProcedureHeading ";" ProcedureBody ident.
+       ProcedureBody = declarations ["BEGIN" StatementSequence] "END".
+    ProcedureHeading = "PROCEDURE" ident [FormalParameters].
+    FormalParameters = "(" [FPSection {";" FPSection}] ")".
+           FPSection = ["VAR"] IdentList ":" type.
+                type = ident | ArrayType | RecordType.
+          RecordType = "RECORD" FieldList {; FieldList} "END".
+           FieldList = [IdentList ":" type].
+           ArrayType = "ARRAY" expression "OF" type.
+           IdentList = ident {"," ident}.
+   StatementSequence = statement {";" statement}.
+           statement = [assignment | ProcedureCall | ifStatement | WhileStatement | RepeatStatement].
+     RepeatStatement = "REPEAT" StatementSequence "UNTIL" Expression.
+      WhileStatement = "WHILE" Expression "DO" StatementSequence "END".
+         ifStatement = "IF" expression "THEN" StatementSequence
+                       {"ELSIF" expression "THEN" StatementSequence} ["ELSE" StatementSequence] "END".
+       ProcedureCall = ident ActualParameters.
+    ActualParameters = "(" [expression] {"," expression} ")".
+          assignment = ident selector ":=" expression.
+          expression = SimpleExpression ["+" | "-"] term {("+" | "-" | "OR") term }.
+                term = Factor {("*" | "DIV" | "MOD" | "&") Factor}.
+              Factor = ident selector | integer | "(" expression ")" | "~" Factor.
+            selector = {"." ident | "[" expression "]" }.
+             integer = digit {digit}.
+               ident = letter {letter | digit}.
+               digit = ("0" .. "9").
+              letter = ("a" .. "z") | ("A" .. "Z").

@@ -83,6 +83,8 @@ TimeType:12:60:60 time = 0f: TimeType.Am:03:10:20
 t = ((2)001001)0ffff
 TimeType:12:60:60 t = (:::16)TimeType.Am:03:(16)10:0f
 
+3[1][5,8]
+
 Parent = (Parent)(Base)Child;
 
 0100000000 // Унарная система.

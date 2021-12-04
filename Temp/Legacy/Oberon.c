@@ -1112,10 +1112,11 @@ void Module() {
 	Identf modid;
 	long varsize;
 	if (sym == MODULE) {
-		Get(); // Считывание следующего нетерминала. Мы ожидаем там имя модуля.
+		Get(); // Считывание следующего терминала. Мы ожидаем там имя модуля.
 		Open(); // Инициализация регистров.
 		OpenScope();
 		varsize = 0;
+		// Название модуля.
 		if (sym == IDENT) {
 			idCpy(modid, id);
 			Get(); // Точка с запятой после идентификатора.
@@ -1124,11 +1125,14 @@ void Module() {
 		} else {
 			Mark("is an identifier?");
 		}
+		// Завершение оператора инициализации модуля.
 		if (sym == SEMICOLON) {
 			Get();
 		} else {
 			Mark("; ?");
 		}
+
+		// Содержимое модуля ======================================
 		Declarations(varsize);
 		while (sym == PROCEDURE) {
 			ProcedureDecl();
@@ -1138,7 +1142,7 @@ void Module() {
 				Mark("; ?");
 			}
 		}
-		Header(varsize);
+		Header(varsize); // Codegenerator.
 		if (sym == BEGIN) {
 			Get();
 			StatSequence();
@@ -1159,6 +1163,8 @@ void Module() {
 		if (sym != PERIOD) {
 			Mark(". ?");
 		}
+		// ========================================================
+
 		CloseScope();
 		if (!error) {
 			// TODO Установка обработанного модуля idCpy(modid, s);

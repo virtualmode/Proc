@@ -51,21 +51,6 @@ class ProcSyntax : SyntaxReader
 
 	//public Proc(ISyntaxAnalyzer syntaxAnalyzer) { } // Сразу перейти в состояние другого процессора.
 
-	private void OpenScope()
-	{
-		_topScope = new ObjectDescription()
-		{
-			Class = ClassMode.Head,
-			Dsc = _topScope,
-			Next = _guard
-		};
-	}
-
-	private void CloseScope()
-	{
-		_topScope = _topScope.Dsc;
-	}
-
 	/// <summary>
 	/// Добавление в начало списка между <see cref="ObjectDescription"/> и <see cref="ObjectDescription.Next"/> нового описателя типа.
 	/// </summary>
@@ -86,6 +71,29 @@ class ProcSyntax : SyntaxReader
 		};
 	}
 
+	private void OpenScope()
+	{
+		_topScope = new ObjectDescription()
+		{
+			Class = ClassMode.Head,
+			Dsc = _topScope,
+			Next = _guard
+		};
+	}
+
+	private void CloseScope()
+	{
+		_topScope = _topScope.Dsc;
+	}
+
+	/// <summary>
+	/// Определение метода.
+	/// </summary>
+	private void MethodDeclaration()
+	{
+
+	}
+
 	/// <summary>
 	/// Начальное состояние машины.
 	/// </summary>
@@ -102,9 +110,19 @@ class ProcSyntax : SyntaxReader
 		{
 			case Type.Identifier:
 				break;
+
+
+
+			// Определение переменной, функции, метода и т.п.
 			case Type.Integer:
-			case Type.Hexadecimal:
 				break;
+			case Type.LeftParenthesis:
+				break;
+			case Type.LeftSquareBracket:
+				break;
+
+
+
 			//case Type.Comment:
 			default:
 				break;

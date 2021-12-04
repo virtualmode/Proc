@@ -1,0 +1,11 @@
+Wirth Extended Backus-Naur Form of Proc
+http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html
+
+Global = MethodDeclaration | MethodCall { Global }.
+Identifier = Letter { Letter | Digit }.
+String = """ { Character } """.
+Character = Letter | Digit.
+Letter = ("a" .. "z") | ("A" .. "Z") | LetterUtf8.
+Digit = ("0" .. "9") | DigitUtf8.
+LetterUtf8.
+DigitUtf8.
