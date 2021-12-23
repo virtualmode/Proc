@@ -84,6 +84,15 @@ enum Type // enum Symbol.Type
 
 	#region Зарезервированные слова
 
+	// Модификаторы доступа.
+	Private,
+	Protected,
+	Public,
+
+	Constant,
+	Static,
+
+	// Объекты.
 	Class,
 	Enumeration,
 

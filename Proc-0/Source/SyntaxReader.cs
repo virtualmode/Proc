@@ -5,6 +5,8 @@ abstract class SyntaxReader // TODO Предполагается, что буд�
 {
 	protected readonly Symbol _lexer;
 
+	public Error Error;
+
 	public SyntaxReader(Symbol lexer)
 	{
 		_lexer = lexer;
@@ -14,4 +16,9 @@ abstract class SyntaxReader // TODO Предполагается, что буд�
 	/// Основная цель как область видимости.
 	/// </summary>
 	public abstract void Global();
+}
+
+public enum Error
+{
+	None,
 }

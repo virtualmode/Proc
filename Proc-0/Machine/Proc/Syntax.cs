@@ -52,6 +52,17 @@ class ProcSyntax : SyntaxReader
 	//public Proc(ISyntaxAnalyzer syntaxAnalyzer) { } // Сразу перейти в состояние другого процессора.
 
 	/// <summary>
+	/// Перевод машины в состояние ошибки.
+	/// </summary>
+	protected void SetError(Error error, String message)
+	{
+		Error = error;
+
+		// TODO Переделать отладку.
+		Console.WriteLine($"error_file:{_lexer.ErrorLine}:{_lexer.ErrorPosition}: {message}");
+	}
+
+	/// <summary>
 	/// Добавление в начало списка между <see cref="ObjectDescription"/> и <see cref="ObjectDescription.Next"/> нового описателя типа.
 	/// </summary>
 	/// <param name="classMode"></param>
@@ -66,7 +77,7 @@ class ProcSyntax : SyntaxReader
 			Value = value,
 			Name = name,
 			Type = type,
-			Dsc = null,
+			Descending = null,
 			Next = _topScope.Next
 		};
 	}
@@ -76,14 +87,14 @@ class ProcSyntax : SyntaxReader
 		_topScope = new ObjectDescription()
 		{
 			Class = ClassMode.Head,
-			Dsc = _topScope,
+			Descending = _topScope,
 			Next = _guard
 		};
 	}
 
 	private void CloseScope()
 	{
-		_topScope = _topScope.Dsc;
+		_topScope = _topScope.Descending;
 	}
 
 	/// <summary>
@@ -95,40 +106,108 @@ class ProcSyntax : SyntaxReader
 	}
 
 	/// <summary>
+	/// Разбор сразу нескольких объявлений.
+	/// </summary>
+	private void Declarations()
+	{
+		ObjectDescription declaration = null;
+	}
+
+	/// <summary>
+	/// Проверка того, что объект определён выше.
+	/// </summary>
+	/// <param name="classMode">Класс объекта.</param>
+	/// <param name="name">Идентификатор объекта.</param>
+	/// <returns></returns>
+	private bool IsDeclared(ClassMode classMode, String name)
+	{
+		ObjectDescription level = _topScope;
+		while (level != null)
+		{
+			ObjectDescription current = level;
+			while (current != null)
+			{
+				if (current.Name == name && current.Class == classMode)
+					return true;
+
+				current = current.Next;
+			}
+			level = level.Descending;
+		}
+
+		return false;
+	}
+
+	/// <summary>
 	/// Начальное состояние машины.
+	/// Альтернативный пример: roslyn\src\Compilers\CSharp\Portable\Parser\LanguageParser.cs (406)
 	/// </summary>
 	public override void Global()
 	{
-		// Альтернативный пример: roslyn\src\Compilers\CSharp\Portable\Parser\LanguageParser.cs (406)
+		Scope();
+
+		if (Error == Error.None)
+		{
+			Console.WriteLine("Syntax tree has been generated.");
+		}
+	}
+
+	/// <summary>
+	/// Очередная область видимости.
+	/// </summary>
+	private void Scope()
+	{
+		OpenScope(); // Новая область видимости.
 
 		_lexer.Read(); // Считывание следующей лексемы.
 
-		OpenScope(); // Новая область видимости.
+		while (_lexer.Type != Type.EndOfStream)
+		{
+			Statement();
+		}
 
-		// Возможные очередные терминалы.
+		CloseScope();
+	}
+
+	/// <summary>
+	/// Базовая конструкция языка.
+	/// </summary>
+	private void Statement()
+	{
+		// Возможные очередные продукции.
 		switch (_lexer.Type)
 		{
-			case Type.Identifier:
+			// Определение переменной, константы, поля, функции и т.п.
+			case Type.Private:
+			case Type.Protected:
+			case Type.Public:
+			case Type.Constant:
+			case Type.Static:
+			case Type.Integer:
+				Declarations();
 				break;
 
+			case Type.Identifier:
+				if (IsDeclared(ClassMode.Type, _lexer.Identifier))
+					Declarations();
+				break;
 
-
-			// Определение переменной, функции, метода и т.п.
-			case Type.Integer:
+			/*case Type.Identifier:
 				break;
 			case Type.LeftParenthesis:
 				break;
 			case Type.LeftSquareBracket:
 				break;
 
-
+			case Type.Class:
+				break;
+			case Type.Enumeration:
+				break;*/
 
 			//case Type.Comment:
 			default:
 				break;
 		}
-
-		int a = 0x001001;
 
 		//int i = 0;
 		//do

@@ -29,9 +29,9 @@ class ObjectDescription
 	public ObjectDescription Next;
 
 	/// <summary>
-	/// Descending? Нисходящий? Ссылка на первый элемент вложенного уровня?
+	/// Первое объявление предыдущего нисходящего уровня.
 	/// </summary>
-	public ObjectDescription Dsc;
+	public ObjectDescription Descending;
 
 	/// <summary>
 	/// Тип объявления.

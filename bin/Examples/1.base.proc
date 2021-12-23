@@ -1,7 +1,9 @@
-256[4] Fibonacci(256[4] n)
+public const 256[4] Test = 10
+
+/*256[4] Fibonacci(256[4] n)
 	if (n < 2)
 		return n // Выход из рекурсии.
 	else
 		return Fibonacci(n - 1) + Fibonacci(n - 2)
 
-Fibonacci(8)
+Fibonacci(8)*/

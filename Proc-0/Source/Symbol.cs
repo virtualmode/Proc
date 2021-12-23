@@ -47,7 +47,7 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 
 	// TODO Состояние очередной ошибки можно вынести в отдельный интерфейс.
 	// TODO Но если здесь достаточно одного состояния, то в синтаксическом анализаторе это может быть несколько ошибок за итерацию.
-	public Error Error; // Флаг наличия ошибки.
+	public Source.Symbol.Error Error; // Флаг наличия ошибки.
 	public long ErrorPosition; // Позиция в символьном потоке.
 	public long ErrorLine; // Строка с ошибкой.
 
@@ -66,7 +66,7 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 		_keywordCount = 0;
 		Type = Type.Unknown;
 		Identifier = new String();
-		Error = Error.None;
+		Error = Source.Symbol.Error.None;
 		ErrorPosition = 0;
 		ErrorLine = 0;
 		Real = 0.0d;
@@ -76,11 +76,14 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 	/// <summary>
 	/// Перевод машины в состояние ошибки.
 	/// </summary>
-	protected void SetError(Error error, string message)
+	protected void SetError(Source.Symbol.Error error, String message)
 	{
 		Error = error;
 		ErrorPosition = _charToken.Position;
 		ErrorLine = _charToken.Line;
+
+		// TODO Переделать отладку.
+		Console.WriteLine($"error_file:{ErrorLine}:{ErrorPosition}: {message}");
 	}
 
 	/// <summary>
@@ -169,9 +172,9 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 			{
 				Value = 10 * Value + (long)_charToken.Type - (long)CharType.Digit0;
 			}
-			else if (Error != Error.None)
+			else if (Error != Source.Symbol.Error.None)
 			{
-				SetError(Error.NumberOverflow, "Not enough long size to store number.");
+				SetError(Source.Symbol.Error.NumberOverflow, "Not enough long size to store number.");
 			}
 			_charToken.ReadChar();
 		} while (_charToken.IsDecimalDigit());

@@ -18,6 +18,31 @@ http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html *)
          Char = "'" {Char} "'".
        String = "\"" {Char} "\"".
 
-(* Proc *)
+(* Proc goal *)
        Global = MethodDeclaration | MethodCall { Global }.
    Identifier = Letter { Letter | Digit }.
+
+
+
+
+
+Statement = {Assignment}
+            {IfStatement}
+            {CaseStatement}
+            {WhileStatement}
+            {RepeatStatement}
+            {ForStatement}
+            {FunctionCall}
+
+            {ConstantDeclaration}
+            {FieldDeclaration}
+            {FunctionDeclaration}
+
+            {ClassDeclaration}
+            {EnumDeclaration}
+            {InterfaceDeclaration}
+
+Goal = {Statement}
+Proc = Goal
+
+

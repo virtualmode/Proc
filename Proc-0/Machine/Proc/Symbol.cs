@@ -13,6 +13,14 @@ class ProcSymbol : Symbol
 	/// <param name="charToken">Символьный поток.</param>
 	public ProcSymbol(CharStream charToken) : base(charToken)
 	{
+		// Access modifiers.
+		EnterKeyword(Type.Private, "private");
+		EnterKeyword(Type.Protected, "protected");
+		EnterKeyword(Type.Public, "public");
+
+		EnterKeyword(Type.Constant, "const");
+		EnterKeyword(Type.Static, "static");
+
 		EnterKeyword(Type.Class, "class");
 		EnterKeyword(Type.Enumeration, "enum");
 	}
