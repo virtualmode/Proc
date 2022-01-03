@@ -105,12 +105,99 @@ class ProcSyntax : SyntaxReader
 
 	}
 
+	//PROCEDURE NewObj(VAR obj: OSG.Object; class: INTEGER);
+	//  VAR new, x: OSG.Object;
+	//BEGIN x := topScope;
+	//  WHILE (x.next # NIL) & (x.next.name # OSS.id) DO x := x.next END ;
+	//  IF x.next = NIL THEN
+	//    NEW(new); new.name := OSS.id; new.class := class; new.next := NIL;
+	//    x.next := new; obj := new
+	//  ELSE obj := x.next; OSS.Mark("mult def")
+	//  END
+	//END NewObj;
+
+
+	private void NewObject(ObjectDescription obj, ClassMode classMode)
+	{
+		var x = _topScope;
+		while (x.Next != null && x.Next.Name != _lexer.Identifier)
+		{
+			x = x.Next;
+		}
+		if (x.Next == null)
+		{
+
+		}
+		else
+		{
+			obj = x.Next;
+			SetError(Error.None, "Mult def");
+		}
+	}
+
 	/// <summary>
 	/// Разбор сразу нескольких объявлений.
 	/// </summary>
 	private void Declarations()
 	{
 		ObjectDescription declaration = null;
+
+		// Синхронизация.
+		// TODO Исправить условия синхронизации.
+		if (_lexer.Type < Type.Constant && _lexer.Type != Type.EndOfStream)
+		{
+			SetError(Error.None, "Is a declaration?");
+			do
+			{
+				_lexer.Read();
+			} while (!(_lexer.Type >= Type.Constant || _lexer.Type == Type.EndOfStream)); // Поиск терминала, который понимает компилятор.
+		}
+
+		while (true)
+		{
+
+		}
+
+		if (_lexer.Type == Type.Constant)
+		{
+			_lexer.Read();
+
+		}
+
+
+		ObjectDescription newObj, x;
+		x = _topScope;
+		_guard.Name = _lexer.Identifier;
+		while (x.Next.Name != _lexer.Identifier)
+		{
+
+		}
+
+		var obj = new ObjectDescription()
+		{
+			Class = ClassMode.Constant,
+			Name = _lexer.Identifier,
+
+		};
+
+		//struct ObjDesc *newObj, *x;
+		//x = topScope;
+		//idCpy(guard->name, id);
+		//while (strcmp(x->next->name, id) != 0) {
+		//	x = x->next;
+		//}
+		//if (objEql(x->next, guard)) {
+		//	newObj = objNew();
+		//	idCpy(newObj->name, id);
+		//	newObj->class = class;
+		//	newObj->next = guard;
+		//	x->next = newObj;
+		//	return newObj;
+		//} else {
+		//	Mark("redefinition.");
+		//	return x->next;
+		//}
+
 	}
 
 	/// <summary>
