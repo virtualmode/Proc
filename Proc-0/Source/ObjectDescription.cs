@@ -14,6 +14,11 @@ class ObjectDescription
 	public ClassMode Class;
 
 	/// <summary>
+	/// Модификатор доступа.
+	/// </summary>
+	public AccessModifier AccessModifier;
+
+	/// <summary>
 	/// Уровень объявления, например в параметрах процедуры.
 	/// </summary>
 	public int Level;

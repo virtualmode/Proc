@@ -226,7 +226,7 @@ class Utf8: CharStream
 			Type = (CharType)value;
 
 			// Отладка.
-			Console.Write((char)Value);
+			//Console.Write((char)Value);
 		}
 		else
 		{
@@ -234,7 +234,7 @@ class Utf8: CharStream
 			Type = CharType.Unknown;
 
 			// Отладка.
-			Console.Write($"#{Value}");
+			//Console.Write($"#{Value}");
 		}
 	}
 

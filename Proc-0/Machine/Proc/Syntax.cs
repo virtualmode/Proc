@@ -105,34 +105,146 @@ class ProcSyntax : SyntaxReader
 
 	}
 
-	//PROCEDURE NewObj(VAR obj: OSG.Object; class: INTEGER);
-	//  VAR new, x: OSG.Object;
-	//BEGIN x := topScope;
-	//  WHILE (x.next # NIL) & (x.next.name # OSS.id) DO x := x.next END ;
-	//  IF x.next = NIL THEN
-	//    NEW(new); new.name := OSS.id; new.class := class; new.next := NIL;
-	//    x.next := new; obj := new
-	//  ELSE obj := x.next; OSS.Mark("mult def")
-	//  END
-	//END NewObj;
-
-
-	private void NewObject(ObjectDescription obj, ClassMode classMode)
+	/// <summary>
+	/// Аналог Обероновского NewObj.
+	/// </summary>
+	/// <param name="classMode"></param>
+	/// <returns></returns>
+	private ObjectDescription NewObject(AccessModifier accessModifier, ClassMode classMode)
 	{
-		var x = _topScope;
+		ObjectDescription newObj, x = _topScope;
 		while (x.Next != null && x.Next.Name != _lexer.Identifier)
 		{
 			x = x.Next;
 		}
 		if (x.Next == null)
 		{
-
+			newObj = new ObjectDescription()
+			{
+				Name = _lexer.Identifier,
+				AccessModifier = accessModifier,
+				Class = classMode,
+				Next = null,
+			};
+			x.Next = newObj;
+			return newObj;
 		}
 		else
 		{
-			obj = x.Next;
-			SetError(Error.None, "Mult def");
+			SetError(Error.None, "Multiple definition.");
+			return x.Next;
 		}
+	}
+
+	private void CheckInt(Item x)
+	{
+	}
+
+	private void CheckBool(Item x)
+	{
+	}
+
+	private void Factor(Item x)
+	{
+	}
+
+	private void Term(Item x)
+	{
+		var y = new Item();
+		Factor(x);
+		while (_lexer.Type >= Type.Asterisk && _lexer.Type <= Type.AndPredicate)
+		{
+			Type op = _lexer.Type;
+			_lexer.Read();
+			if (op == Type.Asterisk)
+			{
+				CheckInt(x);
+				Factor(y);
+				CheckInt(y);
+				//OSG.MulOp(x, y);
+			}
+			else if (op == Type.Slash || op == Type.PercentSign)
+			{
+				CheckInt(x);
+				Factor(y);
+				CheckInt(y);
+				//OSG.DivOp(op, x, y);
+			}
+			else // op == and
+			{
+				CheckBool(x);
+				//OSG.And1(x);
+				Factor(y);
+				CheckBool(y);
+				//OSG.And2(x, y);
+			}
+		}
+	}
+
+	private Item SimpleExpression()
+	{
+		var x = new Item();
+		var y = new Item();
+
+		if (_lexer.Type == Type.PlusSign)
+		{
+			_lexer.Read();
+			Term(x);
+			CheckInt(x);
+			
+		}
+		else if (_lexer.Type == Type.HyphenMinus)
+		{
+			_lexer.Read();
+			Term(x);
+			CheckInt(x);
+			//OSG.Neg(x);
+		}
+		else
+		{
+			Term(x);
+		}
+
+		// TODO Исправить условие.
+		while (_lexer.Type >= Type.PlusSign && _lexer.Type <= Type.OrPredicate)
+		{
+			Type op = _lexer.Type;
+			_lexer.Read();
+			if (op == Type.OrPredicate)
+			{
+				//OSG.Or1(x);
+				CheckBool(x);
+				Term(y);
+				CheckBool(y);
+				//OSG.Or2(x, y);
+			}
+			else
+			{
+				CheckInt(x);
+				Term(y);
+				CheckInt(y);
+				//OSG.AddOp(op, x, y);
+			}
+		}
+
+		return x;
+	}
+
+	private Item Expression()
+	{
+		Item x = SimpleExpression();
+
+		// TODO Переписать условие EQL и GEQ.
+		if (_lexer.Type >= Type.EqualsPredicate && _lexer.Type <= Type.GreaterThanOrEqualPredicate)
+		{
+			Type op = _lexer.Type;
+			_lexer.Read();
+			Item y = SimpleExpression();
+			//if (x.Type == y.Type) OSG.Relation(op, x, y); else SetError(Error.None, "Incompatible types.");
+			//x.Type = OSG.boolType;
+		}
+
+		return x;
 	}
 
 	/// <summary>
@@ -140,7 +252,8 @@ class ProcSyntax : SyntaxReader
 	/// </summary>
 	private void Declarations()
 	{
-		ObjectDescription declaration = null;
+		var modifier = AccessModifier.Private;
+		//ObjectDescription declaration = null;
 
 		// Синхронизация.
 		// TODO Исправить условия синхронизации.
@@ -153,50 +266,53 @@ class ProcSyntax : SyntaxReader
 			} while (!(_lexer.Type >= Type.Constant || _lexer.Type == Type.EndOfStream)); // Поиск терминала, который понимает компилятор.
 		}
 
-		while (true)
+		// Определение модификатора доступа:
+		switch (_lexer.Type)
 		{
-
+			case Type.Private:
+				_lexer.Read();
+				break;
+			case Type.Protected:
+				modifier = AccessModifier.Protected;
+				_lexer.Read();
+				break;
+			case Type.Public:
+				modifier = AccessModifier.Public;
+				_lexer.Read();
+				break;
+			default:
+				break;
 		}
 
+		// Описание константы.
 		if (_lexer.Type == Type.Constant)
 		{
 			_lexer.Read();
-
+			while (_lexer.Type == Type.Identifier)
+			{
+				var obj = NewObject(modifier, ClassMode.Constant);
+				_lexer.Read();
+				if (_lexer.Type == Type.EqualsPredicate)
+					_lexer.Read();
+				else
+					SetError(Error.None, "=?");
+				Item x = Expression();
+				if (x.Mode == ClassMode.Constant)
+				{
+					obj.Value = x.A;
+					obj.Type = x.Type;
+				}
+				else
+				{
+					SetError(Error.None, "Expression is not a constant.");
+				}
+			}
+		}
+		else if (_lexer.Type == Type.Static)
+		{
+			// TODO Реализовать статические поля.
 		}
 
-
-		ObjectDescription newObj, x;
-		x = _topScope;
-		_guard.Name = _lexer.Identifier;
-		while (x.Next.Name != _lexer.Identifier)
-		{
-
-		}
-
-		var obj = new ObjectDescription()
-		{
-			Class = ClassMode.Constant,
-			Name = _lexer.Identifier,
-
-		};
-
-		//struct ObjDesc *newObj, *x;
-		//x = topScope;
-		//idCpy(guard->name, id);
-		//while (strcmp(x->next->name, id) != 0) {
-		//	x = x->next;
-		//}
-		//if (objEql(x->next, guard)) {
-		//	newObj = objNew();
-		//	idCpy(newObj->name, id);
-		//	newObj->class = class;
-		//	newObj->next = guard;
-		//	x->next = newObj;
-		//	return newObj;
-		//} else {
-		//	Mark("redefinition.");
-		//	return x->next;
-		//}
 
 	}
 

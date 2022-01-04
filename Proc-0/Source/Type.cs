@@ -13,7 +13,7 @@ enum Type // enum Symbol.Type
 
 	#endregion
 
-	#region Односимвольные терминалы
+	/*#region Односимвольные терминалы
 
 	// Данные лексемы используются, если соответствующие им литеры не являются частью других терминалов языка.
 
@@ -58,7 +58,7 @@ enum Type // enum Symbol.Type
 	RightCurlyBracket, // }
 	Tilde, // ~
 
-	#endregion
+	#endregion*/
 
 	#region Терминальные символы логики
 
@@ -79,11 +79,13 @@ enum Type // enum Symbol.Type
 	SubtractAssignment, // -=
 	MultiplyAssignment, // *=
 	DivideAssignment, // /=
+	RemainderAssignment, // %=
 
 	#endregion
 
 	#region Зарезервированные слова
 
+	// Access modifiers.
 	// Модификаторы доступа.
 	Private,
 	Protected,
@@ -132,3 +134,56 @@ enum Type // enum Symbol.Type
 
 	#endregion
 }
+
+/* lexical symbols of Oberon
+
+ 0 null
+ 1 times
+ 3 div
+ 4 mod
+			5 and			&& AND
+ 6 plus
+ 7 minus
+			8 or			|| OR
+			9 eql			== =
+			10 neq			!= #
+			11 lss			<
+			12 leq			<=
+			13 gtr			>
+			14 geq			>=
+18 period
+20 char
+21 int
+23 false
+24 true
+27 not
+28 lparen
+29 lbrak
+31 ident
+32 if
+34 while
+35 repeat
+40 comma
+41 colon
+42 becomes
+44 rparen
+45 rbrak
+47 then
+48 of
+49 do
+52 semicolon
+53 end
+55 else
+56 elsif
+57 until
+60 array
+61 record
+63 const
+64 type
+65 var
+66 procedure
+67 begin
+69 module
+70 eof
+
+*/
