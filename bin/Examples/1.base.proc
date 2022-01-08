@@ -7,3 +7,13 @@ public const 256[4] Test = 10
 		return Fibonacci(n - 1) + Fibonacci(n - 2)
 
 Fibonacci(8)*/
+
+public byte Test(int a)
+	public int variable = 0
+	if (A)
+		public int InnerTest() // Есть ли смысл в таком написании? Если метод компилируется во время разбора, то можно и в глобальной области описывать по идее.
+			return 0
+	else
+
+Test.InnerTest() // Разбор нужно делать как в C/C++ последовательный.
+this.InnerTest() // Эта штука будет инициализирована только в runtime? Сразу как прошел разбор кода (или введён через консоль).
