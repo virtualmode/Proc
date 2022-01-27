@@ -1,33 +1,34 @@
 <idea-plugin>
-  <id>com.your.company.unique.plugin.id</id>
+  <id>com.virtualmode.proc</id>
   <name>Proc</name>
+  <category>Languages</category>
   <version>1.0</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+  <vendor email="virtualmode@yandex.ru" url="http://virtualmode.com">virtualmode</vendor>
 
   <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
-    ]]></description>
+    Proc IntelliJ Plugin.<br/>
+    Enables editing of .proc files.]]>
+  </description>
 
   <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
-    ]]>
+    <ul>
+      <li><b>0.2022.1</b> <em>(2022-01-30)</em>
+        <ul>
+          <li>Start working on Proc plugin for IntelliJ IDEA</li>
+        </ul>
+      </li>
+    </ul>]]>
   </change-notes>
 
-  <!-- please see https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html for description -->
   <idea-version since-build="173.0"/>
 
-  <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
-       on how to target different products -->
-  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.lang</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
+    <fileType name="Proc" implementationClass="com.virtualmode.proc.ProcFileType"></fileType>
   </extensions>
 
   <actions>
-    <!-- Add your actions here -->
   </actions>
 
 </idea-plugin>
