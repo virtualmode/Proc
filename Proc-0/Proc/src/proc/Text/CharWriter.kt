@@ -1,4 +1,4 @@
-package Text
+package proc.Text
 
 /**
  * Интерфейс символьного генератора.

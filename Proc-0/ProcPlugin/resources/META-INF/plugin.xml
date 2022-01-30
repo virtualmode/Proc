@@ -1,5 +1,5 @@
 <idea-plugin>
-  <id>com.virtualmode.proc</id>
+  <id>ProcPlugin</id>
   <name>Proc</name>
   <category>Languages</category>
   <version>1.0</version>
@@ -25,7 +25,7 @@
   <depends>com.intellij.modules.lang</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <fileType name="Proc" implementationClass="com.virtualmode.proc.ProcFileType"></fileType>
+    <fileType name="Proc" implementationClass="proc.ProcFileType"></fileType>
   </extensions>
 
   <actions>

@@ -16,6 +16,8 @@
 	сборки первой версии самого себя без зависимостей.
 */
 
+package proc;
+
 // Combines several ideas: UTM, VM, Interpreter, Translator, Compiler.
 
 // Точка входа Proc-0.

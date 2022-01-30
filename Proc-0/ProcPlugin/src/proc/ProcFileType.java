@@ -1,4 +1,4 @@
-package com.virtualmode.proc;
+package proc;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import org.jetbrains.annotations.NonNls;

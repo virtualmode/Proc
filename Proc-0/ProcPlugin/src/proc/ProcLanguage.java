@@ -1,4 +1,4 @@
-package com.virtualmode.proc;
+package proc;
 
 import com.intellij.lang.Language;
 
