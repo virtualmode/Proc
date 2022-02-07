@@ -1,0 +1,35 @@
+<idea-plugin>
+    <id>ProcPlugin</id>
+    <name>Proc</name>
+    <category>Languages</category>
+    <version>1.0.0</version>
+    <vendor email="virtualmode@yandex.ru" url="http://virtualmode.com">virtualmode</vendor>
+
+    <description><![CDATA[
+        Proc IntelliJ Plugin.<br/>
+        Enables editing of .proc files.]]>
+    </description>
+
+    <change-notes><![CDATA[
+        <ul>
+            <li><b>0.2022.1</b> <em>(2022-01-30)</em>
+                <ul>
+                    <li>Start working on Proc plugin for IntelliJ IDEA</li>
+                </ul>
+            </li>
+        </ul>]]>
+    </change-notes>
+
+    <!-- See https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="Proc" implementationClass="proc.ProcFileType" />
+        <!--<stubElementTypeHolder class="proc.ProcSymbolType" />-->
+    </extensions>
+
+    <actions>
+    </actions>
+
+</idea-plugin>
