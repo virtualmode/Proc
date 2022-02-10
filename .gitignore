@@ -35,9 +35,10 @@ packages/
 *.VC.opendb
 
 # IntelliJ IDEA:
+.gradle/
 out/
 build/
-.gradle/
+**/src/gen/
 
 # Project:
 bin/[Pp]roc*
