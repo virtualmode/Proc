@@ -6,16 +6,21 @@
 
     <description><![CDATA[
         Proc IntelliJ Plugin.<br/>
-        Enables editing of .proc files.]]>
+        Enables editing of .proc files.<br/>
+        <a href="https://github.com/virtualmode/Proc">Getting Started with Proc</a><br/>
+        <a href="https://github.com/virtualmode/Proc/tree/master/ProcPlugin">Getting Started with plugin</a><br/>
+        <a href="mailto:virtualmode@yandex.ru">Feedback</a><br/>]]>
     </description>
 
     <change-notes><![CDATA[
-        <h3>1.0.0</h3>
+        <h3>2022.3.7</h3>
         Released: <b>March 7, 2022</b>
         <ul>
+            <li>Minimal IntelliJ plugin implementation.</li>
+            <li>Flex lexical analyzer generator and parser generator support.</li>
             <li>Proc <a href="https://github.com/virtualmode/Proc">language</a> syntax highlight support.</li>
         </ul>
-        For more details, see <a href="https://github.com/virtualmode/Proc/tree/master/Proc-0">plugin</a> page.
+        Learn more in the <a href="https://github.com/virtualmode/Proc/tags">changelog</a>.
         <br/><br/>
         To get the most out of the changes and improvements introduced in Proc, join <a href="https://github.com/virtualmode/Proc">project</a>.]]>
     </change-notes>
