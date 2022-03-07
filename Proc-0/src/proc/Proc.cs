@@ -41,6 +41,7 @@ class Proc
 		_charReader = null;
 	}
 
+	// Пример параметров "-l Examples/1.base.proc".
 	public int Process()
 	{
 		if (_args.Length <= 1)
