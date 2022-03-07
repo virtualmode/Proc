@@ -7,5 +7,5 @@ import javax.swing.*;
 
 public class ProcIcons {
     // Icons can be created using multiple formats like .ico, .png, .svg etc.
-    public static final @NotNull Icon FILE = IconLoader.getIcon("icons/file.svg");
+    public static final Icon FILE = IconLoader.getIcon("icons/file.svg", ProcIcons.class);
 }

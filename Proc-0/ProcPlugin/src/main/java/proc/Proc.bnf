@@ -2,37 +2,26 @@
 Wirth Extended Backus-Naur Form of Proc
 http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
 
-// TODO Naming: .Source.Symbol, .Syntax.Statement, .Syntax.Statement
-
 {
     parserClass="proc.Source.SyntaxReader"
     //parserUtilClass="proc.Source.SyntaxReaderUtil"
 
     extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
-    //psiClassPrefix="Proc"
+    psiClassPrefix="Proc"
     psiPackage="proc.psi"
     psiImplClassSuffix="Impl"
     psiImplPackage="proc.psi.impl"
     //psiImplUtilClass="proc.psi.impl.ProcPsiImplUtil"
 
-    elementTypeHolderClass="proc.psi.ProcTypes"
+    elementTypeHolderClass="proc.psi.SymbolType"
     elementTypeClass="proc.psi.ProcElementType"
-    //elementTypeFactory("typeDecl|classDecl|accessModifier")="proc.psi.ProcElementTypeFactory.factory"
-
     tokenTypeClass="proc.psi.ProcTokenType"
+    //elementTypeFactory("typeDecl|classDecl|accessModifier")="proc.psi.ProcElementTypeFactory.factory"
 }
 
 simpleFile ::= item_*
 
 private item_ ::= (property|COMMENT|CRLF)
 
-property ::= (KEY? SEPARATOR VALUE?) | KEY {
-  pin=3
-  recoverWhile="recover_property"
-  mixin="proc.psi.impl.ProcNamedElementImpl"
-  implements="proc.psi.ProcNamedElement"
-  methods=[getKey getValue getName setName getNameIdentifier getPresentation]
-}
-
-private recover_property ::= !(KEY|SEPARATOR|COMMENT)
+property ::= (KEY? SEPARATOR VALUE?) | KEY
