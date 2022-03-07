@@ -85,7 +85,7 @@
         "type": {
             "patterns": [
                 {
-                    "begin": "class( |\\t)+",
+                    "begin": "(class|enum|interface)( |\\t)+",
                     "beginCaptures": {
                         "0": {
                             "name": "storage.type.c"
@@ -358,7 +358,7 @@
                     "name": "storage.modifier.c"
                 },
                 {
-                    "match": "\\b(struct|typedef|union|type|enum)\\b",
+                    "match": "\\b(struct|typedef|union|type)\\b",
                     "name": "storage.modifier.c"
                 },
                 {

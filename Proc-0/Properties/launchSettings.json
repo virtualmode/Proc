@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Proc": {
-      "commandName": "Project",
-      "commandLineArgs": "-l Examples/1.base.proc"
-    }
-  }
-}

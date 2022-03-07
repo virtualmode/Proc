@@ -1,0 +1,38 @@
+<idea-plugin>
+    <id>ProcPlugin</id>
+    <name>Proc</name>
+    <category>Languages</category>
+    <vendor email="virtualmode@yandex.ru" url="https://github.com/virtualmode">virtualmode</vendor>
+
+    <description><![CDATA[
+        Proc IntelliJ Plugin.<br/>
+        Enables editing of .proc files.]]>
+    </description>
+
+    <change-notes><![CDATA[
+        <h3>1.0.0</h3>
+        Released: <b>March 7, 2022</b>
+        <ul>
+            <li>Proc <a href="https://github.com/virtualmode/Proc">language</a> syntax highlight support.</li>
+        </ul>
+        For more details, see <a href="https://github.com/virtualmode/Proc/tree/master/Proc-0">plugin</a> page.
+        <br/><br/>
+        To get the most out of the changes and improvements introduced in Proc, join <a href="https://github.com/virtualmode/Proc">project</a>.]]>
+    </change-notes>
+
+    <!-- See https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="Proc File"
+            implementationClass="proc.ProcFileType"
+            fieldName="INSTANCE"
+            language="Proc"
+            extensions="proc" />
+    </extensions>
+
+    <actions>
+    </actions>
+
+</idea-plugin>
