@@ -8,8 +8,8 @@ import proc.ProcLanguage;
 
 public class ProcElementType extends IElementType {
 
-    public ProcElementType(@NotNull @NonNls String debugName) {
-        super(debugName, ProcLanguage.INSTANCE);
-    }
+	public ProcElementType(@NotNull @NonNls String debugName) {
+		super(debugName, ProcLanguage.INSTANCE);
+	}
 
 }

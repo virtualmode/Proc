@@ -7,32 +7,35 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
+/**
+ * Language file type is defined by subclassing LanguageFileType.
+ */
 public class ProcFileType extends LanguageFileType {
 
-    public static final ProcFileType INSTANCE = new ProcFileType();
+	public static final ProcFileType INSTANCE = new ProcFileType();
 
-    private ProcFileType() {
-        super(ProcLanguage.INSTANCE);
-    }
+	private ProcFileType() {
+		super(ProcLanguage.INSTANCE);
+	}
 
-    @Override
-    public @NonNls
-    @NotNull String getName() {
-        return "Proc File";
-    }
+	@Override
+	public @NonNls
+	@NotNull String getName() {
+		return "Proc File";
+	}
 
-    @Override
-    public @NotNull String getDescription() {
-        return "Proc language file";
-    }
+	@Override
+	public @NotNull String getDescription() {
+		return "Proc language file";
+	}
 
-    @Override
-    public @NotNull String getDefaultExtension() {
-        return "proc";
-    }
+	@Override
+	public @NotNull String getDefaultExtension() {
+		return "proc";
+	}
 
-    @Override
-    public @Nullable Icon getIcon() {
-        return ProcIcons.FILE;
-    }
+	@Override
+	public @Nullable Icon getIcon() {
+		return ProcIcons.FILE;
+	}
 }

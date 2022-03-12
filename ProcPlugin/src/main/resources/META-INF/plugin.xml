@@ -35,6 +35,11 @@
             fieldName="INSTANCE"
             language="Proc"
             extensions="proc" />
+        <lang.parserDefinition language="Proc"
+            implementationClass="proc.ProcParserDefinition" />
+        <lang.syntaxHighlighterFactory language="Proc"
+            implementationClass="proc.ProcSyntaxHighlighterFactory" />
+        <colorSettingsPage implementation="proc.ProcColorSettingsPage" />
     </extensions>
 
     <actions>

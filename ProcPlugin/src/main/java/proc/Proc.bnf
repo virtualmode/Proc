@@ -3,8 +3,8 @@ Wirth Extended Backus-Naur Form of Proc
 http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
 
 {
-    parserClass="proc.Source.SyntaxReader"
-    //parserUtilClass="proc.Source.SyntaxReaderUtil"
+    parserClass="proc.parser.ProcParser"
+    //parserUtilClass="proc.parser.ProcParserUtil"
 
     extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 

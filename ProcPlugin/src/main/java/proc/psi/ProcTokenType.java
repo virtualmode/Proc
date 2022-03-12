@@ -8,12 +8,12 @@ import proc.ProcLanguage;
 
 public class ProcTokenType extends IElementType {
 
-    public ProcTokenType(@NotNull @NonNls String debugName) {
-        super(debugName, ProcLanguage.INSTANCE);
-    }
+	public ProcTokenType(@NotNull @NonNls String debugName) {
+		super(debugName, ProcLanguage.INSTANCE);
+	}
 
-    @Override
-    public String toString() {
-        return "ProcTokenType." + super.toString();
-    }
+	@Override
+	public String toString() {
+		return "ProcTokenType." + super.toString();
+	}
 }
