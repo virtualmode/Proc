@@ -17,6 +17,10 @@ import proc.psi.SymbolType;
 %eof{ return;
 %eof}
 
+%{
+    // TODO Add code here.
+%}
+
 CRLF=\R
 WHITE_SPACE=[\ \n\t\f]
 FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
@@ -28,6 +32,13 @@ KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
 %state WAITING_VALUE
 
 %%
+
+<YYINITIAL> {
+    // KEYWORD.
+    "private"   { return SymbolType.PRIVATE; }
+    "protected" { return SymbolType.PROTECTED; }
+    "public"    { return SymbolType.PUBLIC; }
+}
 
 <YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return SymbolType.COMMENT; }
 

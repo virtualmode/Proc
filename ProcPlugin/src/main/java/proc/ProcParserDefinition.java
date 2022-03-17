@@ -22,6 +22,12 @@ import proc.psi.SymbolType;
  */
 public class ProcParserDefinition implements ParserDefinition {
 
+	public static final TokenSet KEYWORDS = TokenSet.create(
+		SymbolType.PRIVATE,
+		SymbolType.PROTECTED,
+		SymbolType.PUBLIC
+	);
+
 	public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
 	public static final TokenSet COMMENTS = TokenSet.create(SymbolType.COMMENT);
 

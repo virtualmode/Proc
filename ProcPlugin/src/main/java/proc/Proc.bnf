@@ -20,8 +20,21 @@ http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
     //elementTypeFactory("typeDecl|classDecl|accessModifier")="proc.psi.ProcElementTypeFactory.factory"
 }
 
-simpleFile ::= item_*
+// Goal of process is a top scope.
+Proc ::= Goal
+Goal ::= Scope
+
+// Many programming languages make a distinction between statements and definitions/declarations but not this.
+Scope ::= Statement*
+
+Statement ::= AccessModifier
+
+AccessModifier ::= PRIVATE | PROTECTED | PUBLIC
+
+/*
+procFile ::= item_*
 
 private item_ ::= (property|COMMENT|CRLF)
 
 property ::= (KEY? SEPARATOR VALUE?) | KEY
+*/
