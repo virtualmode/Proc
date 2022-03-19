@@ -17,10 +17,10 @@ import org.jetbrains.annotations.Nullable;
 public class ProcColorSettingsPage implements ColorSettingsPage {
 
 	private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-		new AttributesDescriptor("Key", ProcSyntaxHighlighter.KEY),
-		new AttributesDescriptor("Separator", ProcSyntaxHighlighter.SEPARATOR),
-		new AttributesDescriptor("Value", ProcSyntaxHighlighter.VALUE),
-		new AttributesDescriptor("Bad value", ProcSyntaxHighlighter.BAD_CHARACTER)
+		//new AttributesDescriptor("Key", ProcSyntaxHighlighter.KEY),
+		//new AttributesDescriptor("Separator", ProcSyntaxHighlighter.SEPARATOR),
+		//new AttributesDescriptor("Value", ProcSyntaxHighlighter.VALUE),
+		new AttributesDescriptor("Bad value", ProcSyntaxHighlighter.BAD_CHARACTER),
 	};
 
 	@Nullable

@@ -27,7 +27,7 @@ Goal ::= Scope
 // Many programming languages make a distinction between statements and definitions/declarations but not this.
 Scope ::= Statement*
 
-Statement ::= AccessModifier
+Statement ::= WHITE_SPACE | AccessModifier | COMMENT | NEWLINE
 
 AccessModifier ::= PRIVATE | PROTECTED | PUBLIC
 

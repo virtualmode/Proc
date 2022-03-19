@@ -1,0 +1,61 @@
+{
+  parserClass="org.intellij.sdk.language.parser.ASTRAParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="ASTRA"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.intellij.sdk.language.psi"
+  psiImplPackage="org.intellij.sdk.language.psi.impl"
+
+  elementTypeHolderClass="org.intellij.sdk.language.psi.ASTRATypes"
+  elementTypeClass="org.intellij.sdk.language.psi.ASTRAElementType"
+  tokenTypeClass="org.intellij.sdk.language.psi.ASTRATokenType"
+
+  psiImplUtilClass="org.intellij.sdk.language.psi.impl.ASTRAPsiImplUtil"
+
+  tokens=[
+    space='regexp:\s+'
+    comment='regexp:((/[*])([\s\S]+)([*]/))|([/]{2,}[^\n]+)'
+    character="regexp:'.'"
+    stringlit='regexp:"([^"\\]|\\.)*"'
+    id='regexp:\p{Alpha}\w*'
+
+    PERIOD='.'
+    COMMA=','
+    SEMI=';'
+
+    INT='int'
+    LONG='long'
+    FLOAT='float'
+    DOUBLE='double'
+    STRING='string'
+    CHAR='char'
+    BOOLEAN='boolean'
+    FUNCT='funct'
+    LIST='list'
+  ]
+}
+
+astraFile ::= [package] agent
+package ::= 'package' className SEMI
+className ::= id (PERIOD id)*
+agent ::= 'agent' id ['extends' id (COMMA id)*] '{' statement* '}'
+statement ::= module | types | initial
+
+module ::= 'module' className id SEMI
+
+types ::= 'types' id '{' formula* '}'
+formula ::= 'formula' signature SEMI
+signature ::= id '(' [type (COMMA type)*] ')'
+
+initial ::= 'initial' atom (COMMA atom)* SEMI
+private atom ::= goal | predicate
+goal ::= '!' predicate
+predicate ::= id '(' arg ')'
+private arg ::= variable
+    | literal
+    | id
+private literal ::= stringlit | character
+variable ::= type id
+type ::= INT | LONG | FLOAT | DOUBLE | STRING | CHAR | BOOLEAN | FUNCT | LIST | className
