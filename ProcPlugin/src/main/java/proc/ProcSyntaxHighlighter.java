@@ -22,12 +22,12 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 
 	// Это скорее группы, на которые делятся лексемы или синтаксические конструкции.
 	public static final TextAttributesKey KEYWORD = createTextAttributesKey("PROC_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
-	public static final TextAttributesKey COMMENT = createTextAttributesKey("PROC_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+	public static final TextAttributesKey LINE_COMMENT = createTextAttributesKey("PROC_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 	public static final TextAttributesKey BAD_CHARACTER = createTextAttributesKey("PROC_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
 	private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[] { KEYWORD };
-	private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[] {COMMENT};
-	private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[] {BAD_CHARACTER};
+	private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[] { LINE_COMMENT };
+	private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[] { BAD_CHARACTER };
 	private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
 	/*
@@ -61,7 +61,7 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 			return VALUE_KEYS;
 		}
 		*/
-		if (tokenType.equals(SymbolType.COMMENT)) {
+		if (tokenType.equals(SymbolType.LINE_COMMENT)) {
 			return COMMENT_KEYS;
 		}
 		if (tokenType.equals(TokenType.BAD_CHARACTER)) {

@@ -1,3 +1,5 @@
+// Hello, world!
+public
 
 type Reader
 	virtual object Read(Writer *destination)

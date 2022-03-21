@@ -1,5 +1,6 @@
 /* Parsing expression grammar (PEG) of Proc
 Wirth Extended Backus-Naur Form of Proc
+https://en.wikipedia.org/wiki/Parsing_expression_grammar
 http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
 
 {
@@ -27,9 +28,28 @@ Goal ::= Scope
 // Many programming languages make a distinction between statements and definitions/declarations but not this.
 Scope ::= Statement*
 
-Statement ::= WHITE_SPACE | AccessModifier | COMMENT | NEWLINE
+Statement ::= AccessModifier |
+              WHITE_SPACE |
+              LINE_COMMENT |
+              NEWLINE |
+              STATEMENT_ERROR
 
 AccessModifier ::= PRIVATE | PROTECTED | PUBLIC
+
+//Keyword ::= INTERFACE
+
+// Proc letters and digits.
+//              Letter ::= LatinLetter | OtherLetter | OtherDigit
+//               Digit ::= DecimalDigit | LatinLetter
+
+// Base language characters.
+//         LatinLetter ::= LATIN_LETTER // "A" | "B" | ... | "Z" | "a" | "b" | ... | "z".
+//        DecimalDigit ::= DECIMAL_DIGIT // "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9".
+
+// Any other characters to extend language.
+//         OtherLetter ::= "∅"
+//          OtherDigit ::= "∅"
+
 
 /*
 procFile ::= item_*

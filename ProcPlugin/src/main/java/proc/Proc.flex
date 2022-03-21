@@ -23,7 +23,9 @@ import proc.psi.SymbolType;
 
 NEWLINE=\r|\n|\r\n
 WHITE_SPACE=[\s\t\f]
-END_OF_LINE_COMMENT=("//")[^\r\n]*
+LINE_COMMENT=("//")[^\r\n]*
+
+STATEMENT_ERROR=[^\r\n\s\t\f\r\n]+
 
 //FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
 //VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
@@ -40,9 +42,11 @@ END_OF_LINE_COMMENT=("//")[^\r\n]*
     "protected"           { return SymbolType.PROTECTED; }
     "public"              { return SymbolType.PUBLIC; }
 
-    {END_OF_LINE_COMMENT} { return SymbolType.COMMENT; }
+    {LINE_COMMENT}        { return SymbolType.LINE_COMMENT; }
     {NEWLINE}             { return SymbolType.NEWLINE; }
     {WHITE_SPACE}         { return TokenType.WHITE_SPACE; }
+
+    {STATEMENT_ERROR}     { return SymbolType.STATEMENT_ERROR; }
 }
 
 [^]                       { return TokenType.BAD_CHARACTER; }

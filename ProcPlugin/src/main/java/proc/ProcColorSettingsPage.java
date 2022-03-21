@@ -20,6 +20,8 @@ public class ProcColorSettingsPage implements ColorSettingsPage {
 		//new AttributesDescriptor("Key", ProcSyntaxHighlighter.KEY),
 		//new AttributesDescriptor("Separator", ProcSyntaxHighlighter.SEPARATOR),
 		//new AttributesDescriptor("Value", ProcSyntaxHighlighter.VALUE),
+		new AttributesDescriptor("Keyword", ProcSyntaxHighlighter.KEYWORD),
+		new AttributesDescriptor("Line comment", ProcSyntaxHighlighter.LINE_COMMENT),
 		new AttributesDescriptor("Bad value", ProcSyntaxHighlighter.BAD_CHARACTER),
 	};
 
@@ -38,7 +40,11 @@ public class ProcColorSettingsPage implements ColorSettingsPage {
 	@NotNull
 	@Override
 	public String getDemoText() {
-		return "# You are reading the \".properties\" entry.\n" +
+		return
+			"// Proc code example.\n" +
+			"public interface MyInterface\n" +
+			"	int a = 100\n\n" +
+			"# You are reading the \".properties\" entry.\n" +
 			"! The exclamation mark can also mark text as comments.\n" +
 			"website = https://en.wikipedia.org/\n" +
 			"language = English\n" +
