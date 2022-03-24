@@ -26,18 +26,18 @@ http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
                  Scope ::= Statement*
 
 // Proc syntax.
-
-             Statement ::= Declaration |
-                           WHITE_SPACE |
+             Statement ::= WHITE_SPACE |
+                           NEW_LINE |
                            LINE_COMMENT |
-                           NEWLINE |
+                           Declaration |
                            STATEMENT_ERROR
 
-           Declaration ::= AccessModifier? ("static" | "const")? Type Identifier // ("=" Expression)?
+         //Declaration ::= AccessModifier? ("static" | "const")? Type Identifier // ("=" Expression)?
+           Declaration ::= AccessModifier? NUMBER IDENTIFIER "=" NUMBER
         AccessModifier ::= PRIVATE | PROTECTED | PUBLIC
-                  Cast ::= "(" Type ")"
-                  Type ::= Number ("[" Number "]")* | Identifier
-            Identifier ::= Letter (Letter | Digit)*
+                //Cast ::= "(" Type ")"
+                //Type ::= Number ("[" Number "]")* | Identifier
+          //Identifier ::= Letter (Letter | Digit)*
 
            /*Statement ::= Assignment+ |
                            IfStatement+ |
@@ -53,19 +53,14 @@ http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
 // VariableDeclaration ::= // Здесь надо подумать о области видимости переменных в функции.
 
 // Language strings.
-                  Char ::= "'" Character "'"
-                String ::= "\"" Character* "\""
-             Character ::= Letter | Digit
-                Number ::= Digit+
+                //Char ::= "'" Character "'"
+              //String ::= "\"" Character* "\""
+           //Character ::= Letter | Digit
+              //Number ::= Digit+
 
 // Proc letters and digits.
-                Letter ::= LatinLetter | OtherLetter | OtherDigit
-                 Digit ::= DecimalDigit | LatinLetter
+              //Letter ::= LATIN_LETTER | OTHER_LETTER | OTHER_DIGIT
+               //Digit ::= DECIMAL_DIGIT // | LATIN_LETTER
 
-// Base language characters.
-           LatinLetter ::= [A-Za-z]//LATIN_LETTER
-          DecimalDigit ::= [0123456789] //DECIMAL_DIGIT
-
-// Any other characters to extend language.
-           OtherLetter ::= "∅"
-            OtherDigit ::= "∅"
+// Base language characters are part of the lexer.
+// Any other characters to extend language are part of the lexer.
