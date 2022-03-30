@@ -29,7 +29,15 @@ http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
              Statement ::= WHITE_SPACE |
                            NEW_LINE |
                            LINE_COMMENT |
-                           Declaration |
+                           BLOCK_COMMENT |
+                           //Declaration |
+
+                           AccessModifier |
+                           CLASS | ENUMERATION | INTERFACE | USING |
+                           LEADING_ZERO |
+                           NUMBER |
+                           IDENTIFIER |
+
                            STATEMENT_ERROR
 
          //Declaration ::= AccessModifier? ("static" | "const")? Type Identifier // ("=" Expression)?

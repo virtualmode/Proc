@@ -21,25 +21,38 @@ import proc.psi.SymbolType;
     // TODO You can add code here.
 %}
 
-// Language terminals.
-NEW_LINE=\r|\n|\r\n
-WHITE_SPACE=[\s\t\f]
+// Base terminals.
+LATIN_LETTER         = [A-Za-z]
+DECIMAL_DIGIT        = [0123456789]
+OTHER_LETTER         = [∅]
+OTHER_DIGIT          = [∅]
 
-LINE_COMMENT=("//")[^\r\n]*
-BLOCK_COMMENT=("/*")[^]*("*/")
+LEFT_PARENTHESIS     = \(
+RIGHT_PARENTHESIS    = \)
+LEFT_SQUARE_BRACKET  = \[
+RIGHT_SQUARE_BRACKET = \]
+LEFT_CURLY_BRACKET   = \{
+RIGHT_CURLY_BRACKET  = \}
+//SIGN               = [-+] // Part of operators?
 
-LATIN_LETTER=[A-Za-z]
-DECIMAL_DIGIT=[0123456789]
-OTHER_LETTER=[∅]
-OTHER_DIGIT=[∅]
+LETTER               = {LATIN_LETTER} | {OTHER_LETTER} | {OTHER_DIGIT} // Other digit most probably can be treated as letter.
+DIGIT                = {DECIMAL_DIGIT} | {LATIN_LETTER} // Digit is more complex than decimal digit.
+IDENTIFIER           = {LETTER} ({LETTER} | {DECIMAL_DIGIT})+
 
-LETTER={LATIN_LETTER}|{OTHER_LETTER}|{OTHER_DIGIT}
-DIGIT={DECIMAL_DIGIT} // | LATIN_LETTER
-IDENTIFIER={LETTER}({LETTER}|{DIGIT})*
-NUMBER={DIGIT}+
+LEADING_ZERO         = 0
+NUMBER               = {DECIMAL_DIGIT}({DIGIT})+
+
+// Comments.
+LINE_COMMENT         = ("//")[^\r\n]*
+BLOCK_COMMENT_START  = ("/*")
+BLOCK_COMMENT_END    = ("*/")
 
 // Auxiliary regular expressions.
-STATEMENT_ERROR=[^\r\n\s\t\f]+
+NEW_LINE             = \r|\n|\r\n
+STATEMENT_ERROR      = [^\r\n\s\t\f]+
+WHITE_SPACE          = [\s\t\f]
+
+%state BLOCK_COMMENT
 
 %%
 
@@ -61,23 +74,31 @@ STATEMENT_ERROR=[^\r\n\s\t\f]+
     "protected"           { return SymbolType.PROTECTED; }
     "public"              { return SymbolType.PUBLIC; }
 
-
-
-
     // Comments.
     {LINE_COMMENT}        { return SymbolType.LINE_COMMENT; }
-    {BLOCK_COMMENT}       { return SymbolType.BLOCK_COMMENT; }
-
-
+    {BLOCK_COMMENT_START} { yybegin(BLOCK_COMMENT); }
 
     // Other identifiers.
     {IDENTIFIER}          { return SymbolType.IDENTIFIER; }
+    {LEADING_ZERO}        { return SymbolType.LEADING_ZERO; }
     {NUMBER}              { return SymbolType.NUMBER; }
 
     // Special symbols.
     {NEW_LINE}            { return SymbolType.NEW_LINE; }
     {STATEMENT_ERROR}     { return SymbolType.STATEMENT_ERROR; }
     {WHITE_SPACE}         { return TokenType.WHITE_SPACE; }
+}
+
+<BLOCK_COMMENT> {
+    <<EOF>> {
+        yybegin(YYINITIAL);
+        return TokenType.BAD_CHARACTER; // Can't find block comment end sequence.
+    }
+    {BLOCK_COMMENT_END} {
+        yybegin(YYINITIAL);
+        return SymbolType.BLOCK_COMMENT;
+    }
+    //[^] {}
 }
 
 [^]                       { return TokenType.BAD_CHARACTER; }

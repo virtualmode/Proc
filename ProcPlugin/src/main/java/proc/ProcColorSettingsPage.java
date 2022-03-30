@@ -21,6 +21,7 @@ public class ProcColorSettingsPage implements ColorSettingsPage {
 		//new AttributesDescriptor("Separator", ProcSyntaxHighlighter.SEPARATOR),
 		//new AttributesDescriptor("Value", ProcSyntaxHighlighter.VALUE),
 		new AttributesDescriptor("Identifier", ProcSyntaxHighlighter.IDENTIFIER),
+		new AttributesDescriptor("Leading zero", ProcSyntaxHighlighter.LEADING_ZERO),
 		new AttributesDescriptor("Number", ProcSyntaxHighlighter.NUMBER),
 		new AttributesDescriptor("Keyword", ProcSyntaxHighlighter.KEYWORD),
 		new AttributesDescriptor("Line comment", ProcSyntaxHighlighter.LINE_COMMENT),
@@ -45,7 +46,7 @@ public class ProcColorSettingsPage implements ColorSettingsPage {
 		return
 			"// Proc code example.\n" +
 			"public interface MyInterface\n" +
-			"	int myField = 100\n\n\n" +
+			"	int myField = 0100\n\n\n" +
 
 
 

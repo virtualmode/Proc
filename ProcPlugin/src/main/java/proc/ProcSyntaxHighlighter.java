@@ -22,12 +22,14 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 
 	// Это скорее группы, на которые делятся лексемы или синтаксические конструкции.
 	public static final TextAttributesKey IDENTIFIER = createTextAttributesKey("PROC_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER);
+	public static final TextAttributesKey LEADING_ZERO = createTextAttributesKey("PROC_LEADING_ZERO", DefaultLanguageHighlighterColors.NUMBER);
 	public static final TextAttributesKey NUMBER = createTextAttributesKey("PROC_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
 	public static final TextAttributesKey KEYWORD = createTextAttributesKey("PROC_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
 	public static final TextAttributesKey LINE_COMMENT = createTextAttributesKey("PROC_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 	public static final TextAttributesKey BAD_CHARACTER = createTextAttributesKey("PROC_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
 	private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[] { IDENTIFIER };
+	private static final TextAttributesKey[] LEADING_ZERO_KEYS = new TextAttributesKey[] { LEADING_ZERO };
 	private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[] { NUMBER };
 	private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[] { KEYWORD };
 	private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[] { LINE_COMMENT };
@@ -57,6 +59,9 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 		if (tokenType.equals(SymbolType.IDENTIFIER)) {
 			return IDENTIFIER_KEYS;
 		}
+		if (tokenType.equals(SymbolType.LEADING_ZERO)) {
+			return LEADING_ZERO_KEYS;
+		}
 		if (tokenType.equals(SymbolType.NUMBER)) {
 			return NUMBER_KEYS;
 		}
@@ -71,7 +76,7 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 			return VALUE_KEYS;
 		}
 		*/
-		if (tokenType.equals(SymbolType.LINE_COMMENT)) {
+		if (ProcParserDefinition.COMMENTS.contains(tokenType)) {
 			return COMMENT_KEYS;
 		}
 		if (tokenType.equals(TokenType.BAD_CHARACTER)) {

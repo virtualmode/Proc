@@ -25,11 +25,16 @@ public class ProcParserDefinition implements ParserDefinition {
 	public static final TokenSet KEYWORDS = TokenSet.create(
 		SymbolType.PRIVATE,
 		SymbolType.PROTECTED,
-		SymbolType.PUBLIC
+		SymbolType.PUBLIC,
+		SymbolType.USING,
+		SymbolType.CLASS,
+		SymbolType.INTERFACE,
+		SymbolType.ENUMERATION
 	);
 
 	public static final TokenSet COMMENTS = TokenSet.create(
-		SymbolType.LINE_COMMENT
+		SymbolType.LINE_COMMENT,
+		SymbolType.BLOCK_COMMENT
 	);
 
 	public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
