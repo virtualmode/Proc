@@ -27,6 +27,9 @@ DECIMAL_DIGIT        = [0123456789]
 OTHER_LETTER         = [∅]
 OTHER_DIGIT          = [∅]
 
+SLASH                = \/
+ASTERISK             = \*
+
 LEFT_PARENTHESIS     = \(
 RIGHT_PARENTHESIS    = \)
 LEFT_SQUARE_BRACKET  = \[
@@ -44,8 +47,8 @@ NUMBER               = {DECIMAL_DIGIT}({DIGIT})+
 
 // Comments.
 LINE_COMMENT         = ("//")[^\r\n]*
-BLOCK_COMMENT_START  = ("/*")
-BLOCK_COMMENT_END    = ("*/")
+BLOCK_COMMENT_START  = {SLASH}{ASTERISK}
+BLOCK_COMMENT_END    = {ASTERISK}{SLASH}
 
 // Auxiliary regular expressions.
 NEW_LINE             = \r|\n|\r\n
@@ -98,7 +101,7 @@ WHITE_SPACE          = [\s\t\f]
         yybegin(YYINITIAL);
         return SymbolType.BLOCK_COMMENT;
     }
-    //[^] {}
+    [^] {}
 }
 
 [^]                       { return TokenType.BAD_CHARACTER; }
