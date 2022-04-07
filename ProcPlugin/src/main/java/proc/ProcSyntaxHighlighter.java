@@ -22,18 +22,18 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 
 	// Это скорее группы, на которые делятся лексемы или синтаксические конструкции.
 	public static final TextAttributesKey IDENTIFIER = createTextAttributesKey("PROC_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER);
-	public static final TextAttributesKey LEADING_ZERO = createTextAttributesKey("PROC_LEADING_ZERO", DefaultLanguageHighlighterColors.NUMBER);
 	public static final TextAttributesKey NUMBER = createTextAttributesKey("PROC_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
 	public static final TextAttributesKey KEYWORD = createTextAttributesKey("PROC_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
 	public static final TextAttributesKey LINE_COMMENT = createTextAttributesKey("PROC_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 	public static final TextAttributesKey BAD_CHARACTER = createTextAttributesKey("PROC_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
+	public static final TextAttributesKey TEXT = TextAttributesKey.createTextAttributesKey("PROC_PLAIN_TEXT", HighlighterColors.TEXT);
 
 	private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[] { IDENTIFIER };
-	private static final TextAttributesKey[] LEADING_ZERO_KEYS = new TextAttributesKey[] { LEADING_ZERO };
 	private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[] { NUMBER };
 	private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[] { KEYWORD };
 	private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[] { LINE_COMMENT };
 	private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[] { BAD_CHARACTER };
+	private static final TextAttributesKey[] TEXT_KEYS = new TextAttributesKey[] { TEXT };
 	private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
 	/*
@@ -59,12 +59,14 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 		if (tokenType.equals(SymbolType.IDENTIFIER)) {
 			return IDENTIFIER_KEYS;
 		}
-		if (tokenType.equals(SymbolType.LEADING_ZERO)) {
-			return LEADING_ZERO_KEYS;
-		}
 		if (tokenType.equals(SymbolType.NUMBER)) {
 			return NUMBER_KEYS;
 		}
+
+		//if (tokenType.equals(SymbolType.TEXT)) {
+		//	return TEXT_KEYS;
+		//}
+
 		/*
 		if (tokenType.equals(SymbolType.SEPARATOR)) {
 			return SEPARATOR_KEYS;
@@ -76,6 +78,7 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 			return VALUE_KEYS;
 		}
 		*/
+
 		if (ProcParserDefinition.COMMENTS.contains(tokenType)) {
 			return COMMENT_KEYS;
 		}

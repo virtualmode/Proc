@@ -1,5 +1,6 @@
 // Пример модификаторов, классов, пространств имён и комментариев.
 0210010011
+_test
 public class Namespace1.PublicClass
     // TODO Пример заметки на исправление.
 	class Namespace3.PrivateClass1: Interface1, Namespace1.Interface2

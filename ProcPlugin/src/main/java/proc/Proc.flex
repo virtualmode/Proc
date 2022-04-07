@@ -24,9 +24,9 @@ import proc.psi.SymbolType;
 // Base terminals.
 LATIN_LETTER           = [A-Za-z]
 DECIMAL_DIGIT          = [0123456789]
-DECIMAL_NON_ZERO_DIGIT = [1-9]
+//DECIMAL_NON_ZERO_DIGIT = [1-9]
 //SIGN                 = [-+] // Part of operators?
-OTHER_LETTER           = [∅]
+OTHER_LETTER           = [\u0401\u0451\u0410-\u044f] // Cyrillic letters [ЁёА-я]
 OTHER_DIGIT            = [∅]
 
 SLASH                  = \/
@@ -39,16 +39,19 @@ RIGHT_SQUARE_BRACKET   = \]
 LEFT_CURLY_BRACKET     = \{
 RIGHT_CURLY_BRACKET    = \}
 
-UNDERLINE = \_
+UNDERLINE              = \_
 
 LETTER                 = {LATIN_LETTER} | {OTHER_LETTER} | {OTHER_DIGIT} // Other digit most probably can be treated as letter.
 DIGIT                  = {DECIMAL_DIGIT} | {LATIN_LETTER} // Digit is more complex than decimal digit.
 
-IDENTIFIER             = {UNDERLINE} {LETTER} ({LETTER} | {DECIMAL_DIGIT})+
+NUMBER                 = ({LATIN_LETTER} | {DECIMAL_DIGIT})+
 
-LEADING_ZERO           = [0]
-NUMBER_TAIL            = {DIGIT}+
-DECIMAL_NUMBER         = {DECIMAL_NON_ZERO_DIGIT}{DECIMAL_DIGIT}*
+PRIVATE_IDENTIFIER     = {UNDERLINE} ({UNDERLINE} | {LETTER} | {DECIMAL_DIGIT})*
+IDENTIFIER             = ({LETTER})+
+                         ({UNDERLINE})+
+                         ({LETTER} | {DECIMAL_DIGIT})*
+
+DELIMITER              = [\<\>\(\)\[\]\{\}\:\;\,\=\"\'\`\|\!\@\#\$\%\^\&\*\+\-\/\~]
 
 // Comments.
 LINE_COMMENT           = ("//")[^\r\n]*
@@ -57,7 +60,7 @@ BLOCK_COMMENT_END      = {ASTERISK}{SLASH}
 
 // Auxiliary regular expressions.
 NEW_LINE               = \r|\n|\r\n
-STATEMENT_ERROR        = [^\r\n\s\t\f0123456789][^\r\n\s\t\f]+
+STATEMENT_ERROR        = [^\<\>\(\)\[\]\{\}\:\;\,\=\"\'\`\|\!\@\#\$\%\^\&\*\+\-\/\~0123456789\r\n\s\t\f]+
 WHITE_SPACE            = [\s\t\f]
 
 %state BLOCK_COMMENT, NUMBER_BLOCK
@@ -82,18 +85,22 @@ WHITE_SPACE            = [\s\t\f]
     "protected"              { return SymbolType.PROTECTED; }
     "public"                 { return SymbolType.PUBLIC; }
 
+    "return"                 { return SymbolType.RETURN; }
+    "const"                  { return SymbolType.CONSTANT; }
+    "static"                 { return SymbolType.STATIC; }
+
     // Comments.
     {LINE_COMMENT}           { return SymbolType.LINE_COMMENT; }
     {BLOCK_COMMENT_START}    { yybegin(BLOCK_COMMENT); }
 
     // Other identifiers.
+    {NUMBER}                 { return SymbolType.NUMBER; }
+    {PRIVATE_IDENTIFIER}     { return SymbolType.IDENTIFIER; }
     {IDENTIFIER}             { return SymbolType.IDENTIFIER; }
-    {LEADING_ZERO}           { yybegin(NUMBER_BLOCK); return SymbolType.LEADING_ZERO; }
-    {DECIMAL_NUMBER}         { return SymbolType.NUMBER; }
 
     // Special symbols.
     {NEW_LINE}               { return SymbolType.NEW_LINE; }
-    {STATEMENT_ERROR}        { return SymbolType.STATEMENT_ERROR; }
+    //{STATEMENT_ERROR}        { return SymbolType.STATEMENT_ERROR; }
     {WHITE_SPACE}            { return TokenType.WHITE_SPACE; }
 }
 
@@ -109,12 +116,12 @@ WHITE_SPACE            = [\s\t\f]
     [^] {}
 }
 
-<NUMBER_BLOCK> {
-    {NUMBER_TAIL} {
-        yybegin(YYINITIAL);
-        return SymbolType.NUMBER;
-    }
-    [^] { yybegin(YYINITIAL); }
-}
+//<NUMBER_BLOCK> {
+//    {NUMBER_TAIL} {
+//        yybegin(YYINITIAL);
+//        return SymbolType.NUMBER;
+//    }
+//    [^] { yybegin(YYINITIAL); }
+//}
 
 [^]                       { return TokenType.BAD_CHARACTER; }
