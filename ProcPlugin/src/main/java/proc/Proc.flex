@@ -25,6 +25,7 @@ import proc.psi.SymbolType;
 LATIN_LETTER           = [A-Za-z]
 DECIMAL_DIGIT          = [0123456789]
 DECIMAL_NON_ZERO_DIGIT = [1-9]
+//SIGN                 = [-+] // Part of operators?
 OTHER_LETTER           = [∅]
 OTHER_DIGIT            = [∅]
 
@@ -37,11 +38,13 @@ LEFT_SQUARE_BRACKET    = \[
 RIGHT_SQUARE_BRACKET   = \]
 LEFT_CURLY_BRACKET     = \{
 RIGHT_CURLY_BRACKET    = \}
-//SIGN                 = [-+] // Part of operators?
+
+UNDERLINE = \_
 
 LETTER                 = {LATIN_LETTER} | {OTHER_LETTER} | {OTHER_DIGIT} // Other digit most probably can be treated as letter.
 DIGIT                  = {DECIMAL_DIGIT} | {LATIN_LETTER} // Digit is more complex than decimal digit.
-IDENTIFIER             = {LETTER} ({LETTER} | {DECIMAL_DIGIT})+
+
+IDENTIFIER             = {UNDERLINE} {LETTER} ({LETTER} | {DECIMAL_DIGIT})+
 
 LEADING_ZERO           = [0]
 NUMBER_TAIL            = {DIGIT}+
