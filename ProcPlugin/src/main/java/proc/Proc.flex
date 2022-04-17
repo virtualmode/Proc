@@ -43,15 +43,15 @@ LETTER                 = {LATIN_LETTER} | {OTHER_LETTER} | {OTHER_DIGIT} // Othe
 DIGIT                  = {DECIMAL_DIGIT} | {LATIN_LETTER} // Digit is more complex than decimal digit.
 
 // TODO Unapproved terminals
-DELIMITER              = [\<\>\(\)\[\]\{\}\:\;\,\=\"\'\`\|\!\@\#\$\%\^\&\*\+\-\/\~]
-STATEMENT_ERROR        = [^\<\>\(\)\[\]\{\}\:\;\,\=\"\'\`\|\!\@\#\$\%\^\&\*\+\-\/\~0123456789\r\n\s\t\f]+
+DELIMITER              = [\<\>\(\)\[\]\{\}\:\;\.\,\=\"\'\`\|\!\@\#\$\%\^\&\*\+\-\/\~]
+STATEMENT_ERROR        = [^\<\>\(\)\[\]\{\}\:\;\.\,\=\"\'\`\|\!\@\#\$\%\^\&\*\+\-\/\~0123456789\r\n\s\t\f]+
 
 // Base terminals.
 NUMBER                 = ({LATIN_LETTER} | {DECIMAL_DIGIT})+
-PRIVATE_IDENTIFIER     = {UNDERLINE} ({UNDERLINE} | {LETTER} | {DECIMAL_DIGIT})*
-IDENTIFIER             = ({LETTER})+
-                         ({UNDERLINE})+
-                         ({LETTER} | {DECIMAL_DIGIT})*
+IDENTIFIER             = ({UNDERLINE} | {LETTER})+
+                         ({UNDERLINE} | {LETTER} | {DIGIT})*
+BAD_IDENTIFIER         = ({UNDERLINE} | {LETTER} | {DIGIT})+
+
 
 // Comments.
 LINE_COMMENT           = ("//")[^\r\n]*
@@ -94,11 +94,12 @@ WHITE_SPACE            = [\s\t\f]
 
     // Other identifiers.
     {NUMBER}                 { return SymbolType.NUMBER; }
-    {PRIVATE_IDENTIFIER}     { return SymbolType.IDENTIFIER; }
     {IDENTIFIER}             { return SymbolType.IDENTIFIER; }
+    {BAD_IDENTIFIER}         { return TokenType.BAD_CHARACTER; }
 
     // Special symbols.
     {NEW_LINE}               { return SymbolType.NEW_LINE; }
+    {DELIMITER}              { return SymbolType.DELIMITER; }
     //{STATEMENT_ERROR}        { return SymbolType.STATEMENT_ERROR; }
     {WHITE_SPACE}            { return TokenType.WHITE_SPACE; }
 }

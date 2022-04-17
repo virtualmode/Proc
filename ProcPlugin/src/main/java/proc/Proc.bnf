@@ -34,13 +34,11 @@ http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
 
                            AccessModifier |
                            CLASS | ENUMERATION | INTERFACE | USING | RETURN | CONSTANT | STATIC |
-                           LEADING_ZERO |
-                           NUMBER |
-                           IDENTIFIER |
+                           NUMBER | IDENTIFIER |
 
-                           DELIMITER // |
+                           DELIMITER
 
-                           // STATEMENT_ERROR
+                           // | STATEMENT_ERROR
 
          //Declaration ::= AccessModifier? ("static" | "const")? Type Identifier // ("=" Expression)?
            Declaration ::= AccessModifier? NUMBER IDENTIFIER "=" NUMBER
