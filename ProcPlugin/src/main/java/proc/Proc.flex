@@ -21,13 +21,11 @@ import proc.psi.SymbolType;
     // TODO You can add code here.
 %}
 
-// Base terminals.
+// Components of base terminals.
 LATIN_LETTER           = [A-Za-z]
 DECIMAL_DIGIT          = [0123456789]
-//DECIMAL_NON_ZERO_DIGIT = [1-9]
-//SIGN                 = [-+] // Part of operators?
 OTHER_LETTER           = [\u0401\u0451\u0410-\u044f] // Cyrillic letters [ЁёА-я]
-OTHER_DIGIT            = [∅]
+OTHER_DIGIT            = [∅] // Joke stub.
 
 SLASH                  = \/
 ASTERISK               = \*
@@ -44,14 +42,16 @@ UNDERLINE              = \_
 LETTER                 = {LATIN_LETTER} | {OTHER_LETTER} | {OTHER_DIGIT} // Other digit most probably can be treated as letter.
 DIGIT                  = {DECIMAL_DIGIT} | {LATIN_LETTER} // Digit is more complex than decimal digit.
 
-NUMBER                 = ({LATIN_LETTER} | {DECIMAL_DIGIT})+
+// TODO Unapproved terminals
+DELIMITER              = [\<\>\(\)\[\]\{\}\:\;\,\=\"\'\`\|\!\@\#\$\%\^\&\*\+\-\/\~]
+STATEMENT_ERROR        = [^\<\>\(\)\[\]\{\}\:\;\,\=\"\'\`\|\!\@\#\$\%\^\&\*\+\-\/\~0123456789\r\n\s\t\f]+
 
+// Base terminals.
+NUMBER                 = ({LATIN_LETTER} | {DECIMAL_DIGIT})+
 PRIVATE_IDENTIFIER     = {UNDERLINE} ({UNDERLINE} | {LETTER} | {DECIMAL_DIGIT})*
 IDENTIFIER             = ({LETTER})+
                          ({UNDERLINE})+
                          ({LETTER} | {DECIMAL_DIGIT})*
-
-DELIMITER              = [\<\>\(\)\[\]\{\}\:\;\,\=\"\'\`\|\!\@\#\$\%\^\&\*\+\-\/\~]
 
 // Comments.
 LINE_COMMENT           = ("//")[^\r\n]*
@@ -60,7 +60,6 @@ BLOCK_COMMENT_END      = {ASTERISK}{SLASH}
 
 // Auxiliary regular expressions.
 NEW_LINE               = \r|\n|\r\n
-STATEMENT_ERROR        = [^\<\>\(\)\[\]\{\}\:\;\,\=\"\'\`\|\!\@\#\$\%\^\&\*\+\-\/\~0123456789\r\n\s\t\f]+
 WHITE_SPACE            = [\s\t\f]
 
 %state BLOCK_COMMENT, NUMBER_BLOCK

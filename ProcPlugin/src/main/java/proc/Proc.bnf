@@ -23,11 +23,11 @@ http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
                   Goal ::= Scope
 
 // Many programming languages make a distinction between statements and definitions/declarations but not this.
-                 Scope ::= WHITE_SPACE* (Statement (NEW_LINE | WHITE_SPACE | <<eof>>))*
+                 Scope ::= Statement*
 
 // Proc syntax.
-             Statement ::= //WHITE_SPACE |
-                           //NEW_LINE |
+             Statement ::= WHITE_SPACE |
+                           NEW_LINE |
                            LINE_COMMENT |
                            BLOCK_COMMENT |
                            //Declaration |

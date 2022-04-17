@@ -20,13 +20,12 @@ public class ProcColorSettingsPage implements ColorSettingsPage {
 		//new AttributesDescriptor("Key", ProcSyntaxHighlighter.KEY),
 		//new AttributesDescriptor("Separator", ProcSyntaxHighlighter.SEPARATOR),
 		//new AttributesDescriptor("Value", ProcSyntaxHighlighter.VALUE),
+		new AttributesDescriptor("Text", ProcSyntaxHighlighter.TEXT),
 		new AttributesDescriptor("Identifier", ProcSyntaxHighlighter.IDENTIFIER),
 		new AttributesDescriptor("Number", ProcSyntaxHighlighter.NUMBER),
 		new AttributesDescriptor("Keyword", ProcSyntaxHighlighter.KEYWORD),
 		new AttributesDescriptor("Line comment", ProcSyntaxHighlighter.LINE_COMMENT),
-		new AttributesDescriptor("Bad value", ProcSyntaxHighlighter.BAD_CHARACTER),
-
-		new AttributesDescriptor("Default text", ProcSyntaxHighlighter.DEFAULT_TEXT),
+		new AttributesDescriptor("Bad value", ProcSyntaxHighlighter.BAD_CHARACTER)
 	};
 
 	@Nullable
