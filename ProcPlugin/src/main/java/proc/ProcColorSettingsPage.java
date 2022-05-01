@@ -1,6 +1,11 @@
 package proc;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.intellij.openapi.editor.colors.TextAttributesKey;
@@ -8,6 +13,9 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
+import com.intellij.openapi.util.io.StreamUtil;
+import com.intellij.openapi.util.text.StringUtil;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,6 +33,12 @@ public class ProcColorSettingsPage implements ColorSettingsPage {
 		new AttributesDescriptor("Bad value", ProcSyntaxHighlighter.BAD_CHARACTER) // #DCDCDC, #FF0000.
 	};
 
+	@NonNls
+	private static final HashMap<String, TextAttributesKey> TAG_DESCRIPTOR_MAP = new HashMap<>();
+	static {
+		TAG_DESCRIPTOR_MAP.put("Comments", ProcSyntaxHighlighter.COMMENT);
+	}
+
 	@Nullable
 	@Override
 	public Icon getIcon() {
@@ -40,25 +54,19 @@ public class ProcColorSettingsPage implements ColorSettingsPage {
 	@NotNull
 	@Override
 	public String getDemoText() {
-		return
-			"/*\n" +
-			"	Proc code example.\n" +
-			"*/\n" +
-			"public interface Identifier_Example \n" +
-			"	int _privateField = -0100 // Line comment example.\n\n" +
-			"	protected int PossibleIdentifier = (16)fafafafa\n\n" +
-			"	public 3[4] 24_BadIdentifier = +1210\n" +
-			"	public int Exponential = 0.3218e+8\n" +
-			"	public (10:10:10)24:60:60 Time = 12:30:45 // TODO Rethink?\n\n" +
-			"// Scope example.\n" +
-			"for (int i = 0; i < 10; i++)\n" +
-			"	write(\"iteration \" + i + '.')\n\n\n";
+		try (Reader reader = new InputStreamReader(getClass().getResourceAsStream("DemoText.proc"), StandardCharsets.UTF_8)) {
+			String result = StreamUtil.readText(reader);
+			return StringUtil.convertLineSeparators(result);
+		}
+		catch (IOException ignored) {}
+
+		return "*error loading text*";
 	}
 
 	@Nullable
 	@Override
 	public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
-		return null;
+		return TAG_DESCRIPTOR_MAP;
 	}
 
 	@Override

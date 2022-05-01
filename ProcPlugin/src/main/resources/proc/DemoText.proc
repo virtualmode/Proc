@@ -1,0 +1,15 @@
+/*
+	Proc code example.
+*/
+public interface Идентификатор
+	int _privateField = -0100 // Line comment example.
+
+	protected int PossibleIdentifier = (16)fafafafa
+
+	public 3[4] 24_BadIdentifier = +1210
+	public int Exponential = 0.3218e+8
+	public (10:10:10)24:60:60 Time = 12:30:45 // TODO Rethink?
+
+// Scope example.
+for (int i = 0; i < 10; i++)
+	write("iteration " + i + '.')

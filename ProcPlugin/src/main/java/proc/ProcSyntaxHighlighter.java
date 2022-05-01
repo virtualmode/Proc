@@ -26,6 +26,7 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 	public static final TextAttributesKey KEYWORD = createTextAttributesKey("PROC_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
 	public static final TextAttributesKey COMMENT = createTextAttributesKey("PROC_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 	public static final TextAttributesKey BAD_CHARACTER = createTextAttributesKey("PROC_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
+	//public static final TextAttributesKey WHITESPACE = createTextAttributesKey("PROC_WHITESPACE", );
 	public static final TextAttributesKey TEXT = TextAttributesKey.createTextAttributesKey("PROC_PLAIN_TEXT", HighlighterColors.TEXT);
 
 	private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[] { IDENTIFIER };
