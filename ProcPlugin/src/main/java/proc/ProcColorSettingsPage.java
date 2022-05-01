@@ -44,24 +44,18 @@ public class ProcColorSettingsPage implements ColorSettingsPage {
 	@Override
 	public String getDemoText() {
 		return
-			"// Proc code example.\n" +
-			"public interface MyInterface\n" +
-			"	int myField = 0100\n\n\n" +
-
-
-
-			"# You are reading the \".properties\" entry.\n" +
-			"! The exclamation mark can also mark text as comments.\n" +
-			"website = https://en.wikipedia.org/\n" +
-			"language = English\n" +
-			"# The backslash below tells the application to continue reading\n" +
-			"# the value onto the next line.\n" +
-			"message = Welcome to \\\n" +
-			"          Wikipedia!\n" +
-			"# Add spaces to the key\n" +
-			"key\\ with\\ spaces = This is the value that could be looked up with the key \"key with spaces\".\n" +
-			"# Unicode\n" +
-			"tab : \\u0009";
+			"/*\n" +
+			"	Proc code example.\n" +
+			"*/\n" +
+			"public interface Идентификатор\n" +
+			"	int _privateField = -0100 // Line comment example.\n\n" +
+			"	protected int PossibleIdentifier = (16)fafafafa\n\n" +
+			"	public 3[4] 24_BadIdentifier = +1210\n" +
+			"	public int Exponential = 0.3218e+8\n" +
+			"	public (10:10:10)24:60:60 Time = 12:30:45 // TODO Rethink?\n\n" +
+			"// Scope example.\n" +
+			"for (int i = 0; i < 10; i++)\n" +
+			"	write(\"iteration \" + i + '.')\n\n\n";
 	}
 
 	@Nullable
