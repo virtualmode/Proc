@@ -17,15 +17,12 @@ import org.jetbrains.annotations.Nullable;
 public class ProcColorSettingsPage implements ColorSettingsPage {
 
 	private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-		//new AttributesDescriptor("Key", ProcSyntaxHighlighter.KEY),
-		//new AttributesDescriptor("Separator", ProcSyntaxHighlighter.SEPARATOR),
-		//new AttributesDescriptor("Value", ProcSyntaxHighlighter.VALUE),
 		new AttributesDescriptor("Text", ProcSyntaxHighlighter.TEXT),
-		new AttributesDescriptor("Identifier", ProcSyntaxHighlighter.IDENTIFIER),
-		new AttributesDescriptor("Number", ProcSyntaxHighlighter.NUMBER),
-		new AttributesDescriptor("Keyword", ProcSyntaxHighlighter.KEYWORD),
-		new AttributesDescriptor("Line comment", ProcSyntaxHighlighter.LINE_COMMENT),
-		new AttributesDescriptor("Bad value", ProcSyntaxHighlighter.BAD_CHARACTER)
+		new AttributesDescriptor("Identifier", ProcSyntaxHighlighter.IDENTIFIER), // #DCDCDC.
+		new AttributesDescriptor("Number", ProcSyntaxHighlighter.NUMBER), // #B5CEA8.
+		new AttributesDescriptor("Keyword", ProcSyntaxHighlighter.KEYWORD), // #D8A0DF.
+		new AttributesDescriptor("Comment", ProcSyntaxHighlighter.COMMENT), // #808080.
+		new AttributesDescriptor("Bad value", ProcSyntaxHighlighter.BAD_CHARACTER) // #DCDCDC, #FF0000.
 	};
 
 	@Nullable
@@ -47,7 +44,7 @@ public class ProcColorSettingsPage implements ColorSettingsPage {
 			"/*\n" +
 			"	Proc code example.\n" +
 			"*/\n" +
-			"public interface Идентификатор\n" +
+			"public interface Identifier_Example \n" +
 			"	int _privateField = -0100 // Line comment example.\n\n" +
 			"	protected int PossibleIdentifier = (16)fafafafa\n\n" +
 			"	public 3[4] 24_BadIdentifier = +1210\n" +

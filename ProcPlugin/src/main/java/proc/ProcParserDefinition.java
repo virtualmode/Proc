@@ -29,7 +29,10 @@ public class ProcParserDefinition implements ParserDefinition {
 		SymbolType.USING,
 		SymbolType.CLASS,
 		SymbolType.INTERFACE,
-		SymbolType.ENUMERATION
+		SymbolType.ENUMERATION,
+		SymbolType.RETURN,
+		SymbolType.CONSTANT,
+		SymbolType.STATIC
 	);
 
 	public static final TokenSet COMMENTS = TokenSet.create(

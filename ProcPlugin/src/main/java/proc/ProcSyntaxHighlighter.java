@@ -24,14 +24,14 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 	public static final TextAttributesKey IDENTIFIER = createTextAttributesKey("PROC_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER);
 	public static final TextAttributesKey NUMBER = createTextAttributesKey("PROC_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
 	public static final TextAttributesKey KEYWORD = createTextAttributesKey("PROC_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
-	public static final TextAttributesKey LINE_COMMENT = createTextAttributesKey("PROC_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+	public static final TextAttributesKey COMMENT = createTextAttributesKey("PROC_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 	public static final TextAttributesKey BAD_CHARACTER = createTextAttributesKey("PROC_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 	public static final TextAttributesKey TEXT = TextAttributesKey.createTextAttributesKey("PROC_PLAIN_TEXT", HighlighterColors.TEXT);
 
 	private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[] { IDENTIFIER };
 	private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[] { NUMBER };
 	private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[] { KEYWORD };
-	private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[] { LINE_COMMENT };
+	private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[] { COMMENT };
 	private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[] { BAD_CHARACTER };
 	private static final TextAttributesKey[] TEXT_KEYS = new TextAttributesKey[] { TEXT };
 	private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
@@ -63,9 +63,9 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 			return NUMBER_KEYS;
 		}
 
-		//if (tokenType.equals(SymbolType.TEXT)) {
-		//	return TEXT_KEYS;
-		//}
+		if (tokenType.equals(SymbolType.DELIMITER)) {
+			return TEXT_KEYS;
+		}
 
 		/*
 		if (tokenType.equals(SymbolType.SEPARATOR)) {
