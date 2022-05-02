@@ -16,11 +16,14 @@
 	сборки первой версии самого себя без зависимостей.
 */
 
-package proc;
+package proc
 
 // Combines several ideas: UTM, VM, Interpreter, Translator, Compiler.
 
 // Точка входа Proc-0.
 fun main(args: Array<String>) {
-	println("Proc")
+    println("Proc!")
+    // Try adding program arguments via Run/Debug configuration.
+    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
+    println("Program arguments: ${args.joinToString()}")
 }

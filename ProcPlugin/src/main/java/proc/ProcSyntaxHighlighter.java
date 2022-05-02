@@ -34,13 +34,12 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 	public static final TextAttributesKey IDENTIFIER = createTextAttributesKey("PROC_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER);
 	public static final TextAttributesKey NUMBER = createTextAttributesKey("PROC_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
 	public static final TextAttributesKey BAD_CHARACTER = createTextAttributesKey("PROC_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
-	//public static final TextAttributesKey WHITESPACE = createTextAttributesKey("PROC_WHITESPACE", );
-	public static final TextAttributesKey TEXT = TextAttributesKey.createTextAttributesKey("PROC_PLAIN_TEXT", HighlighterColors.TEXT);
+	public static final TextAttributesKey PLAIN_TEXT = TextAttributesKey.createTextAttributesKey("PROC_PLAIN_TEXT", HighlighterColors.TEXT);
 
 	private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[] { IDENTIFIER };
 	private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[] { NUMBER };
 	private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[] { BAD_CHARACTER };
-	private static final TextAttributesKey[] TEXT_KEYS = new TextAttributesKey[] { TEXT };
+	private static final TextAttributesKey[] PLAIN_TEXT_KEYS = new TextAttributesKey[] { PLAIN_TEXT };
 	private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
 	/*
@@ -74,7 +73,7 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 		}
 
 		if (tokenType.equals(SymbolType.DELIMITER)) {
-			return TEXT_KEYS;
+			return PLAIN_TEXT_KEYS;
 		}
 
 		/*

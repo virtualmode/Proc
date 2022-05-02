@@ -100,8 +100,8 @@ WHITE_SPACE            = [\s\t\f]
     // Special symbols.
     {NEW_LINE}               { return SymbolType.NEW_LINE; }
     {DELIMITER}              { return SymbolType.DELIMITER; }
-    //{STATEMENT_ERROR}        { return SymbolType.STATEMENT_ERROR; }
     {WHITE_SPACE}            { return TokenType.WHITE_SPACE; }
+    //{STATEMENT_ERROR}        { return SymbolType.STATEMENT_ERROR; }
 }
 
 <BLOCK_COMMENT> {

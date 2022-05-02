@@ -32,7 +32,7 @@ public class ProcColorSettingsPage implements ColorSettingsPage {
 		new AttributesDescriptor("Keywords//Keyword", ProcSyntaxHighlighter.KEYWORD), // #569CD6.
 
 		// TODO Regroup values.
-		new AttributesDescriptor("Plain Text", ProcSyntaxHighlighter.TEXT),
+		new AttributesDescriptor("Plain Text", ProcSyntaxHighlighter.PLAIN_TEXT),
 		new AttributesDescriptor("Identifier", ProcSyntaxHighlighter.IDENTIFIER), // #DCDCDC.
 		new AttributesDescriptor("Number", ProcSyntaxHighlighter.NUMBER), // #B5CEA8.
 		new AttributesDescriptor("Bad value", ProcSyntaxHighlighter.BAD_CHARACTER) // #DCDCDC, #FF0000.
