@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.intellij.openapi.editor.colors.TextAttributesKey;
@@ -15,7 +14,6 @@ import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
 import com.intellij.openapi.util.io.StreamUtil;
 import com.intellij.openapi.util.text.StringUtil;
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,20 +22,21 @@ import org.jetbrains.annotations.Nullable;
  */
 public class ProcColorSettingsPage implements ColorSettingsPage {
 
-	private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-		new AttributesDescriptor("Text", ProcSyntaxHighlighter.TEXT),
+	private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[] {
+
+		// Comments.
+		new AttributesDescriptor("Comments//Comment", ProcSyntaxHighlighter.COMMENT), // #808080.
+
+		// Keywords.
+		new AttributesDescriptor("Keywords//Control", ProcSyntaxHighlighter.KEYWORDS_CONTROL), // #D8A0DF.
+		new AttributesDescriptor("Keywords//Keyword", ProcSyntaxHighlighter.KEYWORD), // #569CD6.
+
+		// TODO Regroup values.
+		new AttributesDescriptor("Plain Text", ProcSyntaxHighlighter.TEXT),
 		new AttributesDescriptor("Identifier", ProcSyntaxHighlighter.IDENTIFIER), // #DCDCDC.
 		new AttributesDescriptor("Number", ProcSyntaxHighlighter.NUMBER), // #B5CEA8.
-		new AttributesDescriptor("Keyword", ProcSyntaxHighlighter.KEYWORD), // #D8A0DF.
-		new AttributesDescriptor("Comment", ProcSyntaxHighlighter.COMMENT), // #808080.
 		new AttributesDescriptor("Bad value", ProcSyntaxHighlighter.BAD_CHARACTER) // #DCDCDC, #FF0000.
 	};
-
-	@NonNls
-	private static final HashMap<String, TextAttributesKey> TAG_DESCRIPTOR_MAP = new HashMap<>();
-	static {
-		TAG_DESCRIPTOR_MAP.put("Comments", ProcSyntaxHighlighter.COMMENT);
-	}
 
 	@Nullable
 	@Override
@@ -66,7 +65,7 @@ public class ProcColorSettingsPage implements ColorSettingsPage {
 	@Nullable
 	@Override
 	public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
-		return TAG_DESCRIPTOR_MAP;
+		return null;
 	}
 
 	@Override

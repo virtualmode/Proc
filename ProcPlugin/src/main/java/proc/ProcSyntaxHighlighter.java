@@ -20,19 +20,25 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
  */
 public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 
+	// Comments.
+	public static final TextAttributesKey COMMENT = createTextAttributesKey("PROC_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+	private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[] { COMMENT };
+
+	// Keywords.
+	public static final TextAttributesKey KEYWORD = createTextAttributesKey("PROC_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
+	public static final TextAttributesKey KEYWORDS_CONTROL = createTextAttributesKey("PROC_KEYWORDS_CONTROL", DefaultLanguageHighlighterColors.KEYWORD);
+	private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[] { KEYWORD };
+	private static final TextAttributesKey[] KEYWORDS_CONTROL_KEYS = new TextAttributesKey[] { KEYWORDS_CONTROL };
+
 	// Это скорее группы, на которые делятся лексемы или синтаксические конструкции.
 	public static final TextAttributesKey IDENTIFIER = createTextAttributesKey("PROC_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER);
 	public static final TextAttributesKey NUMBER = createTextAttributesKey("PROC_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
-	public static final TextAttributesKey KEYWORD = createTextAttributesKey("PROC_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
-	public static final TextAttributesKey COMMENT = createTextAttributesKey("PROC_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 	public static final TextAttributesKey BAD_CHARACTER = createTextAttributesKey("PROC_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 	//public static final TextAttributesKey WHITESPACE = createTextAttributesKey("PROC_WHITESPACE", );
 	public static final TextAttributesKey TEXT = TextAttributesKey.createTextAttributesKey("PROC_PLAIN_TEXT", HighlighterColors.TEXT);
 
 	private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[] { IDENTIFIER };
 	private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[] { NUMBER };
-	private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[] { KEYWORD };
-	private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[] { COMMENT };
 	private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[] { BAD_CHARACTER };
 	private static final TextAttributesKey[] TEXT_KEYS = new TextAttributesKey[] { TEXT };
 	private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
@@ -54,6 +60,9 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 
 	@Override
 	public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
+		if (ProcParserDefinition.KEYWORDS_CONTROL.contains(tokenType)) {
+			return KEYWORDS_CONTROL_KEYS;
+		}
 		if (ProcParserDefinition.KEYWORDS.contains(tokenType)) {
 			return KEYWORD_KEYS;
 		}
