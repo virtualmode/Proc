@@ -16,7 +16,7 @@ abstract class CharStream: Char, CharReader, CharWriter, CharSeeker {
 
 	override var Type: CharType
 		get() = TODO("Not yet implemented")
-		set(value) {}
+		set(value) {} // protected
 
 	//override var EndOfStream: Long
 	//	get() = TODO("Not yet implemented")

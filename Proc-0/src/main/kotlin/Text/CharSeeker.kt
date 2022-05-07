@@ -10,14 +10,14 @@ interface CharSeeker {
 	 */
 	var Position: Long
 		get
-		set
+		set // protected
 
 	/**
 	 * Номер текущего символа в строке.
 	 */
 	var Character: Long
 		get
-		set
+		set // protected
 
 	/**
 	 * Номер позиции символа в строке.
@@ -25,14 +25,14 @@ interface CharSeeker {
 	 */
 	var Column: Long
 		get
-		set
+		set // protected
 
 	/**
 	 * Номер текущей строки.
 	 */
 	var Line: Long
 		get
-		set
+		set // protected
 
 	fun SeekChar(offset: Long): Boolean
 }

@@ -11,5 +11,5 @@ interface Seeker {
 	 * Надо придумать возможность длинного прыжка.
 	 * @param offset Количество состояний относительно начала потока.
 	 */
-	fun Seek(offset: Object): Object
+	fun Seek(offset: Any): Any
 }

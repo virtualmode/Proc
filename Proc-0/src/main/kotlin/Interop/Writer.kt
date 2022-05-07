@@ -9,7 +9,7 @@ interface Writer {
 	 * Запись ЕДИНИЦЫ информации из другого потока в текущий поток?
 	 * Предположительно любая область памяти в Proc будет потоком-лентой.
 	 */
-	fun Write(source: Reader): Object
+	fun Write(source: Reader): Any
 
-	fun Write(source: Object, baseObj: Object) // TODO Временная заглушка для старых языков.
+	fun Write(source: Any, baseObj: Any): Any // TODO Временная заглушка для старых языков.
 }

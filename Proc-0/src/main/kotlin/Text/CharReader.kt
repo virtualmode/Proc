@@ -13,7 +13,7 @@ interface CharReader {
 
 	//var EndOfStream: Boolean
 	//	get
-	//	set
+	//	protected set
 
 	/**
 	 * Чтение следующего символа.

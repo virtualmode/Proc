@@ -2,7 +2,12 @@
   <dictionary name="virtualmode">
     <words>
       <w>interop</w>
+      <w>petzold</w>
+      <w>proc</w>
+      <w>вычислимости</w>
       <w>платформозависимые</w>
+      <w>токеном</w>
+      <w>юникода</w>
     </words>
   </dictionary>
 </component>

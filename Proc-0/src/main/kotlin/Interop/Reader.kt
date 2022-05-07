@@ -38,7 +38,7 @@ interface Reader {
 	 * @param destination Лента, в которую записывается считанный элемент.
 	 * @return Здесь можно получать либо саму считанную единицу, либо результат.
 	 */
-	fun Read(destination: Writer): Object
+	fun Read(destination: Writer): Any
 
-	fun Read(destination: Object, baseObj: Object): Object // TODO Временная заглушка для старых языков.
+	fun Read(destination: Any, baseObj: Any): Any // TODO Временная заглушка для старых языков.
 }

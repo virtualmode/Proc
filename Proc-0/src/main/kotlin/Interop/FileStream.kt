@@ -10,6 +10,11 @@
 
 package proc.Interop
 
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import kotlin.math.log2
+
 // Если использовать interface segregation, то может и не будет смысла в объединённом интерфейсе.
 // Также есть идея объединений для безымянных композиций интерфейсов и др. типов.
 //class Stream: public Reader, public Writer, public Seeker {
@@ -18,83 +23,54 @@ package proc.Interop
 /**
  * Файловый поток.
  */
-class FileStream: Reader, Writer {
+class FileStream(fileName: String): Reader, Writer {
 
-	override fun Read(destination: Writer): Object {
+	private var _handle: File
+	private var _inputStream: FileInputStream
+	private var _outputStream: FileOutputStream
+
+	init {
+		_handle = File(fileName)
+		_inputStream = _handle.inputStream()
+		_outputStream = _handle.outputStream()
+	}
+
+	companion object {
+
+		/**
+		 * Compiler is not support state logic.
+		 * TODO Эту фигню надо будет заменить таблицей.
+		 */
+		fun BaseToBytes(baseObj: Int): Int {
+			return log2(baseObj as Double) as Int / 8
+		}
+	}
+
+	fun Close() {
+		_inputStream.close()
+		_outputStream.close()
+	}
+
+	override fun Read(destination: Writer): Any {
 		TODO("Not yet implemented")
 	}
 
-	override fun Read(destination: Object, baseObj: Object): Object {
-		TODO("Not yet implemented")
-	}
-
-	override fun Write(source: Reader): Object {
-		TODO("Not yet implemented")
-	}
-
-	override fun Write(source: Object, baseObj: Object) {
-		TODO("Not yet implemented")
-	}
-
-	/*
-	private System.IO.FileStream _handle;
-
-	public FileStream(string fileName, FileMode fileMode, FileAccess fileAccess)
-	{
-		Open(fileName, fileMode, fileAccess);
-		if (_handle == null)
-			throw new Exception("Can't create file stream.");
-	}
-
-	/// <summary>
-	/// Compiler is not support state logic.
-	/// TODO Эту фигню надо будет заменить таблицей.
-	/// </summary>
-	public static int BaseToBytes(int baseobj)
-	{
-		return (int)Math.Log2(baseobj) / 8;
-	}
-
-	public bool Open(string fileName, FileMode fileMode, FileAccess fileAccess)
-	{
-		_handle = new System.IO.FileStream(fileName, fileMode, fileAccess);
-		return true;
-	}
-
-	public void Close()
-	{
-		_handle.Close();
-	}
-
-	/// <summary>
-	/// baseobj - это тип данных, основание, как раз и представляющий количество состояний.
-	/// Пока что тип данных будет выглядеть как base[exponent][exponent][..].
-	/// destination должен содержать указатель на место, в которое будет записано states состояний.
-	/// </summary>
-	/// <param name="destination"></param>
-	/// <param name="baseobj"></param>
-	/// <returns></returns>
-	/// <exception cref="NotImplementedException"></exception>
-	public object Read(object destination, object baseobj)
-	{
-		return (object)_handle.Read((byte[])destination, 0, BaseToBytes((int)baseobj));
-	}
-
-	public object Write(object source, object baseobj)
-	{
-		int byteCount = BaseToBytes((int)baseobj);
-		_handle.Write((byte[])source, 0, byteCount);
-		return byteCount;
-	}
-
-	public object Write(Reader source)
-	{
-		throw new NotImplementedException();
-	}
-
-	public object Read(Writer destination)
-	{
-		throw new NotImplementedException();
-	}
+	/**
+	 * Пока что тип данных будет выглядеть как base[exponent][exponent][..].
+	 * @param baseObj Тип данных, основание, как раз и представляющий количество состояний.
+	 * @param destination Содержит указатель на место, в которое будет записано states состояний.
 	 */
+	override fun Read(destination: Any, baseObj: Any): Any {
+		return _inputStream.read(destination as ByteArray, 0, BaseToBytes(baseObj as Int))
+	}
+
+	override fun Write(source: Reader): Any {
+		TODO("Not yet implemented")
+	}
+
+	override fun Write(source: Any, baseObj: Any): Any {
+		var byteCount: Int = BaseToBytes(baseObj as Int)
+		_outputStream.write(source as ByteArray, 0, byteCount)
+		return byteCount
+	}
 }
