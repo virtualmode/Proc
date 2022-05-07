@@ -8,18 +8,35 @@
 	оборудования.
 */
 
-namespace Interop;
+package proc.Interop
 
 // Если использовать interface segregation, то может и не будет смысла в объединённом интерфейсе.
 // Также есть идея объединений для безымянных композиций интерфейсов и др. типов.
 //class Stream: public Reader, public Writer, public Seeker {
 //};
 
-/// <summary>
-/// Файловый поток.
-/// </summary>
-class FileStream : Reader, Writer
-{
+/**
+ * Файловый поток.
+ */
+class FileStream: Reader, Writer {
+
+	override fun Read(destination: Writer): Object {
+		TODO("Not yet implemented")
+	}
+
+	override fun Read(destination: Object, baseObj: Object): Object {
+		TODO("Not yet implemented")
+	}
+
+	override fun Write(source: Reader): Object {
+		TODO("Not yet implemented")
+	}
+
+	override fun Write(source: Object, baseObj: Object) {
+		TODO("Not yet implemented")
+	}
+
+	/*
 	private System.IO.FileStream _handle;
 
 	public FileStream(string fileName, FileMode fileMode, FileAccess fileAccess)
@@ -79,4 +96,5 @@ class FileStream : Reader, Writer
 	{
 		throw new NotImplementedException();
 	}
+	 */
 }

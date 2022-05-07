@@ -84,9 +84,16 @@ WHITE_SPACE            = [\s\t\f]
     "protected"              { return SymbolType.PROTECTED; }
     "public"                 { return SymbolType.PUBLIC; }
 
-    "return"                 { return SymbolType.RETURN; }
     "const"                  { return SymbolType.CONSTANT; }
     "static"                 { return SymbolType.STATIC; }
+
+    // Identifiers: control.
+    "return"                 { return SymbolType.RETURN; }
+    "for"                    { return SymbolType.FOR; }
+    "do"                     { return SymbolType.DO; }
+    "while"                  { return SymbolType.WHILE; }
+    "if"                     { return SymbolType.IF; }
+    "else"                   { return SymbolType.ELSE; }
 
     // Comments.
     {LINE_COMMENT}           { return SymbolType.LINE_COMMENT; }

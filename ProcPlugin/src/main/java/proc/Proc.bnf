@@ -33,7 +33,8 @@ http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
                            //Declaration |
 
                            AccessModifier |
-                           CLASS | ENUMERATION | INTERFACE | USING | RETURN | CONSTANT | STATIC |
+                           CLASS | ENUMERATION | INTERFACE | USING | CONSTANT | STATIC |
+                           RETURN | FOR | DO | WHILE | IF | ELSE |
                            NUMBER | IDENTIFIER |
 
                            DELIMITER
