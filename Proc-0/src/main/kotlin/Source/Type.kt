@@ -1,19 +1,19 @@
-namespace Source.Symbol;
+package proc.Source.Symbol
 
-/// <summary>
-/// Тип символа (лексемы) лексического анализатора исходного кода.
-/// Перечисление представляет множество всех терминальных символов поддерживаемых языков.
-/// </summary>
-enum Type // enum Symbol.Type
-{
-	#region Вспомогательные символы
+/**
+ * Тип символа (лексемы) лексического анализатора исходного кода.
+ * Перечисление представляет множество всех терминальных символов поддерживаемых языков.
+ */
+enum class Type { // enum Symbol.Type
+
+	//region Вспомогательные символы
 
 	Unknown, // Группа непредусмотренных символов.
 	EndOfStream, // Терминатор последовательности.
 
-	#endregion
+	//endregion
 
-	/*#region Односимвольные терминалы
+	/*//region Односимвольные терминалы
 
 	// Данные лексемы используются, если соответствующие им литеры не являются частью других терминалов языка.
 
@@ -58,9 +58,9 @@ enum Type // enum Symbol.Type
 	RightCurlyBracket, // }
 	Tilde, // ~
 
-	#endregion*/
+	//endregion*/
 
-	#region Терминальные символы логики
+	//region Терминальные символы логики
 
 	OrPredicate, // ||
 	AndPredicate, // &&
@@ -71,9 +71,9 @@ enum Type // enum Symbol.Type
 	GreaterThanPredicate, // >
 	GreaterThanOrEqualPredicate, // >=
 
-	#endregion
+	//endregion
 
-	#region Арифметические операторы
+	//region Арифметические операторы
 
 	AddAssignment, // +=
 	SubtractAssignment, // -=
@@ -81,9 +81,9 @@ enum Type // enum Symbol.Type
 	DivideAssignment, // /=
 	RemainderAssignment, // %=
 
-	#endregion
+	//endregion
 
-	#region Зарезервированные слова
+	//region Зарезервированные слова
 
 	// Access modifiers.
 	// Модификаторы доступа.
@@ -98,9 +98,9 @@ enum Type // enum Symbol.Type
 	Class,
 	Enumeration,
 
-	#endregion
+	//endregion
 
-	#region Неутверждённые символы
+	//region Неутверждённые символы
 
 	// Составные терминальные символы.
 	EndOfLine, // Признак окончания строки (LF, CR, CRLF, NEL, LS, PS, VT).
@@ -132,7 +132,7 @@ enum Type // enum Symbol.Type
 
 	AlgolHexadecimal,
 
-	#endregion
+	//endregion
 }
 
 /* lexical symbols of Oberon
