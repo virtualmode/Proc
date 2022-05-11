@@ -13,7 +13,7 @@ enum class Type { // enum Symbol.Type
 
 	//endregion
 
-	/*//region Односимвольные терминалы
+	//region Односимвольные терминалы
 
 	// Данные лексемы используются, если соответствующие им литеры не являются частью других терминалов языка.
 
@@ -58,7 +58,7 @@ enum class Type { // enum Symbol.Type
 	RightCurlyBracket, // }
 	Tilde, // ~
 
-	//endregion*/
+	//endregion
 
 	//region Терминальные символы логики
 
