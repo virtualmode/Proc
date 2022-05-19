@@ -49,7 +49,7 @@ class Proc(args: Array<String>) {
 		} else if (_args[0] == "-l") {
 			// Try adding program arguments via Run/Debug configuration.
 			// Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-			println("Proc started with: ${_args.joinToString()}")
+			println("Proc started with: $_args.joinToString()")
 			// Лексический анализ файла.
 			_source = FileStream(_args[1]) // Базовый поток состояний, используемый процессором и дочерними анализаторами.
 			//_destination = new Interop.FileStream($"{Path.GetFileNameWithoutExtension(_args[1])}.exe", FileMode.Create, FileAccess.Write)

@@ -52,6 +52,8 @@ IDENTIFIER             = ({UNDERLINE} | {LETTER})+
                          ({UNDERLINE} | {LETTER} | {DIGIT})*
 BAD_IDENTIFIER         = ({UNDERLINE} | {LETTER} | {DIGIT})+
 
+// Strings.
+STRING                 = \".*\"
 
 // Comments.
 LINE_COMMENT           = ("//")[^\r\n]*
@@ -94,6 +96,9 @@ WHITE_SPACE            = [\s\t\f]
     "while"                  { return SymbolType.WHILE; }
     "if"                     { return SymbolType.IF; }
     "else"                   { return SymbolType.ELSE; }
+
+    // String.
+    {STRING}                 { return SymbolType.STRING; }
 
     // Comments.
     {LINE_COMMENT}           { return SymbolType.LINE_COMMENT; }

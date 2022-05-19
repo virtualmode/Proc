@@ -1,0 +1,45 @@
+/*
+	Proc(ess(or))
+
+	Proc[]
+	[]Proc
+	Pr[]c
+	Pr[][
+*/
+
+// TODO При выполнении листинга предполагается неявно использовать что-то типа varargs для передачи параметров в top scope листинга.
+// TODO Верхний процессор может выполнить листинг с переменным количеством аргументов, как это делается в обычной оболочке.
+// TODO Например вызов функции 'proc("src.proc", arg1, arg2, arg3)' или более привычной формы 'proc src.proc arg1 arg1 arg3'.
+public void Proc(string fileName, ...)
+	//WriteLine("Proc started with: $_args.joinToString()")
+
+// Когда код уже загружен в память, пространство имён уже содержит часть функций для выполнения.
+// Возможно импортировать листинг и, если требуется, вызвать собственную точку входа с определёнными параметрами.
+public void ProcCompile(string fileName)
+	// Лексический анализ файла.
+	//_source = FileStream(_args[1]) // Базовый поток состояний, используемый процессором и дочерними анализаторами.
+	//_destination = new Interop.FileStream($"{Path.GetFileNameWithoutExtension(_args[1])}.exe", FileMode.Create, FileAccess.Write)
+	//_charReader = new Utf8((Reader)_source) // Символьный поток определённой кодировки.
+	// В Roslyn следующие строки создаются в SyntaxTree Oo.
+	//_lexer = new ProcSymbol(_charReader) // Лексический анализатор исходного кода.
+	//_syntaxReader = new ProcSyntax(_lexer) // Синтаксический анализатор.
+	// TODO Генерацию можно выполнить несколькими путями:
+	// TODO Получить готовое синтаксическое дерево и сгенерировать код.
+	// TODO Или получить на вход синтаксический анализатор и в процессе генерации дерева, сформировать код.
+	//_generator = new Generator(_destination, _syntaxReader)
+	//_generator.CompileAndEmit()
+
+// Обёртка для выполнения кода.
+public void ProcRun(string fileName, string entryPoint)
+	//use fileName
+	//entryPoint()
+
+// Эта функция должна выполняться операционной системой первой.
+public void Proc()
+	Write("Proc is started and you are at top of this process.\n")
+	Write("Please write code!\n\n")
+
+// TODO Не совсем понятно как и когда будет выполняться top scope.
+// TODO Скорее, какой листинг будет первым выполнен, тот код и будет иметь фактический приоритет.
+Proc() // Точка входа.
+return // Необязательный оператор, если возвращаемая лента из top scope нулевой длины.

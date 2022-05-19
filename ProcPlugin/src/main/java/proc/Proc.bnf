@@ -35,7 +35,7 @@ http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
                            AccessModifier |
                            CLASS | ENUMERATION | INTERFACE | USING | CONSTANT | STATIC |
                            RETURN | FOR | DO | WHILE | IF | ELSE |
-                           NUMBER | IDENTIFIER |
+                           NUMBER | IDENTIFIER | STRING |
 
                            DELIMITER
 
