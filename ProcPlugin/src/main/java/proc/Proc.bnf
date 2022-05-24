@@ -37,6 +37,8 @@ http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
                            RETURN | FOR | DO | WHILE | IF | ELSE |
                            NUMBER | IDENTIFIER | STRING |
 
+                           VAR | VOID | OBJECT |
+
                            DELIMITER
 
                            // | STATEMENT_ERROR

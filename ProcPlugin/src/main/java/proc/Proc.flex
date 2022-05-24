@@ -76,7 +76,6 @@ WHITE_SPACE            = [\s\t\f]
     "interface"              { return SymbolType.INTERFACE; }
 
     // Identifiers: types.
-    //"void"              { return SymbolType.VOID; } // #define void 0
 
     // Identifiers: scope (something like namespace) keywords.
     "using"                  { return SymbolType.USING; }
@@ -96,6 +95,11 @@ WHITE_SPACE            = [\s\t\f]
     "while"                  { return SymbolType.WHILE; }
     "if"                     { return SymbolType.IF; }
     "else"                   { return SymbolType.ELSE; }
+
+    // Temporary.
+    "var"                    { return SymbolType.VAR; }
+    "void"                   { return SymbolType.VOID; } // #define void 0
+    "object"                 { return SymbolType.OBJECT; }
 
     // String.
     {STRING}                 { return SymbolType.STRING; }
