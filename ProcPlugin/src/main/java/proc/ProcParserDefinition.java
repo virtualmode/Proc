@@ -35,6 +35,7 @@ public class ProcParserDefinition implements ParserDefinition {
 		SymbolType.PRIVATE,
 		SymbolType.PROTECTED,
 		SymbolType.PUBLIC,
+		SymbolType.USE,
 		SymbolType.USING,
 		SymbolType.CLASS,
 		SymbolType.INTERFACE,

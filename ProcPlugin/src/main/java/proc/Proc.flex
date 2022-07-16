@@ -78,6 +78,8 @@ WHITE_SPACE            = [\s\t\f]
     // Identifiers: types.
 
     // Identifiers: scope (something like namespace) keywords.
+    // TODO Need to choose use, using, include, import.
+    "use"                    { return SymbolType.USE; }
     "using"                  { return SymbolType.USING; }
 
     // Identifiers: access modifiers.

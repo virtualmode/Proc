@@ -1,3 +1,5 @@
+use System
+
 interface Interop.Reader
 	object Read(Writer destination)
 	[] Read([] destination, [] base)
@@ -7,8 +9,17 @@ interface Interop.Reader
 
 [] test = 2[8]
 
+ [] - dimension of unknown size
+2[]
+2[8]
+2[8][]
 
+[]2 error
+1[a][][b][][c][d][] possible? // Многомерные ленты одного основания.
+abcd:efg:hijk // Ленты с разными основаниями (структуры, классы).
 
+2^3 = 8
+1^x = 1
 
 
 	[] Read(destination[], base[])
