@@ -37,7 +37,7 @@ http://www.cs.man.ac.uk/~pjj/bnf/ebnf.html */
                            RETURN | FOR | DO | WHILE | IF | ELSE |
                            NUMBER | IDENTIFIER | STRING |
 
-                           VAR | VOID | OBJECT |
+                           VAR | VOID | BOOL | OBJECT |
 
                            DELIMITER
 

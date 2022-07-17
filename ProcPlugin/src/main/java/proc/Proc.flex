@@ -101,6 +101,7 @@ WHITE_SPACE            = [\s\t\f]
     // Temporary.
     "var"                    { return SymbolType.VAR; }
     "void"                   { return SymbolType.VOID; } // #define void 0
+    "bool"                   { return SymbolType.BOOL; } // #define void 2
     "object"                 { return SymbolType.OBJECT; }
 
     // String.

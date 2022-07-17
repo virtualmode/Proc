@@ -45,6 +45,7 @@ public class ProcParserDefinition implements ParserDefinition {
 
 		SymbolType.VAR,
 		SymbolType.VOID,
+		SymbolType.BOOL,
 		SymbolType.OBJECT
 	);
 

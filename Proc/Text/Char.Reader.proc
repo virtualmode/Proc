@@ -1,0 +1,9 @@
+// Интерфейс символьного анализатора.
+interface Text.Char.Reader
+
+	//var EndOfStream: Boolean
+	//	get
+	//	protected set
+
+	// Чтение следующего символа.
+	int ReadChar()
