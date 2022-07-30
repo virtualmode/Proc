@@ -1,5 +1,5 @@
-// Интерфейс символьного анализатора.
-interface Text.Char.Reader
+// Интерфейс последовательного чтения символов из потока.
+interface Proc.Text.Char.Reader
 
 	//var EndOfStream: Boolean
 	//	get

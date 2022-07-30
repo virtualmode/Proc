@@ -1,5 +1,5 @@
 // Простая реализация строк.
-class Text.String {
+class Proc.Text.String {
 
 	#region Constants
 

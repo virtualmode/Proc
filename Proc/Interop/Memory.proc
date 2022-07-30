@@ -1,0 +1,2 @@
+// Поток оперативной памяти.
+class Proc.Interop.Memory: Reader, Writer, Seeker

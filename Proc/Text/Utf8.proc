@@ -1,7 +1,7 @@
 use Interop
 
 // Поток символов UTF-8.
-class Utf8: Char, CharReader, CharWriter, CharSeeker
+class Proc.Text.Utf8: Char, CharReader, CharWriter, CharSeeker
 
 
 

@@ -1,9 +1,5 @@
-// Интерфейс символьного анализатора.
-interface Text.Char.Reader
+// Интерфейс последовательной записи символов в поток.
+interface Proc.Text.Char.Writer
 
-	//var EndOfStream: Boolean
-	//	get
-	//	protected set
-
-	// Чтение следующего символа.
-	int ReadChar()
+	// Запись следующего символа.
+	void Write(Char value)
