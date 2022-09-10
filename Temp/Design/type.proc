@@ -173,3 +173,41 @@ x[] // Массив основания x и неизвестной длины.
 x[y][] // Массив основания x, длины y и таких неизвестное количество.
 // Элемент [] можно использовать только в конце определения и только один раз.
 // Теоретически нет какого-то ограничения писать [] вместо var.
+
+// Файловый поток.
+class Proc.Interop.File: Reader, Writer, Seeker
+
+	var _handle
+
+	public File()
+		_handle = new File(ReadWrite)
+
+	public Reader()
+		_handle = new File(Read)
+
+	public Write()
+
+	public Read()
+		return _handle.Read()
+
+var test = File.Reader()
+
+// Только Reader.
+class Proc.Interop.File.Reader: Reader
+
+	var _handle
+
+	public Reader()
+		_handle = new File(Read)
+
+	public Read()
+		return _handle.Read()
+
+var test = File.Reader()
+
+// Пример композиции.
+void Test((Reader, Writer, Seeker) stream)
+void Test(ValueTuple<Reader, Writer, Seeker> stream)
+//void Test({Reader, Writer, Seeker} stream)
+//void Test<<Reader, Writer, Seeker>, int, int>(stream, arg1, arg2)
+ValueTuple<Reader, Writer, Seeker> = (Reader, Writer, Seeker)

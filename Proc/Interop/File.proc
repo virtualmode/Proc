@@ -1,2 +1,6 @@
 // Файловый поток.
 class Proc.Interop.File: Reader, Writer, Seeker
+
+	public void Write()
+
+	public void Read()

@@ -1,6 +1,6 @@
 package proc.Machine.Amd64
 
-import proc.Interop.FileStream
+import proc.Interop.FileWriter
 import proc.Text.CharReader
 import proc.Text.Utf8
 
@@ -11,16 +11,16 @@ class Amd64Reader {
 
 	private var _reader: CharReader
 
-	private var _writer: FileStream
-	private var _utf8: Utf8
+	private var _writer: FileWriter
+	//private var _utf8: Utf8
 
 	init {
 	}
 
 	constructor(reader: CharReader) {
 		_reader = reader
-		_writer = FileStream("debug.txt")
-		_utf8 = Utf8(_writer, _writer)
+		_writer = FileWriter("debug.txt")
+		//_utf8 = Utf8(null, _writer)
 	}
 
 	// TODO Avoid this.
@@ -41,7 +41,7 @@ class Amd64Reader {
 				print("[$symbol]")
 
 			// Запись UTF-8.
-			_utf8.WriteChar(symbol)
+			//_utf8.WriteChar(symbol)
 
 			return true
 		}

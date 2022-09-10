@@ -37,7 +37,7 @@ class String {
 		_value = IntArray(value.length)
 		// Идея интервалов достаточно интересная, но смущает использование булева in для итераций.
 		for (_length in 0 until value.length) { // Использование value.Indexes может быть неочевидным.
-			_value[_length] = value[_length] as Int // Надеюсь здесь 4 байта.
+			_value[_length] = value[_length].code // Надеюсь здесь 4 байта.
 		}
 	}
 

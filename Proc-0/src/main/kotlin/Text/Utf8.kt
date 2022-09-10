@@ -275,22 +275,22 @@ class Utf8 : CharStream {
 
 	// Обновление лексемы в соответствии с текущим кодом символа.
 	fun UpdateType() {
-		var value: Int = Value + CharType.Null as Int // Отвязывание Юникода от значения.
+		var value: Int = Value + CharType.Null.ordinal // Отвязывание Юникода от значения.
 		if (Value < 0)
 		{
 			Type = CharType.EndOfStream
 			//EndOfStream = true
-		} else if (value <= CharType.Delete as Int) {
-			Type = value as CharType
+		} else if (value <= CharType.Delete.ordinal) {
+			Type = CharType.values()[value]
 
 			// Отладка.
-			//print(Value as Char)
+			//print(Value.toChar())
 		} else {
 			// TODO Реализовать определение других символов при необходимости.
 			Type = CharType.Unknown
 
 			// Отладка.
-			//print(Value as Char)
+			//print(Value.toChar())
 		}
 	}
 

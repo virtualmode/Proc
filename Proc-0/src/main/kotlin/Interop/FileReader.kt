@@ -23,16 +23,14 @@ import kotlin.math.log2
 /**
  * Файловый поток.
  */
-class FileStream(fileName: String): Reader, Writer {
+class FileReader(fileName: String): Reader {
 
 	private var _handle: File
 	private var _inputStream: FileInputStream
-	private var _outputStream: FileOutputStream
 
 	init {
 		_handle = File(fileName)
 		_inputStream = _handle.inputStream()
-		_outputStream = _handle.outputStream()
 	}
 
 	companion object {
@@ -42,13 +40,12 @@ class FileStream(fileName: String): Reader, Writer {
 		 * TODO Эту фигню надо будет заменить таблицей.
 		 */
 		fun BaseToBytes(baseObj: Int): Int {
-			return log2(baseObj as Double) as Int / 8
+			return log2(baseObj.toDouble()).toInt() / 8
 		}
 	}
 
 	fun Close() {
 		_inputStream.close()
-		_outputStream.close()
 	}
 
 	override fun Read(destination: Writer): Any {
@@ -62,15 +59,5 @@ class FileStream(fileName: String): Reader, Writer {
 	 */
 	override fun Read(destination: Any, baseObj: Any): Any {
 		return _inputStream.read(destination as ByteArray, 0, BaseToBytes(baseObj as Int))
-	}
-
-	override fun Write(source: Reader): Any {
-		TODO("Not yet implemented")
-	}
-
-	override fun Write(source: Any, baseObj: Any): Any {
-		var byteCount: Int = BaseToBytes(baseObj as Int)
-		_outputStream.write(source as ByteArray, 0, byteCount)
-		return byteCount
 	}
 }

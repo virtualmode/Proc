@@ -19,24 +19,34 @@
 // Combines several ideas: UTM, VM, Interpreter, Translator, Compiler.
 package proc
 
-import proc.Interop.FileStream
+import proc.Interop.FileReader
+import proc.Interop.FileWriter
+import proc.Machine.Amd64.Generator
+import proc.Machine.Proc.ProcSymbol
+import proc.Machine.Proc.ProcSyntax
+import proc.Text.CharStream
+import proc.Text.Utf8
 
 /**
  * Процессор.
  */
 class Proc(args: Array<String>) {
 	private var _args: Array<String>
-	private var _source: FileStream?
-	//var Interop.FileStream _destination;
-	//var CharStream _charReader;
-	//var Symbol _lexer;
-	//var ProcSyntax _syntaxReader;
-	//var Generator _generator;
+	private var _source: FileReader?
+	private var _destination: FileWriter?
+	private var _charReader: CharStream?
+	private var _lexer: ProcSymbol?
+	private var _syntaxReader: ProcSyntax?
+	private var _generator: Generator?
 
 	init {
 		_args = args
 		_source = null
-		//_charReader = null
+		_destination = null
+		_charReader = null
+		_lexer = null
+		_syntaxReader = null
+		_generator = null
 	}
 
 	// Пример параметров "-l Examples/1.base.proc".
@@ -51,17 +61,19 @@ class Proc(args: Array<String>) {
 			// Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
 			println("Proc started with: $_args.joinToString()")
 			// Лексический анализ файла.
-			_source = FileStream(_args[1]) // Базовый поток состояний, используемый процессором и дочерними анализаторами.
-			//_destination = new Interop.FileStream($"{Path.GetFileNameWithoutExtension(_args[1])}.exe", FileMode.Create, FileAccess.Write)
-			//_charReader = new Utf8((Reader)_source) // Символьный поток определённой кодировки.
+			_source = FileReader(_args[1]) // Базовый поток состояний, используемый процессором и дочерними анализаторами.
+			_destination = FileWriter("output.bin")
+			_charReader = Utf8(_source!!, _destination!!) // Символьный поток определённой кодировки.
 			// В Roslyn следующие строки создаются в SyntaxTree Oo.
-			//_lexer = new ProcSymbol(_charReader) // Лексический анализатор исходного кода.
-			//_syntaxReader = new ProcSyntax(_lexer) // Синтаксический анализатор.
+			_lexer = ProcSymbol(_charReader!!) // Лексический анализатор исходного кода.
+			_syntaxReader = ProcSyntax(_lexer!!) // Синтаксический анализатор.
 			// TODO Генерацию можно выполнить несколькими путями:
 			// TODO Получить готовое синтаксическое дерево и сгенерировать код.
 			// TODO Или получить на вход синтаксический анализатор и в процессе генерации дерева, сформировать код.
-			//_generator = new Generator(_destination, _syntaxReader)
-			//_generator.CompileAndEmit()
+			_generator = Generator(_destination!!, _syntaxReader!!)
+			_generator?.CompileAndEmit()
+
+			_source?.Close()
 		}
 
 		return 0

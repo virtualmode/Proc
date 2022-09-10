@@ -10,33 +10,33 @@ package proc.Text
 @Deprecated("Implement interface composition instead. Allow fields usage?")
 abstract class CharStream: Char, CharReader, CharWriter, CharSeeker {
 
-	override var Value: Int
-		get() = TODO("Not yet implemented")
-		set(value) {}
+	override var Value: Int = 0
+		get() = field
+		set(value) { field = value }
 
-	override var Type: CharType
-		get() = TODO("Not yet implemented")
-		set(value) {} // protected
+	override var Type: CharType = CharType.Null
+		get() = field
+		set(value) { field = value } // protected
 
 	//override var EndOfStream: Long
 	//	get() = TODO("Not yet implemented")
 	//	set(value) {}
 
-	override var Position: Long
-		get() = TODO("Not yet implemented")
-		set(value) {}
+	override var Position: Long = 0
+		get() = field
+		set(value) { field = value }
 
-	override var Character: Long
-		get() = TODO("Not yet implemented")
-		set(value) {}
+	override var Character: Long = 0
+		get() = field
+		set(value) { field = value }
 
-	override var Column: Long
-		get() = TODO("Not yet implemented")
-		set(value) {}
+	override var Column: Long = 0
+		get() = field
+		set(value) { field = value }
 
-	override var Line: Long
-		get() = TODO("Not yet implemented")
-		set(value) {}
+	override var Line: Long = 0
+		get() = field
+		set(value) { field = value }
 
 	abstract override fun IsSmallLetter(): Boolean
 	abstract override fun IsCapitalLetter(): Boolean
