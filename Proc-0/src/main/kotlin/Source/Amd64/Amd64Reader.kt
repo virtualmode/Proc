@@ -1,20 +1,13 @@
-/*
-	5. Здесь будет что-то типа читабельного представления машинного языка, а может сразу нескольких. Как вариант
-	стоит подумать в принципе о наследовании анализаторов от LexicalScanner.
-*/
-
-package proc.Machine.Assembler
+package proc.Source.Amd64
 
 import proc.Interop.FileWriter
 import proc.Text.CharReader
 import proc.Text.Utf8
 
 /**
- * AssemblerScanner.
- * TODO Варианты для переименования: Amd64AssemblerScanner,
- * TODO т.к. хрен его знает можно ли другие ассемблеры представить одинаково.
+ * Лексический анализатор двоичного кода архитектуры AMD64.
  */
-class AssemblerReader {
+class Amd64Reader {
 
 	private var _reader: CharReader
 

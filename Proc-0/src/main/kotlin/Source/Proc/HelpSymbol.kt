@@ -1,4 +1,4 @@
-package proc.Machine.Proc
+package proc.Source.Proc
 
 import proc.Source.SymbolReader
 import proc.Text.CharStream

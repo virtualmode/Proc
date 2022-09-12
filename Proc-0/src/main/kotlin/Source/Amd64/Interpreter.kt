@@ -1,4 +1,4 @@
-package proc.Machine.Amd64
+package proc.Source.Amd64
 
 /**
  * Интерпретатор кода AMD64.

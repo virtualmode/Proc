@@ -1,7 +1,7 @@
-package proc.Machine.Amd64
+package proc.Source.Amd64
 
 import proc.Interop.Writer
-import proc.Machine.Proc.ProcSyntax
+import proc.Source.Proc.ProcSyntax
 import proc.Source.Symbol.ClassMode
 import proc.Source.Symbol.TypeDescription
 

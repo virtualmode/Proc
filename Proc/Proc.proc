@@ -7,6 +7,11 @@
 	Pr[][
 */
 
+// TODO Заглушки для компиляции необходимо заменить нормальным кодом.
+public class String: []
+//use string = String // "" - char*  [] - void*
+use var = []
+
 // TODO При выполнении листинга предполагается неявно использовать что-то типа varargs для передачи параметров в top scope листинга.
 // TODO Верхний процессор может выполнить листинг с переменным количеством аргументов, как это делается в обычной оболочке.
 // TODO Например вызов функции 'proc("src.proc", arg1, arg2, arg3)' или более привычной формы 'proc src.proc arg1 arg1 arg3'.
@@ -36,6 +41,10 @@ public void ProcRun(string fileName, string entryPoint)
 
 // Эта функция должна выполняться операционной системой первой.
 public void Proc()
+	//void Write(string format, ...)
+		//#proc masm
+		//mov ax, dx
+		//#proc
 	Write("Proc is started and you are at top of this process.\n")
 	Write("Please write code!\n\n")
 

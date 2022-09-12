@@ -21,9 +21,9 @@ package proc
 
 import proc.Interop.FileReader
 import proc.Interop.FileWriter
-import proc.Machine.Amd64.Generator
-import proc.Machine.Proc.ProcSymbol
-import proc.Machine.Proc.ProcSyntax
+import proc.Source.Amd64.Generator
+import proc.Source.Proc.ProcSymbol
+import proc.Source.Proc.ProcSyntax
 import proc.Text.CharStream
 import proc.Text.Utf8
 
