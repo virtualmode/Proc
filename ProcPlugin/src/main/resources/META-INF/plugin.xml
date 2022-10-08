@@ -13,8 +13,8 @@
     </description>
 
     <change-notes><![CDATA[
-        <h3>2022.3.7</h3>
-        Released: <b>March 7, 2022</b>
+        <h3>1.0.0</h3>
+        Released: <b>January 1, 2022</b>
         <ul>
             <li>Minimal IntelliJ plugin implementation.</li>
             <li>Flex lexical analyzer generator and parser generator support.</li>
@@ -24,6 +24,8 @@
         <br/><br/>
         To get the most out of the changes and improvements introduced in Proc, join <a href="https://github.com/virtualmode/Proc">project</a>.]]>
     </change-notes>
+
+    <!--<idea-version since-build="202.6397.46" until-build="213.*"/>-->
 
     <!-- See https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
