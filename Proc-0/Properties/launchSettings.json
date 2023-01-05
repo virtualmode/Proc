@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Proc": {
+      "commandName": "Project",
+      "commandLineArgs": "-l ../Proc/Proc.proc"
+    }
+  }
+}
