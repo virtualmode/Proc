@@ -83,6 +83,13 @@ enum Type // enum Symbol.Type
 
 	#endregion
 
+	#region Comments
+
+	LineComment,
+	BlockComment,
+
+	#endregion Comments
+
 	#region Зарезервированные слова
 
 	// Access modifiers.

@@ -126,6 +126,16 @@ class ProcSymbol : Symbol
 				_charToken.ReadChar();
 				Type = Type.DivideAssignment;
 			}
+			// Block comment.
+			else if (_charToken.Type == CharType.Asterisk)
+			{
+				ReadBlockComment();
+			}
+			// Line comment.
+			else if (_charToken.Type == CharType.Slash)
+			{
+				ReadLineComment();
+			}
 			else
 			{
 				Type = Type.Slash;

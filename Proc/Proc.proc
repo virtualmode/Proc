@@ -1,16 +1,78 @@
 /*
 	Proc(ess(or))
-
-	Proc[]
-	[]Proc
-	Pr[]c
-	Pr[][
 */
 
-// TODO Заглушки для компиляции необходимо заменить нормальным кодом.
-public class String: []
-//use string = String // "" - char*  [] - void*
-use var = []
+use var = [] // Псевдоним для типа ленты неизвестной длины.
+use bit = 2
+
+// Булев тип данных.
+public final class Boolean
+	private bit _value
+
+use bool = Boolean // TODO Это уже класс! Может зеленый цвет для bool использовать?
+
+// Целочисленный тип.
+public class Integer
+
+	private var _value
+
+	public Integer()
+
+	// Перегрузка оператора присваивания.
+	// @value Присваиваемое значение.
+	public void operator =(var value)
+		//if (value.Base == 16) // Через стек прокидывать надо.
+
+public class String
+	// TODO Для AccessModifier можно в принципе использовать оба варианта, как C++ и C#.
+	private var _value
+	public String()
+	public void operator =(var value)
+
+
+
+if (GetBoolFunc()) // Здесь просто возвращён bool.
+if (intA > intB) // Как превратить непонятно что в bool? Переопределить оператор у int и вернуть bool.
+if (bool) // Как оператор if без булева оператора должен работать с типом bool, который еще не реализован?
+// Фактически вот такое представление кода. Что это значит? Оператор должен быть и если он опущен, то всё равно какой-то подразумевается.
+// Какой? "> 0" ? "== 1" ?
+if (intA > intB, true)
+	A
+else
+	B
+
+use if (<value>) <caseA> else <caseB>
+	switch (value)
+		case true
+			caseA
+		default
+			caseB
+
+/*
+	Использование оператора use (using, import, #include).
+	1. Подключение пространства имён.
+	2. Подключение отдельного типа данных (как в Java) или пространства через *.
+	3. Определение псевдонима для типа данных (дополнительно можно реализовать модификаторы типа global или static как в C#).
+	4. Определение области видимости для переменной (как в C# для IDisposable)?
+	5. Определение псевдонима для данных?
+*/
+
+// Эта штука больше для типов подходит.
+use false = 0
+use true = 1
+
+// Вариант реализации булевых констант.
+const bool false = bool.BooleanFalse()
+const bool true = bool.BooleanTrue()
+
+use bool = Boolean // Алиасы можно отображать как встроенные типы в других языках.
+use int = Integer // В данном случае это не совсем классический int.
+use string = String
+
+void Write(string text)
+	//#proc masm
+	//mov ax, dx
+	//#proc
 
 // TODO При выполнении листинга предполагается неявно использовать что-то типа varargs для передачи параметров в top scope листинга.
 // TODO Верхний процессор может выполнить листинг с переменным количеством аргументов, как это делается в обычной оболочке.
@@ -41,21 +103,13 @@ public void ProcRun(string fileName, string entryPoint)
 
 // Эта функция должна выполняться операционной системой первой.
 public void Proc()
-	//void Write(string format, ...)
-		//#proc masm
-		//mov ax, dx
-		//#proc
+
 	Write("Proc is started and you are at top of this process.\n")
 	Write("Please write code!\n\n")
+
 
 // TODO Не совсем понятно как и когда будет выполняться top scope.
 // TODO Скорее, какой листинг будет первым выполнен, тот код и будет иметь фактический приоритет.
 Proc() // Точка входа.
-return // Необязательный оператор, если возвращаемая лента из top scope нулевой длины.
 
-/*
-	Функции, зависимые от хоста:
-	Read?
-	Write
-	WriteLine
-*/
+return // Необязательный оператор, если возвращаемая лента из top scope нулевой длины.

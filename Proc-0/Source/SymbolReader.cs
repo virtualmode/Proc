@@ -180,6 +180,39 @@ abstract class Symbol // TODO Это скорее не Symbol, а его час�
 		} while (_charToken.IsDecimalDigit());
 	}
 
+	protected void ReadBlockComment()
+	{
+		Type = Type.BlockComment;
+		Value = 0;
+		do
+		{
+			Value++;
+			_charToken.ReadChar();
+			if (_charToken.Type == CharType.Asterisk)
+			{
+				Value++;
+				_charToken.ReadChar();
+				if (_charToken.Type == CharType.Slash)
+				{
+					break;
+				}
+			}
+		} while (_charToken.Type != CharType.EndOfStream);
+		_charToken.ReadChar();
+	}
+
+	protected void ReadLineComment()
+	{
+		Type = Type.LineComment;
+		Value = 0;
+		do
+		{
+			Value++;
+			_charToken.ReadChar();
+		} while (!_charToken.IsEndOfLine() && _charToken.Type != CharType.EndOfStream);
+		_charToken.ReadChar();
+	}
+
 	/// <summary>
 	/// Добавление зарезервированного слова.
 	/// </summary>
