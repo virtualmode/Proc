@@ -4,22 +4,41 @@
 
 use var = [] // Псевдоним для типа ленты неизвестной длины.
 
-// Untyped binary data objects.
-use bit = 2
-use nibble = 2[4] // 16
-use byte = 2[8] // 256
-use word = 2[16] // 65 536
-use dword = 2[32] // 4 294 967 296
-//use quadword = 2[64]
-//use octword = 2[128]
-//use double octword = 2[256]
+// Untyped data objects.
+use bit = 2 // Binary type with two states.
+use bit4 = nibble = 2[4] // 16-state type (4 bits).
+use bit8 = byte = 2[8] // 256-state type (8 bits).
+use bit16 = byte2 = 2[16]
+use bit32 = byte4 = 2[32]
+use bit64 = byte8 = 2[64]
+use bit128 = byte16 = 2[128]
+use bit256 = byte32 = 2[256]
+use bit512 = byte64 = 2[512]
 
 
 // Булев тип данных.
 public final class Boolean
+
+	public const Boolean false = Boolean(0)
+	public const Boolean true = Boolean(1)
+
 	private bit _value
 
+	public Boolean()
+
+	private Boolean(bit value)
+		_value = value
+
+	public operator ==(Boolean value)
+		return _value == value._value
+
+	public operator =()
+
 use bool = Boolean // TODO Это уже класс! Может зеленый цвет для bool использовать?
+use true = Boolean.true
+use false = Boolean.false
+
+
 
 // Целочисленный тип.
 public class Integer
@@ -33,11 +52,47 @@ public class Integer
 	public void operator =(var value)
 		//if (value.Base == 16) // Через стек прокидывать надо.
 
+use int = Integer // В данном случае это не совсем классический int.
+
+
 public class String
 	// TODO Для AccessModifier можно в принципе использовать оба варианта, как C++ и C#.
 	private var _value
 	public String()
 	public void operator =(var value)
+
+use string = String
+
+
+// Базовые нетипизированные объекты могут использоваться как числа, т.к. и являются натуральными числами.
+use false = 0
+use true = 1
+// Или использовать константы, но в языке их описать как ключевые слова:
+public const bit false = 0
+public const bit true = 1
+
+// Неймспейс
+// Нетипизированный объект данных
+// Алиас для любых типов и объектов данных
+// Будет ли в базовых объектах целочисленная арифметика?
+// Нужно ли к базовым объектам цеплять написанный Integer?
+public class Type Integer Float []
+
+byte[8] test1 = { 1, 2, 3 } // stack
+byte[] test2 = byte[8] // heap
+var test3 = { 1, 2, 3 } // heap byte4[3]
+
+MyClass testClass() // stack
+MyClass[] testClass2 = MyClass() // heap будет?
+
+bit32[] value
+value = anotherArray
+
+// use определяет в компиляторе объект Type, содержащий информацию о типе.
+// Т.е. сам тип это всё-таки объект. А размер его это уже скорее вычисляемый параметр.
+// sizeof(Type) - целое число [] внутренней арифметики. Но пока непонятно какого размера. Может быть и переменной длины.
+// Если учитывать строки выше, то булевы false и true должны быть не типами, а скорее константами.
+
 
 
 
@@ -67,17 +122,9 @@ use if (<value>) <caseA> else <caseB>
 	5. Определение псевдонима для данных?
 */
 
-// Эта штука больше для типов подходит.
-use false = 0
-use true = 1
-
 // Вариант реализации булевых констант.
 const bool false = bool.BooleanFalse()
 const bool true = bool.BooleanTrue()
-
-use bool = Boolean // Алиасы можно отображать как встроенные типы в других языках.
-use int = Integer // В данном случае это не совсем классический int.
-use string = String
 
 void Write(string text)
 	//#proc masm

@@ -103,6 +103,27 @@ WHITE_SPACE            = [\s\t\f]
     "void"                   { return SymbolType.VOID; } // #define void 0
     "object"                 { return SymbolType.OBJECT; }
 
+    "operator"               { return SymbolType.KEYWORD; }
+    "final"                  { return SymbolType.KEYWORD; }
+
+    "bit"                    { return SymbolType.KEYWORD; }
+    "bit4"                   { return SymbolType.KEYWORD; }
+    "nibble"                 { return SymbolType.KEYWORD; }
+    "bit8"                   { return SymbolType.KEYWORD; }
+    "byte"                   { return SymbolType.KEYWORD; }
+    "bit16"                  { return SymbolType.KEYWORD; }
+    "byte2"                  { return SymbolType.KEYWORD; }
+    "bit32"                  { return SymbolType.KEYWORD; }
+    "byte4"                  { return SymbolType.KEYWORD; }
+    "bit64"                  { return SymbolType.KEYWORD; }
+    "byte8"                  { return SymbolType.KEYWORD; }
+    "bit128"                 { return SymbolType.KEYWORD; }
+    "byte16"                 { return SymbolType.KEYWORD; }
+    "bit256"                 { return SymbolType.KEYWORD; }
+    "byte32"                 { return SymbolType.KEYWORD; }
+    "bit512"                 { return SymbolType.KEYWORD; }
+    "byte64"                 { return SymbolType.KEYWORD; }
+
     "false"                  { return SymbolType.KEYWORD; }
     "true"                   { return SymbolType.KEYWORD; }
 
