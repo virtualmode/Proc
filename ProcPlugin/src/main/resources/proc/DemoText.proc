@@ -16,3 +16,7 @@ public interface Идентификатор
 // Scope example.
 for (int i = 0; i < 10; i++)
 	write("iteration " + i + '.')
+
+// Global scope example.
+bool isGlobal = true
+string textExample = "This is text example"

@@ -32,6 +32,8 @@ public class ProcParserDefinition implements ParserDefinition {
 	);
 
 	public static final TokenSet KEYWORDS = TokenSet.create(
+		SymbolType.KEYWORD,
+
 		SymbolType.PRIVATE,
 		SymbolType.PROTECTED,
 		SymbolType.PUBLIC,
@@ -45,8 +47,11 @@ public class ProcParserDefinition implements ParserDefinition {
 
 		SymbolType.VAR,
 		SymbolType.VOID,
-		SymbolType.BOOL,
 		SymbolType.OBJECT
+	);
+
+	public static final TokenSet DEFINITIONS = TokenSet.create(
+		SymbolType.DEFINITION_CLASS
 	);
 
 	public static final TokenSet COMMENTS = TokenSet.create(

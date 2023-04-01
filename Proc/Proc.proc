@@ -3,7 +3,17 @@
 */
 
 use var = [] // Псевдоним для типа ленты неизвестной длины.
+
+// Untyped binary data objects.
 use bit = 2
+use nibble = 2[4] // 16
+use byte = 2[8] // 256
+use word = 2[16] // 65 536
+use dword = 2[32] // 4 294 967 296
+//use quadword = 2[64]
+//use octword = 2[128]
+//use double octword = 2[256]
+
 
 // Булев тип данных.
 public final class Boolean

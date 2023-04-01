@@ -22,13 +22,23 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 
 	// Comments.
 	public static final TextAttributesKey COMMENT = createTextAttributesKey("PROC_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+
 	private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[] { COMMENT };
+
 
 	// Keywords.
 	public static final TextAttributesKey KEYWORD = createTextAttributesKey("PROC_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
 	public static final TextAttributesKey KEYWORDS_CONTROL = createTextAttributesKey("PROC_KEYWORDS_CONTROL", DefaultLanguageHighlighterColors.KEYWORD);
+
 	private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[] { KEYWORD };
 	private static final TextAttributesKey[] KEYWORDS_CONTROL_KEYS = new TextAttributesKey[] { KEYWORDS_CONTROL };
+
+
+	// Definition.
+	public static final TextAttributesKey DEFINITION_CLASS = createTextAttributesKey("PROC_DEFINITION_CLASS", DefaultLanguageHighlighterColors.CLASS_NAME);
+
+	private static final TextAttributesKey[] DEFINITION_KEYS = new TextAttributesKey[] { DEFINITION_CLASS };
+
 
 	// Это скорее группы, на которые делятся лексемы или синтаксические конструкции.
 	public static final TextAttributesKey IDENTIFIER = createTextAttributesKey("PROC_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER);
@@ -43,6 +53,7 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 	private static final TextAttributesKey[] PLAIN_TEXT_KEYS = new TextAttributesKey[] { PLAIN_TEXT };
 	private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[] { STRING };
 	private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
+
 
 	/*
 	public static final TextAttributesKey SEPARATOR = createTextAttributesKey("PROC_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
@@ -66,6 +77,9 @@ public class ProcSyntaxHighlighter extends SyntaxHighlighterBase {
 		}
 		if (ProcParserDefinition.KEYWORDS.contains(tokenType)) {
 			return KEYWORD_KEYS;
+		}
+		if (ProcParserDefinition.DEFINITIONS.contains(tokenType)) {
+			return DEFINITION_KEYS;
 		}
 		if (tokenType.equals(SymbolType.IDENTIFIER)) {
 			return IDENTIFIER_KEYS;
