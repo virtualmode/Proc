@@ -609,21 +609,24 @@ struct Item* Term() {
 	return x;
 }
 
+// Вычисление части выражения с операторами одинакового приоритета.
 struct Item* SimpleExpression() {
 	struct Item* x, * y;
 	int op;
-	if (sym == PLUS) {
+	// Вычисление левого операнда в выражении.
+	if (sym == PLUS) { // Если он начинается со знака плюс.
 		Get();
 		x = Term();
 	}
-	else if (sym == MINUS) {
+	else if (sym == MINUS) { // Если он начинается со знака минус.
 		Get();
 		x = Term();
 		Op1(MINUS, x);
 	}
 	else {
-		x = Term();
+		x = Term(); // Вычисление элемента описывающего операнд.
 	}
+	// Вычисление очередного правого операнда, применение над ним операции и сохранение в левом.
 	while (sym >= PLUS && sym <= OR) {
 		op = sym;
 		Get();
@@ -633,7 +636,7 @@ struct Item* SimpleExpression() {
 		y = Term();
 		Op2(op, x, y);
 	}
-
+	// Возвращение результирующего элемента, описывающего выражение.
 	return x;
 }
 
@@ -1298,7 +1301,7 @@ void Decode();
 // Основная функция инициализации и последующей компиляции кода.
 void Compile(const char* fileName) {
 	OssInit(fileName, 0);
-	Osg("oberon.bin"); // Целевой код.
+	Osg("output.bin"); // Целевой код.
 	Get(); // Первый запуск машины состояний, который считывает первый терминал. Он должен быть как минимум MODULE, чтобы листинг можно было считать программой.
 	Osp();
 	Module();
@@ -1903,7 +1906,7 @@ void Osg(const char* writerFile) {
 int main(int argc, char* argv[])
 {
 	if (argc > 1)
-		OssInit(argv[1], 0);
+		Compile(argv[1]);
 	else
 		printf_s("Pass file name in arguments.\n");
 

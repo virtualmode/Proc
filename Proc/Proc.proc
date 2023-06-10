@@ -55,6 +55,17 @@ public class Integer
 use int = Integer // В данном случае это не совсем классический int.
 
 
+
+public class Float
+use float = Float
+
+
+
+public class Complex
+use complex = Complex
+
+
+
 public class String
 	// TODO Для AccessModifier можно в принципе использовать оба варианта, как C++ и C#.
 	private var _value
@@ -62,6 +73,7 @@ public class String
 	public void operator =(var value)
 
 use string = String
+
 
 
 // Базовые нетипизированные объекты могут использоваться как числа, т.к. и являются натуральными числами.

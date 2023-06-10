@@ -23,6 +23,7 @@ import proc.psi.SymbolType;
 public class ProcParserDefinition implements ParserDefinition {
 
 	public static final TokenSet KEYWORDS_CONTROL = TokenSet.create(
+		SymbolType.USE,
 		SymbolType.RETURN,
 		SymbolType.FOR,
 		SymbolType.DO,
@@ -37,7 +38,6 @@ public class ProcParserDefinition implements ParserDefinition {
 		SymbolType.PRIVATE,
 		SymbolType.PROTECTED,
 		SymbolType.PUBLIC,
-		SymbolType.USE,
 		SymbolType.USING,
 		SymbolType.CLASS,
 		SymbolType.INTERFACE,
