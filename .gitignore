@@ -1,47 +1,82 @@
-# Regular development files:
+# Solution .gitignore file.
+
+# Apple macOS.
+*.DS_Store
+
+# Microsoft Windows.
+desktop.ini
+[Tt]humbs.db
+
+# Regular development files.
 *.d
 *.gch
 *.i
+*.ilk
 *.iobj
 *.ipdb
 *.log
+*.mdb
+*.nupkg
 *.o
 *.obj
 *.pch
+*.pdb
+*.rsp
+*.sbr
 *.stackdump
+*.tlh
+*.tli
 
-# Windows:
-desktop.ini
+# SQL Server files.
+*.mdf
+*.ldf
 
-# OSX:
-.DS_Store
-
-# Visual Studio temporary files and folders:
-.git/
-.vs/
+# .NET CLI files.
 bin/
 obj/
 [Dd]ebug/
 [Rr]elease/
+
+# Microsoft Visual Studio.
+.vs/
+ipch/
 packages/
+Settings.StyleCop
 *.aps
 *.cache
+*.cachefile
+*.csproj.csdat
+*.DotSettings.user
 *.ipch
+*.ncb
+*.opendb
 *.opensdf
+*.opt
+*.plg
+*.psess
+*.sap
+*.scc
 *.sdf
+*.sln.docstates
 *.suo
+*.svclog
 *.user
+*.userosscache
 *.VC.db
 *.VC.opendb
+*.vsp
+*.vspscc
+*.vspx
+*.vssscc
 
-# IntelliJ IDEA:
+# IntelliJ IDEA uses its own .gitignore file in .idea folder.
+
+# Project-specific files.
 .gradle/
 out/
 build/
+bin/[Pp]roc*
 **/src/gen/
 
-# Project:
-bin/[Pp]roc*
-
-# Exclusions:
+# Exclusions.
 !bin/README
