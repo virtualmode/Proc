@@ -80,7 +80,7 @@ use string = String
 use false = 0
 use true = 1
 // Или использовать константы, но в языке их описать как ключевые слова:
-public const bit false = 0
+public const bit false = 0 // CRUTCH Вариант определения булева значения.
 public const bit true = 1
 
 // Неймспейс
@@ -124,6 +124,8 @@ use if (<value>) <caseA> else <caseB>
 			caseA
 		default
 			caseB
+
+		DefaultMethod()
 
 /*
 	Использование оператора use (using, import, #include).

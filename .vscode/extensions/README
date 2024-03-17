@@ -1,0 +1,24 @@
+Набор расширений для Visual Studio Code.
+
+Для установки необходимо скопировать каталог с расширением по соответствующему пути:
+* Windows `%USERPROFILE%\.vscode\extensions`
+* Unix `$HOME/.vscode/extensions`
+При ручной установке расширений может потребоваться удалить файл `extensions.json` перед запуском Visual Studio Code.
+
+Имеется возможность открыть палитру Ctrl + Shift + P и запустить анализатор лексем `Developer: Inspect Editor Tokens and Scopes`.
+Чтобы сменить цвет лексем, необходимо изменить пользовательский файл настроек или файл настроек окружения `settings.json`:
+
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": [
+          "comment.block.c",
+          "comment.line.double-slash.cpp"
+        ],
+        "settings": {
+          "foreground": "#808080",
+          "fontStyle": ""
+        }
+      }
+    ]
+  }

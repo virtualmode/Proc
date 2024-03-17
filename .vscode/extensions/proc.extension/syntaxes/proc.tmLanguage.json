@@ -1,0 +1,157 @@
+{
+  "$schema": "./tmLanguage.json",
+  "name": "proc",
+  "scopeName": "source.proc",
+  "patterns": [
+    { "include": "#Proc" }
+  ],
+  "repository": {
+    "Proc": {
+      "patterns": [
+        { "include": "#Scope" }
+      ]
+    },
+    "Scope": {
+      "patterns": [
+        { "include": "#Statement" }
+      ]
+    },
+    "Statement": {
+      "patterns": [
+        { "include": "#Keyword" },
+        { "include": "#Comment" },
+        { "include": "#String" },
+        { "include": "#Entity" }
+      ]
+    },
+    "Keyword": {
+      "patterns": [
+        {
+          "name": "keyword.control.c",
+          "match": "\\b(return|break|continue|if|else|for|do|while|switch|case)\\b"
+        },
+        {
+          "name": "storage.type.c",
+          "match": "\\b(class|enum|interface|use|internal|private|protected|public|const|static|virtual|operator|final|false|true)\\b"
+        },
+        {
+          "name": "storage.type.c",
+          "match": "\\b(void|var|bit|bit4|bit8|bit16|bit32|bit64|bit128|bit256|bit512|nibble|byte|byte2|byte4|byte8|byte16|byte32|byte64)\\b"
+        },
+        {
+          "name": "support.type.sys-types.c",
+          "match": "\\b(Boolean|Integer|Float|Complex|String|bool|int|float|complex|string)\\b"
+        }
+      ]
+    },
+    "Comment": {
+      "patterns": [
+        {
+          "name": "comment.block.c",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.begin.c"
+            }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.end.c"
+            }
+          },
+          "patterns": [
+            {
+              "name": "variable.other.constant",
+              "match": "(^\\s*|\\s+)TODO\\s+.*$"
+            },
+            {
+              "name": "entity.name.tag.css",
+              "match": "(^\\s*|\\s+)CRUTCH\\s+.*$"
+            }
+          ]
+        },
+        {
+          "name": "comment.line.double-slash.cpp",
+          "begin": "//",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.cpp"
+            }
+          },
+          "end": "\n",
+          "patterns": [
+            {
+              "name": "variable.other.constant",
+              "match": "\\s+TODO\\s+.*$"
+            },
+            {
+              "name": "entity.name.tag.css",
+              "match": "\\s+CRUTCH\\s+.*$"
+            }
+          ]
+        }
+      ]
+    },
+    "String": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.c",
+          "begin": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.c"
+            }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.c"
+            }
+          },
+          "patterns": [
+            { "include": "#StringEscapedChar" }
+          ]
+        },
+        {
+          "name": "string.quoted.double.c",
+          "begin": "'",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.c"
+            }
+          },
+          "end": "'",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.c"
+            }
+          },
+          "patterns": [
+            { "include": "#StringEscapedChar" }
+          ]
+        }
+      ]
+    },
+    "StringEscapedChar": {
+      "patterns": [
+        {
+          "match": "(?x)\\\\(\n\\\\|\n[abefnprtv'\"?]|\n[0-3]\\d{,2}|\n[4-7]\\d?|\nx[a-fA-F0-9]{,2}|\nu[a-fA-F0-9]{,4}|\nU[a-fA-F0-9]{,8})",
+          "name": "constant.character.escape.c"
+        },
+        {
+          "match": "\\\\.",
+          "name": "invalid.illegal.unknown-escape.c"
+        }
+      ]
+    },
+    "Entity": {
+      "patterns": [
+        {
+          "match": "(?>[a-zA-Z_](\\w+)?)(?=\\()",
+          "name": "entity.name.function.c"
+        }
+      ]
+    }
+  }
+}

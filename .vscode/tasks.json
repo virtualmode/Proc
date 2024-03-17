@@ -1,98 +1,100 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Proc",
-            "type": "shell",
-            "command": "make ${input:target} CONFIGURATION=${input:configuration} PLATFORM=${input:platform} --no-print-directory",
-            "windows": {
-                "command": "${workspaceFolder}\\Temp\\make.bat ${input:platform} ${input:target} CONFIGURATION=${input:configuration} PLATFORM=${input:platform} -C ${workspaceFolder} --no-print-directory"
-            },
-            "group":"build",
-            "problemMatcher": []
-        },
-        {
-            "label": "Build",
-            "type": "shell",
-            "command": "make all CONFIGURATION=debug PLATFORM=amd64 --no-print-directory",
-            "windows": {
-                "command": "${workspaceFolder}\\Temp\\make.bat amd64 all CONFIGURATION=debug PLATFORM=amd64 -C ${workspaceFolder} --no-print-directory"
-            },
-            "group":
-            {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Rebuild",
-            "type": "shell",
-            "command": "make rebuild CONFIGURATION=debug PLATFORM=amd64 --no-print-directory",
-            "windows": {
-                "command": "${workspaceFolder}\\Temp\\make.bat amd64 rebuild CONFIGURATION=debug PLATFORM=amd64 -C ${workspaceFolder} --no-print-directory"
-            },
-            "group": "build",
-            "problemMatcher": []
-        },
-        {
-            "label": "Clean",
-            "type": "shell",
-            "command": "make clean DEBUG= --no-print-directory",
-            "windows": {
-                "command": "${workspaceFolder}\\Temp\\make.bat amd64 clean DEBUG= -C ${workspaceFolder} --no-print-directory"
-            },
-            "group": "none",
-            "problemMatcher": []
-        },
-        {
-            "label": "Tests",
-            "type": "shell",
-            
-            "command": "echo Tests not implemented.",
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "problemMatcher": [],
-            "dependsOn": [
-                "Build"
-            ],
+  // See https://go.microsoft.com/fwlink/?LinkId=733558 for the documentation about the tasks.json format.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "All: Clean",
+      "type": "shell",
+      "command": "py ${workspaceFolder}/.vscode/clean.py",
+      //"windows": { "command": "py ${workspaceFolder}/.vscode/clean.py" },
+      "group": "none",
+      "problemMatcher": []
+    },
+    {
+      "label": "TinyCC: Build",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/Temp/TinyCC",
+        "shell": {
+          "executable": "bash",
+          "args": [ "-c" ]
         }
-    ],
-    "inputs": [
-        {
-            "id": "target",
-            "type": "pickString",
-            "description": "What target do you want to use?",
-            "options": [
-                "all",
-                "rebuild",
-                "clean"
-            ],
-            "default": "all"
-        },
-        {
-            "id": "configuration",
-            "type": "pickString",
-            "description": "What configuration do you want to use?",
-            "options": [
-                "debug",
-                "release"
-            ],
-            "default": "debug"
-        },
-        {
-            "id": "platform",
-            "type": "pickString",
-            "description": "What platform do you want to use?",
-            "options": [
-                "x86",
-                "amd64"
-            ],
-            "default": "amd64"
-        }
-    ]
+      },
+      "command": "'./configure && make'",
+      "group":"build",
+      "problemMatcher": []
+    },
+    {
+      "label": "TinyCC: Rebuild",
+      "type": "shell",
+      "command": "echo Ready.",
+      "group": "build",
+      "dependsOn": [
+        "All: Clean",
+        "TinyCC: Build"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "make all CONFIGURATION=debug PLATFORM=amd64 --no-print-directory",
+      "windows": {
+        "command": "${workspaceFolder}\\Temp\\make.bat amd64 all CONFIGURATION=debug PLATFORM=amd64 -C ${workspaceFolder} --no-print-directory"
+      },
+      "group":
+      {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Tests",
+      "type": "shell",
+      "command": "echo Tests not implemented.",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "dependsOn": [
+        "Build"
+      ],
+    }
+  ],
+  // Custom input string variables that can be used like ${input:id} in command parameters.
+  "inputs": [
+    {
+      "id": "target",
+      "type": "pickString",
+      "description": "What target do you want to use?",
+      "options": [
+        "all",
+        "rebuild",
+        "clean"
+      ],
+      "default": "all"
+    },
+    {
+      "id": "configuration",
+      "type": "pickString",
+      "description": "What configuration do you want to use?",
+      "options": [
+        "debug",
+        "release"
+      ],
+      "default": "debug"
+    },
+    {
+      "id": "platform",
+      "type": "pickString",
+      "description": "What platform do you want to use?",
+      "options": [
+        "x86",
+        "amd64"
+      ],
+      "default": "amd64"
+    }
+  ]
 }
