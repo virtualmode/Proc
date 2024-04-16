@@ -5,23 +5,40 @@
     {
       "label": "All: Clean",
       "type": "shell",
-      "command": "py ${workspaceFolder}/.vscode/clean.py",
-      //"windows": { "command": "py ${workspaceFolder}/.vscode/clean.py" },
+      "command": "git clean -xdf",
       "group": "none",
+      "problemMatcher": []
+    },
+    {
+      "label": "TinyCC: Configure",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/Temp/TinyCC"
+      },
+      "command": "./configure --debug",
+      "windows": {
+        "options": {
+          "shell": {
+            "executable": "bash",
+            "args": [ "-c" ]
+          }
+        },
+        "command": "'./configure --debug'"
+      },
+      "group": "build",
       "problemMatcher": []
     },
     {
       "label": "TinyCC: Build",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/Temp/TinyCC",
-        "shell": {
-          "executable": "bash",
-          "args": [ "-c" ]
-        }
+        "cwd": "${workspaceFolder}/Temp/TinyCC"
       },
-      "command": "'./configure && make'",
+      "command": "make",
       "group":"build",
+      "dependsOn": [
+        "TinyCC: Configure"
+      ],
       "problemMatcher": []
     },
     {
@@ -36,11 +53,11 @@
       "problemMatcher": []
     },
     {
-      "label": "Build",
+      "label": "Proc-0: Build",
       "type": "shell",
-      "command": "make all CONFIGURATION=debug PLATFORM=amd64 --no-print-directory",
+      "command": "echo TODO Implement build.",
       "windows": {
-        "command": "${workspaceFolder}\\Temp\\make.bat amd64 all CONFIGURATION=debug PLATFORM=amd64 -C ${workspaceFolder} --no-print-directory"
+        "command": "echo TODO Implement build for Windows."
       },
       "group":
       {
@@ -59,7 +76,7 @@
       },
       "problemMatcher": [],
       "dependsOn": [
-        "Build"
+        "Proc-0: Build"
       ],
     }
   ],

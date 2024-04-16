@@ -1,51 +1,77 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Proc (cppvsdbg)",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "preLaunchTask": "Build",
-            "cwd": "${workspaceFolder}/bin",
-            "program": "${workspaceFolder}/bin/proc",
-            "args": ["-l", "Examples/1.base.proc"],
-            "stopAtEntry": false,
-            "environment": [],
-            "externalConsole": false,
-            "windows": {
-                "program": "${workspaceFolder}/bin/proc.exe"
-            }
-        },
-        {
-            "name": "Proc (gdb)",
-            "type": "cppdbg",
-            "request": "launch",
-            "preLaunchTask": "Build",
-            "cwd": "${workspaceFolder}/bin",
-            "program": "${workspaceFolder}/bin/proc",
-            "args": [],
-            "stopAtEntry": false,
-            "environment": [],
-            "externalConsole": false,
-            "launchCompleteCommand": "exec-run",
-            "customLaunchSetupCommands": [
-                { "text": "target-run", "description": "run target", "ignoreFailures": false }
-            ],
-            "linux": {
-                "MIMode": "gdb",
-                "miDebuggerPath": "/usr/bin/gdb"
-            },
-            "osx": {
-                "MIMode": "lldb"
-            },
-            "windows": {
-                "program": "${workspaceFolder}/bin/proc.exe",
-                "MIMode": "gdb",
-                "miDebuggerPath": "C:\\MinGw\\bin\\gdb.exe"
-            }
-        }
-    ]
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "TinyCC: GDB",
+      "type": "cppdbg",
+      "request": "launch",
+      //"preLaunchTask": "TinyCC: Build", // Speed up debugging.
+      "cwd": "${workspaceFolder}/Temp/TinyCC",
+      "program": "${workspaceFolder}/Temp/TinyCC/tcc",
+      "args": ["-Iinclude", "-I.", "-Iwin32/include", "-L.", "-Llib", "-Lwin32/lib", "examples/${input:source}.c", "-o", "examples/${input:source}", "${input:run}"],
+      "stopAtEntry": false,
+      "environment": [],
+      "externalConsole": false,
+      "linux": {
+        "MIMode": "gdb",
+        "miDebuggerPath": "/usr/bin/gdb"
+      },
+      "osx": {
+        "MIMode": "lldb"
+      },
+      "windows": {
+        "program": "${workspaceFolder}/Temp/TinyCC/tcc.exe",
+        "avoidWindowsConsoleRedirection": true,
+        "args": ["-Iinclude", "-I.", "-Iwin32/include", "-L.", "-Llib", "-Lwin32/lib", "examples/${input:source}.c", "-o", "examples/${input:source}.exe", "${input:run}"],
+        "MIMode": "gdb"
+      }
+    },
+    {
+      "name": "TinyCC: cppvsdbg",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "preLaunchTask": "TinyCC: Build",
+      "cwd": "${workspaceFolder}/Temp/TinyCC",
+      "program": "${workspaceFolder}/Temp/TinyCC/tcc.exe",
+      "args": ["-Iinclude", "-I.", "-Iwin32/include", "-L.", "-Llib", "-Lwin32/lib", "examples/${input:source}.c", "-o", "examples/${input:source}.exe", "${input:run}"],
+      "stopAtEntry": false,
+      "environment": []
+    },
+    {
+      "name": "Proc-0: cppvsdbg",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "preLaunchTask": "Proc-0: Build",
+      "cwd": "${workspaceFolder}/bin",
+      "program": "${workspaceFolder}/bin/proc0",
+      "args": ["-l", "Examples/1.base.proc"],
+      "stopAtEntry": false,
+      "environment": [],
+      "windows": {
+        "program": "${workspaceFolder}/bin/proc0.exe"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "source",
+      "type": "pickString",
+      "description": "Source to use.",
+      "options": ["ex0", "ex1", "ex2", "ex3", "ex4", "ex5"],
+      "default": "ex0"
+    },
+    {
+      "id": "run",
+      "type": "pickString",
+      "description": "Use program interpretation flag or compile?",
+      "options": [
+        "-run",
+        "-Dcompile"
+      ],
+      "default": "-Dcompile"
+    }
+  ]
 }
