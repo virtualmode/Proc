@@ -41,6 +41,31 @@
       "environment": []
     },
     {
+      "name": "Proc-0: GDB",
+      "type": "cppdbg",
+      "request": "launch",
+      "preLaunchTask": "Proc-0: Build",
+      "cwd": "${workspaceFolder}/Proc0",
+      "program": "${workspaceFolder}/Proc0/proc0",
+      "args": ["Proc.proc"],
+      "stopAtEntry": false,
+      "environment": [],
+      "externalConsole": false,
+      "linux": {
+        "MIMode": "gdb",
+        "miDebuggerPath": "/usr/bin/gdb"
+      },
+      "osx": {
+        "MIMode": "lldb"
+      },
+      "windows": {
+        "program": "${workspaceFolder}/Proc0/proc0.exe",
+        "avoidWindowsConsoleRedirection": true,
+        "args": ["Proc.proc"],
+        "MIMode": "gdb"
+      }
+    },
+    {
       "name": "Proc-0: cppvsdbg",
       "type": "cppvsdbg",
       "request": "launch",

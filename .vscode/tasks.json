@@ -53,17 +53,50 @@
       "problemMatcher": []
     },
     {
+      "label": "Proc-0: Configure",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/Proc0"
+      },
+      "command": "./configure --debug",
+      "windows": {
+        "options": {
+          "shell": {
+            "executable": "bash",
+            "args": [ "-c" ]
+          }
+        },
+        "command": "'./configure --debug'"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
       "label": "Proc-0: Build",
       "type": "shell",
-      "command": "echo TODO Implement build.",
-      "windows": {
-        "command": "echo TODO Implement build for Windows."
+      "options": {
+        "cwd": "${workspaceFolder}/Proc0"
       },
+      "command": "make",
       "group":
       {
         "kind": "build",
         "isDefault": true
       },
+      "dependsOn": [
+        "Proc-0: Configure"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Proc-0: Rebuild",
+      "type": "shell",
+      "command": "echo Ready.",
+      "group": "build",
+      "dependsOn": [
+        "All: Clean",
+        "Proc-0: Build"
+      ],
       "problemMatcher": []
     },
     {
