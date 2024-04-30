@@ -149,3 +149,14 @@ void sum(int x int y)
 		// не вычислять дальше? Будет ли такое значение иметь смысл?
 		nil) // eval возвращает значение (или null).
 
+// Comment for test function.
+// @arg1 Function argument example 1 of @bool type.
+// @arg2 Function argument example 2 of @int type.
+// @return Example of the integer return value.
+// @ru-RU
+// Комментарий для тестовой функции.
+// @arg1 Пример аргумента функции 1 типа @bool.
+// @arg2 Пример аргумента функции 2 типа @int.
+// @return Пример целочисленного возвращаемого значения.
+int Test(bool arg1, int arg2)
+	return 0 // @ru Возврат значения. @en-US Return value.

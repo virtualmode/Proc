@@ -11,7 +11,7 @@ endif
 
 all: config.mak proc0
 
-proc0: proc.c
+proc0: proc0.c
 	gcc -O2 -Wall -g -o $@ $< -ldl
 
 config.mak:

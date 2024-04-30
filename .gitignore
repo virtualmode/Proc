@@ -78,7 +78,8 @@ build/
 bin/[Pp]roc*
 **/src/gen/
 Proc0/config.mak
-Proc0/proc0*
+Proc0/proc0
+Proc0/proc0.exe
 
 # Exclusions.
 !bin/README
