@@ -1,0 +1,3 @@
+[submodule "Temp/TinyCC"]
+	path = Temp/TinyCC
+	url = https://repo.or.cz/tinycc.git
