@@ -41,6 +41,30 @@
       "environment": []
     },
     {
+      "name": "TinyCC: Custom 1",
+      "type": "cppdbg",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/Temp/TinyCC",
+      "program": "${workspaceFolder}/Temp/TinyCC/tcc",
+      "args": ["../Examples/ex1.c"],
+      "stopAtEntry": false,
+      "environment": [],
+      "externalConsole": false,
+      "linux": {
+        "MIMode": "gdb",
+        "miDebuggerPath": "/usr/bin/gdb"
+      },
+      "osx": {
+        "MIMode": "lldb"
+      },
+      "windows": {
+        "program": "${workspaceFolder}/Temp/TinyCC/tcc.exe",
+        "avoidWindowsConsoleRedirection": true,
+        "args": ["../Examples/ex1.c"],
+        "MIMode": "gdb"
+      }
+    },
+    {
       "name": "Proc-0: GDB",
       "type": "cppdbg",
       "request": "launch",

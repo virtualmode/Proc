@@ -5,7 +5,16 @@
     {
       "label": "All: Clean",
       "type": "shell",
-      "command": "git clean -xdf",
+      "command": "git clean -xdf && git submodule foreach --recursive git clean -xdf",
+      "windows": {
+        "options": {
+          "shell": {
+            "executable": "bash",
+            "args": [ "-c" ]
+          }
+        },
+        "command": "'git clean -xdf && git submodule foreach --recursive git clean -xdf'"
+      },
       "group": "none",
       "problemMatcher": []
     },
@@ -42,14 +51,22 @@
       "problemMatcher": []
     },
     {
-      "label": "TinyCC: Rebuild",
+      "label": "TinyCC: Custom 1",
       "type": "shell",
-      "command": "echo Ready.",
+      "options": {
+        "cwd": "${workspaceFolder}/Temp/TinyCC"
+      },
+      "command": "gcc -Wall -g -o tcc tcc.c",
+      "windows": {
+        "options": {
+          "shell": {
+            "executable": "bash",
+            "args": [ "-c" ]
+          }
+        },
+        "command": "'gcc -Wall -g -o tcc tcc.c'"
+      },
       "group": "build",
-      "dependsOn": [
-        "All: Clean",
-        "TinyCC: Build"
-      ],
       "problemMatcher": []
     },
     {
@@ -85,17 +102,6 @@
       },
       "dependsOn": [
         "Proc-0: Configure"
-      ],
-      "problemMatcher": []
-    },
-    {
-      "label": "Proc-0: Rebuild",
-      "type": "shell",
-      "command": "echo Ready.",
-      "group": "build",
-      "dependsOn": [
-        "All: Clean",
-        "Proc-0: Build"
       ],
       "problemMatcher": []
     },
