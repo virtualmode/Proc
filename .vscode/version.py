@@ -1,7 +1,7 @@
 # Task to obtain project version.
 # Author: https://github.com/virtualmode
 # Bad Python link on Linux? sudo ln -s /usr/bin/python3.10 /usr/bin/python
-Version = "1.1.0"
+Version = "1.2.0"
 
 # Default properties.
 GitMinVersion = "2.5.0"
@@ -18,8 +18,8 @@ GitLongShaFormat = "%H"
 
 # Import packages.
 import argparse, os, re, subprocess, sys
-from os import environ, chdir
-from os.path import abspath, dirname, isdir, join, exists
+from os import environ, chdir, makedirs
+from os.path import abspath, isabs, dirname, isdir, join, exists
 from re import search, sub, match
 from subprocess import call, CalledProcessError, check_output
 
@@ -28,6 +28,9 @@ try:
     from subprocess import DEVNULL
 except ImportError:
     DEVNULL = open(os.devnull, 'wb')
+
+# Get script path.
+ScriptPath = dirname(sys.argv[0])
 
 # Read script arguments.
 parser = argparse.ArgumentParser(prog = "py version.py", description = "Script to get an automatic version of a code for the current commit.")
@@ -38,6 +41,7 @@ parser.add_argument("-u", "--update", action="store_true", help = "update versio
 parser.add_argument("-m", "--ignore-merges", action="store_true", help = "ignore merges")
 parser.add_argument("-t", "--ignore-tag", action="store_true", help = "ignore tag version")
 parser.add_argument("-n", "--not-ignore-branch", action="store_true", help = "don't ignore version in branch name")
+parser.add_argument("-a", "--add", metavar = "BUILDMETADATA", nargs = "?", const = None, help = "add additional info in SemVer metadata format")
 parser.add_argument("-b", "--branch", metavar = "NAME", nargs = "?", const = GitDefaultBranch, help = "repository default branch name (default: " + GitDefaultBranch + ")")
 parser.add_argument("-f", "--file", metavar = "FILE", nargs = "?", const = GitVersionFile, help = "use version file (if exists) instead a tag (default: " + GitVersionFile + ")")
 args = parser.parse_args()
@@ -90,6 +94,27 @@ def proc(command, errorValue = type(None), errorMessage = None):
         else:
             sys.exit(1)
 
+# Read file and return its content.
+def readFile(fileName):
+    result = None
+    if exists(fileName):
+        try:
+            with open(fileName) as readFile:
+                result = readFile.read()
+        except:
+            result = None
+    return result
+
+# Write content to file.
+def writeFile(fileName, text):
+    # Make directories first.
+    filePath = dirname(fileName)
+    if filePath and not filePath.isspace() and not exists(filePath):
+        makedirs(filePath)
+    # Create file and write.
+    with open(fileName, "w") as writeFile:
+        writeFile.write(text)
+
 # Get version object with regex.
 def getVersion(versionMatch):
     # Match default regex version if required.
@@ -111,12 +136,11 @@ def getVersion(versionMatch):
     version.Revision = int(revision) if revision else 0
     version.Prerelease = prerelease
     version.Build = int(build) if build else 0
-    version.BuildMetadata = buildMetadata if buildMetadata else sub(r"[^0-9A-Za-z-]", "-", GitBranch) + "." + GitCommit
+    version.BuildMetadata = buildMetadata if buildMetadata else (args.add + "." if args.add else "") + sub(r"[^0-9A-Za-z-]", "-", GitBranch) + "." + GitCommit
     return version
 
 # Calculate version from obtained properties.
 def returnVersion():
-    #global GitCommits, GitVersionMatch, GitFileVersionMatch
     version = getVersion(GitVersionMatch)
     fileVersion = getVersion(GitFileVersionMatch)
     commits = int(GitCommits) if GitCommits else 0
@@ -135,18 +159,17 @@ def returnVersion():
             version.BuildMetadata == fileVersion.BuildMetadata):
             version.Build = fileVersion.Build + 1 # Rebuild the same commit.
         else:
-            version.Build = 1 # First build for new changes.
+            version.Build = 0 # First build for new changes.
     # Create short version string.
     shortResult = str(version.Major) + "." + str(version.Minor) + "." + str(version.PatchBuild)
     if not args.semver:
         shortResult += "." + str(version.Revision)
     # Append long version string.
     longResult = shortResult + ("-" + version.Prerelease if version.Prerelease else "")
-    longResult += "+" + (str(version.Build) + "." + version.BuildMetadata if version.Build > 0 else version.BuildMetadata)
+    longResult += "+" + (str(version.Build) + "." + version.BuildMetadata if version.Build >= 0 else version.BuildMetadata)
     # Update version file.
     if GitUpdateVersionFile:
-        with open(GitVersionFile, "w") as writeFile:
-            writeFile.write(longResult) # Always save full version information.
+        writeFile(GitVersionFile, longResult) # Always save full version information.
     # Output result version.
     print(longResult if args.long else shortResult)
     sys.exit(0)
@@ -189,20 +212,21 @@ if GitForkPoint == None:
 # Check if the branch's parent is before the tag.
 GitIsAncestor = False if GitForkPoint == GitSha else (True if proc("git merge-base --is-ancestor " + GitForkPoint + " " + GitBaseTag, False) == "" else False)
 
-# Read version file if exists.
-if exists(GitVersionFile):
-    try:
-        with open(GitVersionFile) as readFile:
-            GitBaseFile = readFile.read()
-    except:
-        GitBaseFile = GitDefaultVersion
-    GitFileVersionMatch = match(GitBaseVersionRegex, GitBaseFile)
+# Try to read version from the file.
+versionFile = GitVersionFile
+GitBaseFile = readFile(versionFile) # Try to read version file relative to the current directory.
+if not GitBaseFile and not isabs(GitVersionFile):
+    versionFile = ScriptPath + "/" + GitVersionFile
+    GitBaseFile = readFile(versionFile) # Try to find default version file in script directory.
 
+# File read successfully.
+if GitBaseFile:
+    GitFileVersionMatch = match(GitBaseVersionRegex, GitBaseFile)
     # Get commits from version file.
     if not GitUpdateVersionFile:
         GitVersionMatch = GitFileVersionMatch
         # Count the number of commits since a file was changed.
-        GitLastBump = proc("git -c log.showSignature=false log -n 1 --format=format:" + GitShortShaFormat + " \"" + GitVersionFile + "\"", GitDefaultCommit, "Could not retrieve last commit for " + GitVersionFile + ". Defaulting to its declared version \"" + GitBaseFile + "\" and no additional commits.")
+        GitLastBump = proc("git -c log.showSignature=false log -n 1 --format=format:" + GitShortShaFormat + " -- \"" + versionFile + "\"", GitDefaultCommit, "Could not retrieve last commit for " + versionFile + ". Defaulting to its declared version \"" + GitBaseFile + "\" and no additional commits.")
         # Always zero if the file is not present in the repository.
         GitCommits = proc("git rev-list --count --full-history " + GitCommitsIgnoreMerges + " \"" + GitLastBump + "\"..HEAD " + GitRoot, None) if GitLastBump != GitDefaultCommit else None # If there is an error, try searching through the tag.
 
